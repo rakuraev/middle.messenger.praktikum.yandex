@@ -1,4 +1,8 @@
-import { sum } from "./modules/sum";
+import { router } from "./pages/router";
 
-const root = document.querySelector("#root");
-root.textContent = sum(6, -1).toString();
+window.onload = () => {
+  const path = window.location.pathname;
+  console.log(path);
+  const page = router.find((route) => route.path === path);
+  document.getElementById("app").innerHTML = page.component();
+};

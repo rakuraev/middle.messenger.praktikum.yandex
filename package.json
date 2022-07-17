@@ -4,31 +4,32 @@
   "description": "Web-application \"chat\"",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel index.hbs --port 3000",
-    "build": "parcel build index.hbs",
+    "dev": "parcel index.html --port 3000",
+    "build": "parcel build index.html",
     "lint": "eslint  src/ --ext .js --ext .jsx",
     "lint-fix": "eslint src/ --ext .js --ext .jsx --fix"
   },
   "keywords": [
     "ya_praktikum",
-    "messanger",
-    "1-st",
-    "task"
+    "messanger"
   ],
   "author": "Klyuev Nikita",
   "license": "ISC",
-  "dependencies": {
-    "normalize.css": "^8.0.1",
-    "parcel": "^2.6.2"
-  },
   "devDependencies": {
-    "@anikin/parcel-transformer-handlebars": "^1.0.2",
+    "normalize.css": "^8.0.1",
+    "parcel": "^2.6.2",
+    "@parcel/transformer-postcss": "^2.6.2",
+    "autoprefixer": "^10.4.7",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.20.0",
+    "eslint": "^6.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "parcel-transformer-hbs": "^1.0.4",
     "postcss": "^8.4.14",
-    "postcss-simple-vars": "^6.0.3",
+    "postcss-custom-properties": "^12.1.8",
+    "postcss-import": "^14.1.0",
+    "postcss-modules": "^4.3.1",
+    "postcss-nesting": "^10.1.10",
     "prettier": "2.7.1"
   }
 }

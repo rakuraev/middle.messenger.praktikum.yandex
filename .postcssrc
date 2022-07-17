@@ -1,0 +1,9 @@
+{
+  "plugins": {
+    "postcss-import": true,
+    "postcss-nesting": {},
+    "postcss-custom-properties": {
+      "preserve": false
+    }
+  }
+}
