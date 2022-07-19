@@ -4,7 +4,7 @@
   "description": "Web-application \"chat\"",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel index.html --port 3000",
+    "dev": "parcel --port 3000",
     "build": "parcel build index.html",
     "lint": "eslint  src/ --ext .js --ext .jsx",
     "lint-fix": "eslint src/ --ext .js --ext .jsx --fix"
@@ -16,20 +16,24 @@
   "author": "Klyuev Nikita",
   "license": "ISC",
   "devDependencies": {
-    "normalize.css": "^8.0.1",
-    "parcel": "^2.6.2",
     "@parcel/transformer-postcss": "^2.6.2",
     "autoprefixer": "^10.4.7",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.0.0",
+    "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "normalize.css": "^8.0.1",
+    "parcel": "^2.6.2",
     "parcel-transformer-hbs": "^1.0.4",
     "postcss": "^8.4.14",
-    "postcss-custom-properties": "^12.1.8",
+    "postcss-css-variables": "^0.18.0",
     "postcss-import": "^14.1.0",
     "postcss-modules": "^4.3.1",
     "postcss-nesting": "^10.1.10",
     "prettier": "2.7.1"
+  },
+  "source":"index.html",
+  "alias":{
+    "variables":"./src/assets/styles/variables/"
   }
 }

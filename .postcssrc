@@ -1,9 +1,11 @@
 {
   "plugins": {
-    "postcss-import": true,
+    "postcss-import": {
+      "path": "./src/assets/styles"
+    },
     "postcss-nesting": {},
-    "postcss-custom-properties": {
-      "preserve": false
+    "postcss-css-variables": {
+      "preserveInjectedVariables": true
     }
   }
 }
