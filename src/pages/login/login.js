@@ -1,5 +1,8 @@
 import login from "./login.hbs";
-import styles from "./login.css";
+import "./login.css";
 
-const component = login;
+const component = {
+  path: "/",
+  template: login,
+};
 export default component;

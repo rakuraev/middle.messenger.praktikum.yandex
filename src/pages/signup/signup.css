@@ -1,20 +1,21 @@
 @import 'variables/variables.css';
-.login-page{
+
+.signup-page{
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.login-form__wrapper{
+.signup-form__wrapper{
   width:340px;
 }
 
-.login-form{
+.signup-form{
   border-radius: 13px;
   box-shadow: var(--shadow-card);
   padding: 32px 30px 42px;
-  & .login-form__title{
+  & .signup-form__title{
     text-align: center;
     font-size: 1.25rem;
     color: var(--black-l);
@@ -23,7 +24,7 @@
   & .button{
     margin-top: 100px;
   }
-  & .login-form__registration-link{
+  & .signup-form__registration-link{
     margin-top: 15px;
     color: var(--blue);
     display: block;

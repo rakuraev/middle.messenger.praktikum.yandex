@@ -1,0 +1,11 @@
+export default {
+  img: null,
+  profile_info: [
+    { label: "Имя", value: "Иван" },
+    { label: "Фамилия", value: "Иванов" },
+    { label: "Имя в чате", value: "Иван" },
+    { label: "Телефон", value: "79999999999" },
+    { label: "Почта", value: "email@example.ru" },
+    { label: "Логин", value: "ivanivanov" },
+  ],
+};
