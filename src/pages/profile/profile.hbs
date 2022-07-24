@@ -1,28 +1,34 @@
 <main class="profile-page">
-  <nav class="profile-page__back"></nav>
+  <nav class="profile-page__back">
+    <a href="#" class="profile-page__link">
+      <div class="profile-page__back-icon">
+        <div class="profile-page__back-arrow"></div>
+      </div>
+    </a>
+  </nav>
   <section class="profile-info__wrapper">
     <div class="profile-info">
       <div class="profile-info__picture">
         {{> photo src=img}}
       </div>
-      <div class="profile-info__name">Иван</div>
+      <div class="profile-info__name">{{name}}</div>
       <ul class="profile-info__info-list">
         {{#each profile_info}}
           <li class="profile-info__item">
-            <label>{{label}}</label>
-            <input disabled type="text" value="{{value}}" />
+            <label class="profile-info__label">{{label}}</label>
+            <input class="profile-info__input" disabled type="text" value="{{value}}" />
           </li>
         {{/each}}
       </ul>
       <ul class="profile-info__change-info">
         <li class="profile-info__item">
-          <a href="#">Изменить данные</a>
+          <a class="profile-info__item-link" href="#">Изменить данные</a>
         </li>
         <li class="profile-info__item">
-          <a href="#">Изменить пароль</a>
+          <a class="profile-info__item-link" href="#">Изменить пароль</a>
         </li>
-        <li class="profile-info__item">
-          <a href="#">Выйти</a>
+        <li class="profile-info__item profile-info__item_danger">
+          <a class="profile-info__item-link" href="#">Выйти</a>
         </li>
       </ul>
     </div>

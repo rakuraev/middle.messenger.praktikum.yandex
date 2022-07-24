@@ -1,3 +1,3 @@
 import NotFound from "./404.hbs";
-const component = NotFound;
-export default { path: "*", template: component };
+const component = { path: "*", template: NotFound };
+export default component;
