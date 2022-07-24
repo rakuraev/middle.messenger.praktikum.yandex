@@ -1,7 +1,7 @@
 export default {
   img: null,
   name: "Иван",
-  profile_info: [
+  profileInfo: [
     { label: "Имя", value: "Иван" },
     { label: "Фамилия", value: "Иванов" },
     { label: "Имя в чате", value: "Иван" },

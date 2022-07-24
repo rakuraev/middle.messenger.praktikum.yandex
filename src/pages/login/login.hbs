@@ -2,7 +2,7 @@
   <section class="login-form__wrapper">
     <form class="login-form">
       <h1 class="login-form__title">Вход</h1>
-      {{#each login_fields}}
+      {{#each loginFields}}
         {{> input placeholder=placeholder id=id type=type errorMesage=errorMessage}}
       {{/each}}
       {{> button text="Авторизоваться" modificator="blue"}}

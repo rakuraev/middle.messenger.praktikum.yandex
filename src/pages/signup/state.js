@@ -1,5 +1,5 @@
 export default {
-  signup_fields: [
+  signupFields: [
     {
       placeholder: "Почта",
       id: "email",

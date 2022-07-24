@@ -2,7 +2,7 @@
   <section class="signup-form__wrapper">
     <form class="signup-form">
       <h1 class="signup-form__title">Регистрация</h1>
-      {{#each signup_fields}}
+      {{#each signupFields}}
         {{> input placeholder=placeholder id=id type=type errorMesage=errorMessage}}
       {{/each}}
       {{> button text="Зарегистрироваться" modificator="blue"}}

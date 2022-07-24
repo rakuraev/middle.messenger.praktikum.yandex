@@ -1,5 +1,5 @@
 export default {
-  login_fields: [
+  loginFields: [
     {
       placeholder: "Логин",
       id: "login",
