@@ -5,6 +5,7 @@ import state from "./state";
 import "./profile.css";
 
 HandleBars.registerPartial("photo", photo);
+
 const component = {
   path: "/profile",
   template: profile,

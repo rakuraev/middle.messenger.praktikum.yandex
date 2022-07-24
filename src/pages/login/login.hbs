@@ -2,8 +2,9 @@
   <section class="login-form__wrapper">
     <form class="login-form">
       <h1 class="login-form__title">Вход</h1>
-      {{> input placeholder="Логин" id="login" type="text" errorMesage="Неверный логин"}}
-      {{> input placeholder="Пароль" id="password" type="password" errorMesage="Неверный пароль"}}
+      {{#each login_fields}}
+        {{> input placeholder=placeholder id=id type=type errorMesage=errorMessage}}
+      {{/each}}
       {{> button text="Авторизоваться" modificator="blue"}}
       <a class="login-form__registration-link" href="/signup">Нет аккаунта?</a>
     </form>

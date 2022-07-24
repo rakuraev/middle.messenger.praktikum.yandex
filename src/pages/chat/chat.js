@@ -1,5 +1,6 @@
 import chat from "./chat.hbs";
-export default {
+const component = {
   template: chat,
   path: "/chat",
 };
+export default component;
