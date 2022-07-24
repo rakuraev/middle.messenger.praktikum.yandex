@@ -8,27 +8,87 @@
     width: 70px;
     height: 100%;
     background: var(--gray-bg-l);
-    border-right:1px solid var(--gray-s-l) ;
+    border-right: 1px solid var(--gray-s-l);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s ease-in-out background;
+    & .profile-page__back-icon {
+        width: 28px;
+        height: 28px;
+        background: var(--blue);
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      & .profile-page__back-arrow {
+        width: 11px;
+        height: 10px;
+        background-image: url("/static/img/svg/Arrow.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+    &:hover{
+      background: var(--gray-bg-el);
+    }
   }
-  & .profile-info__wrapper{
+  & .profile-info__wrapper {
     flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    & .profile-info{
-      width: 500px;
-    }
-    & .profile-info__item{
-      display: flex;
-      justify-content: space-between;
-    }
-    & .profile-info__picture{
+    & .profile-info__picture {
       display: flex;
       justify-content: center;
+      margin-bottom: 20px;
     }
-    & .profile-info__name{
+    & .profile-info__name {
       text-align: center;
       font-weight: 500;
+      margin-bottom: 60px;
+    }
+    & .profile-info {
+      width: 500px;
+    }
+    & .profile-info__info-list {
+      margin-bottom: 60px;
+      & .profile-info__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--gray-s-l);
+        & .profile-info__label {
+          font-size: 0.8125rem;
+        }
+        & .profile-info__input {
+          background-color: #fff;
+          text-align: end;
+        }
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+    & .profile-info__change-info {
+      & .profile-info__item {
+        border-bottom: 1px solid var(--gray-s-l);
+        padding: 10px 0;
+        color: var(--blue);
+        &:last-child {
+          border-bottom: none;
+        }
+        & .profile-info__item-link {
+          color: var(--blue);
+        }
+      }
+      & .profile-info__item_danger {
+        & .profile-info__item-link {
+          color: var(--red-danger);
+        }
+      }
     }
   }
 }
