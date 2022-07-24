@@ -1,0 +1,12 @@
+<main class="signup-page">
+  <section class="signup-form__wrapper">
+    <form class="signup-form">
+      <h1 class="signup-form__title">Регистрация</h1>
+      {{#each signupFields}}
+        {{> input placeholder=placeholder id=id type=type errorMesage=errorMessage}}
+      {{/each}}
+      {{> button text="Зарегистрироваться" modificator="blue"}}
+      <a class="signup-form__registration-link" href="/">Или все-таки есть аккаунт?</a>
+    </form>
+  </section>
+</main>

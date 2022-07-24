@@ -1,0 +1,5 @@
+/dist
+.parcel-cache
+.vscode
+node_modules
+TODO.md

@@ -1,0 +1,12 @@
+<main class="login-page">
+  <section class="login-form__wrapper">
+    <form class="login-form">
+      <h1 class="login-form__title">Вход</h1>
+      {{#each loginFields}}
+        {{> input placeholder=placeholder id=id type=type errorMesage=errorMessage}}
+      {{/each}}
+      {{> button text="Авторизоваться" modificator="blue"}}
+      <a class="login-form__registration-link" href="/signup">Нет аккаунта?</a>
+    </form>
+  </section>
+</main>

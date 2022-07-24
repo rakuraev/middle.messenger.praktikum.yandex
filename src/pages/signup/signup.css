@@ -1,0 +1,33 @@
+@import 'variables/variables.css';
+
+.signup-page{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-form__wrapper{
+  width:340px;
+}
+
+.signup-form{
+  border-radius: 13px;
+  box-shadow: var(--shadow-card);
+  padding: 32px 30px 42px;
+  & .signup-form__title{
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--black-l);
+    margin-bottom: 36px;
+  }
+  & .button{
+    margin-top: 100px;
+  }
+  & .signup-form__registration-link{
+    margin-top: 15px;
+    color: var(--blue);
+    display: block;
+    text-align: center;
+  }
+}
