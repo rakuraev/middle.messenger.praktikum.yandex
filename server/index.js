@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable */
 
 const express = require("express");
 require("dotenv").config({ path: "../.env" });

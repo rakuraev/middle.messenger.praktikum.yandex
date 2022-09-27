@@ -1,5 +1,6 @@
-@import "variables/_colors.css";
+@import 'variables/_colors.css';
 
+/* stylelint-disable-next-line at-rule-no-unknown */
 @define-mixin button {
   padding: 15px 0;
   text-align: center;
@@ -11,17 +12,22 @@
 }
 
 .button_blue {
+  /* stylelint-disable-next-line at-rule-no-unknown */
   @mixin button;
+
   color: var(--white);
   background-color: var(--blue);
   transition: ease-in 0.1s background-color;
+
   &:hover {
-     background-color: var(--blue-h);
+    background-color: var(--blue-h);
   }
-  &:focus{
+
+  &:focus {
     background-color: var(--blue-f);
   }
-  &:disabled{
+
+  &:disabled {
     background-color: var(--blue-d);
   }
 }

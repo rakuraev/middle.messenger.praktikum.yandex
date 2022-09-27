@@ -1,4 +1,4 @@
-@import "variables/variables.css";
+@import 'variables/variables.css';
 
 .photo-wrapper {
   height: 130px;
@@ -11,6 +11,7 @@
   overflow: hidden;
   position: relative;
   cursor: pointer;
+
   & .photo__change {
     opacity: 0;
     transition: 0.2s opacity ease-in-out;
@@ -23,6 +24,7 @@
     width: 100%;
     height: 100%;
   }
+
   &:hover > .photo__change {
     opacity: 1;
   }
