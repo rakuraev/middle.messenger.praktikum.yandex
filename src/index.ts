@@ -1,16 +1,15 @@
-import Render from './core/Render';
-import Router from './pages/router';
-import svgSprites from './layouts/svg-sprites.hbs';
-import NotFound from './pages/404';
-import './partials';
+import './components';
+// import Router from './pages/router';
 import './styles/app.css';
+import renderDOM from './core/renderDom';
+import LoginPage from "./pages/login/index";
 
 window.onload = () => {
-  const path = window.location.pathname;
-  const page = Router.find((route) => route.path === path) || NotFound;
-  const component = new Render(page);
-  document.getElementById('app')!.innerHTML = component.render();
+  // const path = window.location.pathname;
+  // const Page = Router.find((route) => route.path === path);
+  // const Page = Router[0]
+  const Component = new LoginPage();
+  renderDOM(Component);
   const element = document.createElement('div');
-  element.innerHTML = svgSprites();
   document.body.appendChild(element);
 };

@@ -1,5 +1,5 @@
-@import "variables/variables.css";
-@import "photo.css";
+@import 'variables/variables.css';
+@import 'photo.css';
 
 .profile-page {
   height: 100%;
@@ -28,7 +28,7 @@
       & .profile-page__back-arrow {
         width: 11px;
         height: 10px;
-        background-image: url("/static/img/svg/Arrow.svg");
+        background-image: url('/static/img/svg/Arrow.svg');
         background-repeat: no-repeat;
         background-size: cover;
       }

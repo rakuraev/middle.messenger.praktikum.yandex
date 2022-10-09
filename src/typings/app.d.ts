@@ -5,8 +5,10 @@ declare module './*.hbs' {
   export default HbsModuleExport;
 }
 
-declare type Component = {
+declare type RouterPage = {
   path: string;
-  template: HandlebarsTemplate;
-  state?: unknown;
+  component: Block;
 };
+
+declare type Nullable<T> = T | null;
+declare type Unknowed<T> = T | unknown;
