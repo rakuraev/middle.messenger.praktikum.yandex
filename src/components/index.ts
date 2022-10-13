@@ -3,6 +3,8 @@ import Input from './Input';
 import Button from './Button';
 import SvgTemplate from './SvgTemplate';
 
-registerComponent(Input);
-registerComponent(Button);
-registerComponent(SvgTemplate);
+export default () => {
+  registerComponent(Input);
+  registerComponent(Button);
+  registerComponent(SvgTemplate);
+};

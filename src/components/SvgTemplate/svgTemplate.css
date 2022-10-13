@@ -1,4 +1,5 @@
+/* stylelint-disable value-keyword-case */
 .svg-icon {
-  fill: currentсolor;
-  stroke: currentсolor;
+  fill: currentColor;
+  stroke: currentColor;
 }

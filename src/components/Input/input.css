@@ -47,8 +47,8 @@
   }
 
   & .p-input__error-message {
-    /* visibility: hidden; */
-    /* opacity: 0; */
+    visibility: hidden;
+    opacity: 0;
     height: 13px;
     transition: 0.1s ease-in opacity;
     color: var(--red-danger);
@@ -61,8 +61,10 @@
 .p-input_error {
   & .p-input__input {
     border-color: var(--red-danger);
+    color: var(--red-danger);
 
     &:focus,
+    &:hover,
     &:not(:placeholder-shown) {
       border-color: var(--red-danger);
     }
@@ -71,14 +73,14 @@
     &:not(:placeholder-shown) ~ .p-input__label {
       color: var(--red-danger);
     }
+  }
 
-    & .p-input__label {
-      color: var(--red-danger);
-    }
+  & .p-input__label {
+    color: var(--red-danger);
+  }
 
-    & .p-input__error-message {
-      visibility: visible;
-      opacity: 1;
-    }
+  & .p-input__error-message {
+    visibility: visible;
+    opacity: 1;
   }
 }

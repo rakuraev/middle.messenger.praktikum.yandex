@@ -95,7 +95,6 @@ export default class Block {
     }
     this._element = newElement as HTMLElement;
     this._addEvents();
-    console.log(this._element);
   }
 
   private _compile(): DocumentFragment {

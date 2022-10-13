@@ -1,16 +1,17 @@
+// Планируется рефакторить, пока все что успел🥲
 export enum FORM_FIELDS_TYPES {
-  LOGIN,
-  PASSWORD,
+  login,
+  password,
 }
 const VALIDATORS_REG_EXP: Record<string, RegExp> = {
-  LOGIN: new RegExp(
+  login: new RegExp(
     /^(?=[a-zA-Z\-_\d]+[a-zA-Z\-_]+|[a-zA-Z\-_]+[a-zA-Z\-_\d]+)[a-zA-Z\-_\d]{3,20}$/
   ),
-  PASSWORD: new RegExp(/^(?=.*\d)(?=.*[A-Z]).{8,40}$/),
+  password: new RegExp(/^(?=.*\d)(?=.*[A-Z]).{8,40}$/),
 };
 const VALIDATORS_MESSAGES: Record<string, string> = {
-  LOGIN: 'Неверный формат логина',
-  PASSWORD: 'Неверный формат пароля',
+  login: 'Неверный формат логина',
+  password: 'Неверный формат пароля',
 };
 
 const validateString = (
@@ -29,7 +30,6 @@ const validateString = (
       result.message = VALIDATORS_MESSAGES[TYPE_KEY];
     }
   }
-  console.log(result);
   return result;
 };
 

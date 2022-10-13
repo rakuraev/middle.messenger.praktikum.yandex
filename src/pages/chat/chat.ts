@@ -1,4 +1,9 @@
-<main class="chats-page">
+import Block from '../../core/Block/Block';
+import './chat.css';
+
+export default class ChatPage extends Block {
+  protected render(): string {
+    return `<main class="chats-page">
   <aside class="left-panel">
     <div class="search">
       <input class="search__input" type="text" />
@@ -223,20 +228,22 @@
       <ul class="navigation-bar">
         <li class="navigation-bar__item">
           <a class="navigation-bar__link" href="#">
-            {{> svg-template svgId="profile"}}
+            {{{SvgTemplate svgId="profile"}}}
           </a>
         </li>
         <li class="navigation-bar__item">
           <a class="navigation-bar__link" href="#">
-            {{> svg-template svgId="chat"}}
+            {{{SvgTemplate svgId="chat"}}}
           </a>
         </li>
         <li class="navigation-bar__item">
           <a class="navigation-bar__link" href="#">
-            {{> svg-template svgId="settings"}}
+            {{{SvgTemplate svgId="settings"}}}
           </a>
         </li>
       </ul>
     </nav>
   </aside>
-</main>
+            </main>`;
+  }
+}

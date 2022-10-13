@@ -1,5 +1,5 @@
 @import 'variables/variables.css';
-@import 'photo.css';
+@import 'components/photo/photo.css';
 
 .profile-page {
   height: 100%;
