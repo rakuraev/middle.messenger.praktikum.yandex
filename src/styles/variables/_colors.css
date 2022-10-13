@@ -6,10 +6,11 @@
   --gray-l: #f1f1f1;
   --gray-bg-l: #fbfbfb;
   --gray-bg-el: #eaeaea;
+  --gray-s-s: #e0e0e0;
   --gray-s-l: #eaeaea;
   --gray-t-l: #a3a3a3;
   --gray-m: #bdbdbd;
   --red-danger: #eb5757;
   --black-l: #5f5f5f;
-  --white: #ffffff;
+  --white: #fff;
 }
