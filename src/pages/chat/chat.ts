@@ -1,7 +1,7 @@
 import Block from '../../core/Block/Block';
 import './chat.css';
 
-export default class ChatPage extends Block {
+export default class ChatPage extends Block<Record<string, never>> {
   protected render(): string {
     return `<main class="chats-page">
   <aside class="left-panel">

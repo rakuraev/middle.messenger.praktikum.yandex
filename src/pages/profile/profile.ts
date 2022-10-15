@@ -2,19 +2,22 @@ import Block from '../../core/Block/Block';
 import './profile.css';
 import './components';
 
-const state = {
-  img: null,
-  name: 'Иван',
+const state: ProfilePageProps = {
+  img: {
+    src: 'https://memepedia.ru/wp-content/uploads/2021/08/maxresdefault.jpg',
+    alt: 'Аватар пользователя',
+  },
+  name: 'Иван Резня',
   profileInfo: [
     { label: 'Имя', value: 'Иван' },
-    { label: 'Фамилия', value: 'Иванов' },
-    { label: 'Имя в чате', value: 'Иван' },
+    { label: 'Фамилия', value: 'Резня' },
+    { label: 'Имя в чате', value: 'Иван Резня' },
     { label: 'Телефон', value: '79999999999' },
     { label: 'Почта', value: 'email@example.ru' },
-    { label: 'Логин', value: 'ivanivanov' },
+    { label: 'Логин', value: 'ivanmassacre' },
   ],
 };
-export default class ProfilePage extends Block {
+export default class ProfilePage extends Block<ProfilePageProps> {
   getStateFromProps() {
     this.state = state;
   }
@@ -31,7 +34,7 @@ export default class ProfilePage extends Block {
               <section class="profile-info__wrapper">
                 <div class="profile-info">
                   <div class="profile-info__picture">
-                    {{{Photo src=img}}}
+                    {{{Photo img=img}}}
                   </div>
                   <div class="profile-info__name">{{name}}</div>
                   <ul class="profile-info__info-list">

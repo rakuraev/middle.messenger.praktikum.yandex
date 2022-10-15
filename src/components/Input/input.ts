@@ -1,20 +1,14 @@
 import Block from '../../core/Block/Block';
 import './input.css';
 
-export default class Input extends Block {
+export default class Input extends Block<InputProps> {
   static _name = 'Input';
-  
-  constructor(inputProps: IInputProps) {
-    const events = { focusin: inputProps.onFocus, focusout: inputProps.onBlur };
-    const props = {
-      id: inputProps.id,
-      placeholder: inputProps.placeholder,
-      type: inputProps.type,
-      value: inputProps.value,
-      errorMessage: inputProps.errorMessage || '',
-      isError: inputProps.isError,
-    };
-    super({ ...props, events });
+
+  constructor({ onFocus, onBlur, ...restProps }: IInput) {
+    super({
+      ...restProps,
+      events: { focusin: onFocus, focusout: onBlur },
+    } as InputProps);
   }
 
   render() {

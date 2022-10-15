@@ -1,25 +1,25 @@
 import './login.css';
 import Block from '../../core/Block/Block';
-import validateString, { FORM_FIELDS_TYPES } from '../../utils/validate';
-type loginFieldsId = 'password' | 'login';
-export default class LoginPage extends Block {
+import validateString, { FormFieldTypes } from '../../utils/validate';
+
+export default class LoginPage extends Block<LoginPageProps> {
   protected getStateFromProps() {
     const onFocus = (event: Event) => {
       const template = (event?.target as HTMLElement).parentNode as HTMLElement;
       template.classList.remove('p-input_error');
     };
     const onBlur = (event: Event) => {
-      const id = (event.target as HTMLInputElement).id as loginFieldsId;
+      const id = (event.target as HTMLInputElement).id as LoginFieldsId;
       const inputElement = this.refs?.[id].querySelector(
         `#${id}`
       ) as HTMLInputElement;
-      const loginFields = { ...this.state }.loginFields as loginFields;
+      const loginFields = { ...this.state }.loginFields as LoginFields;
       const currentField = loginFields.find(
         (field) => field.id === id
-      ) as IInputProps;
+      ) as IInput;
       const validateField = validateString(
         inputElement.value,
-        FORM_FIELDS_TYPES[id]
+        FormFieldTypes[id]
       );
       currentField.isError = !validateField.isValid;
       currentField.errorMessage = validateField.message;
@@ -27,7 +27,7 @@ export default class LoginPage extends Block {
       this.setState({ loginFields });
     };
 
-    const state: ILoginPageState = {
+    const state:  LoginPageProps = {
       loginFields: [
         {
           placeholder: 'Логин',
@@ -50,9 +50,6 @@ export default class LoginPage extends Block {
           onBlur,
         },
       ],
-    };
-    this.state = {
-      ...state,
       onLogin: () => {
         const inputValues = {
           login: (this.refs.login.querySelector('#login') as HTMLInputElement)
@@ -63,10 +60,10 @@ export default class LoginPage extends Block {
         };
         if ('loginFields' in state) {
           const validatedFields: Record<string, ValidateOutput> = {
-            login: validateString(inputValues.login, FORM_FIELDS_TYPES.login),
+            login: validateString(inputValues.login, FormFieldTypes.login),
             password: validateString(
               inputValues.password,
-              FORM_FIELDS_TYPES.password
+              FormFieldTypes.password
             ),
           };
           const nextInputFields = state.loginFields.map((field) => {
@@ -89,6 +86,7 @@ export default class LoginPage extends Block {
         }
       },
     };
+    this.state = state;
   }
 
   render() {

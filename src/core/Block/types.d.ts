@@ -1,7 +1,12 @@
-type BlockProps = Record<string, unknown>;
-
-type BlockMeta = {
+type BlockMeta<P> = {
   tagName: string;
-  props: BlockProps;
+  props: P;
 };
 
+type BlockEvents = Unknowed<Record<string, () => void>>;
+
+interface IBlock {
+  getContent: () => HTMLElement;
+}
+
+type BlockProps = Record<string, unknown>;

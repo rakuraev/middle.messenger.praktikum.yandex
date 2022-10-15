@@ -9,31 +9,31 @@ const enum BLOCK_EVENTS {
   FLOW_UPDATE = 'flow:componentd-did-update',
 }
 
-export default class Block {
-  protected _element: Nullable<HTMLElement>;
+export default abstract class Block<P extends BlockProps> {
+  private _element: Nullable<HTMLElement>;
 
-  protected readonly _meta: BlockMeta;
+  protected readonly _meta: BlockMeta<P>;
 
-  protected readonly props: BlockProps;
+  protected readonly props: P;
 
-  protected state: BlockProps = {};
+  protected state: P = {} as P;
 
   readonly eventBus: IEventBus;
 
   protected refs: Record<string, HTMLElement> = {};
 
-  protected children: { [id: string]: Block } = {};
+  protected children: { [id: string]: Block<P> } = {};
 
   id: string;
 
-  constructor(props = {}) {
+  constructor(props = {} as P) {
     this._meta = {
       props,
       tagName: 'div',
     };
     this.eventBus = new EventBus();
-
     this.getStateFromProps(props);
+
     this.props = this._makePropsProxy(props);
     this.state = this._makePropsProxy(this.state);
     this._element = null;
@@ -42,7 +42,7 @@ export default class Block {
     this.eventBus.emit(BLOCK_EVENTS.INIT);
   }
 
-  protected getStateFromProps(props?: BlockProps): void {
+  protected getStateFromProps(props?: P): void {
     if (props) {
       this.state = props;
     }
@@ -68,9 +68,9 @@ export default class Block {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  componentDidMount(props: BlockProps) {}
+  componentDidMount(props: P) {}
 
-  _componentDidUpdate() {
+  private _componentDidUpdate() {
     this._render();
   }
 
@@ -122,8 +122,7 @@ export default class Block {
   }
 
   private _addEvents() {
-    const events: Unknowed<Record<string, EventBusListener>> =
-      this.props?.events;
+    const events: BlockEvents = this.props?.events;
 
     if (!events || !this._element) {
       return;
@@ -134,8 +133,7 @@ export default class Block {
   }
 
   private _removeEvents() {
-    const events: Unknowed<Record<string, EventBusListener>> =
-      this.props.events;
+    const events = this.props?.events;
 
     if (!events || !this._element) {
       return;
@@ -146,16 +144,16 @@ export default class Block {
     });
   }
 
-  private _makePropsProxy(props: BlockProps) {
-    const eventBus = this.eventBus;
+  private _makePropsProxy(props: P) {
     return new Proxy(props, {
-      get(tagret: BlockProps, name: string) {
-        const value = tagret[name];
-        return typeof value === 'function' ? value.bind(tagret) : value;
+      get(target: P, name: string) {
+        const value = target[name as keyof P];
+        return typeof value === 'function' ? value.bind(target) : value;
       },
-      set(tagret: BlockProps, name: string, value: unknown) {
-        tagret[name] = value;
-        eventBus.emit(BLOCK_EVENTS.FLOW_UPDATE);
+      // Так вообще нормально указывать тип для value или есть какой-то более правильный способ?
+      set: (target: P, name: string, value: typeof target[keyof P]) => {
+        target[name as keyof P] = value;
+        this.eventBus.emit(BLOCK_EVENTS.FLOW_UPDATE);
         return true;
       },
       deleteProperty() {
