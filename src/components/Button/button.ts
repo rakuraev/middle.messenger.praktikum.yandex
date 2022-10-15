@@ -1,22 +1,11 @@
 import './button.css';
 import Block from '../../core/Block/Block';
 
-interface IButton {
-  text: string;
-  modificator: string;
-  tabIndex: number;
-  onClick?: () => unknown;
-}
-
-export default class Button extends Block {
+export default class Button extends Block<ButtonProps> {
   static _name = 'Button';
 
-  constructor(props: IButton) {
-    const { text, modificator, onClick, tabIndex } = props;
-    const events = {
-      click: onClick,
-    };
-    super({ text, modificator, events, tabIndex });
+  constructor({ onClick, ...restProps }: IButton) {
+    super({ ...restProps, events: { click: onClick } });
   }
 
   render() {

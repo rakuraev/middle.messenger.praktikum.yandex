@@ -2,18 +2,16 @@
 import Block from './Block/Block';
 import Handlebars, { HelperOptions } from 'handlebars';
 
-interface BlockConstructable<Props = any> {
-  new (props: Props): Block;
-  _name:string;
+interface BlockConstructable<P> {
+  new (props: P): Block<any>;
+  _name: string;
 }
 
-export default function registerComponent<Props>(
-  Component: BlockConstructable<Props>
-) {
+export default function registerComponent(Component: BlockConstructable<any>) {
   Handlebars.registerHelper(
     Component._name,
     function (
-      this: Props,
+      this: BlockProps,
       { hash: { ref, ...hash }, data, fn }: HelperOptions
     ) {
       if (!data.root.children) {
@@ -23,7 +21,7 @@ export default function registerComponent<Props>(
         data.root.refs = {};
       }
       const { children, refs } = data.root;
-      (Object.keys(hash) as any).forEach((key: keyof Props) => {
+      (Object.keys(hash) as any).forEach((key: keyof BlockProps) => {
         if (this[key] && typeof this[key] === 'string') {
           hash[key] = hash[key].replace(
             new RegExp(`{{${String(key)}}}`, 'i'),

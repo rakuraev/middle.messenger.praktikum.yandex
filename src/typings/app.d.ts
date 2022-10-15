@@ -12,3 +12,7 @@ declare type RouterPage = {
 
 declare type Nullable<T> = T | null;
 declare type Unknowed<T> = T | unknown;
+declare interface IImage {
+  src: Nullable<string>;
+  alt: string;
+}

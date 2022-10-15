@@ -1,13 +1,10 @@
 import Block from '../../core/Block/Block';
 import './svgTemplate.css';
 
-interface ISvgTemplateProps {
-  svgId: string;
-}
-class SvgTemplate extends Block {
+class SvgTemplate extends Block<SvgTemplateProps> {
   static _name = 'SvgTemplate';
 
-  constructor(svgTemplateProps: ISvgTemplateProps) {
+  constructor(svgTemplateProps: ISvgTemplate) {
     super({ ...svgTemplateProps });
   }
 
