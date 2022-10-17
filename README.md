@@ -27,5 +27,14 @@ $ npm run start
 3. Стили через `PostCss`
 4. Верстка по `БЭМу`(Вернее как я это понял из Быстрого старта по документации)
 5. `Node.js v16.14.2`
-6. [ Ссылка на макет прототипа ](https://www.figma.com/file/neCdz9gSrpb302shOpMF5W/PacanskiyMessanger?node-id=4686%3A2)
-7. [Ссылка на Netlify](https://lambent-lamington-d70a80.netlify.app/)
+6. TypeScript
+7. [ Ссылка на макет прототипа ](https://www.figma.com/file/neCdz9gSrpb302shOpMF5W/PacanskiyMessanger?node-id=4686%3A2)
+8. [Ссылка на Netlify](https://lambent-lamington-d70a80.netlify.app/)
+
+### Страницы доступны по роутам 
+```
+/ - LoginPage
+/signup - SignupPage
+/chat - ChatPage
+/profile - ProfilePage
+```

@@ -1,9 +1,11 @@
-/* eslint-disable no-undef */
+/* eslint-disable */
 
 const express = require("express");
+require("dotenv").config({ path: "../.env" });
 const path = require("path");
 const app = express();
-const port = 3000;
+console.log(process.env.PORT);
+const port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, "../dist/")));
 
