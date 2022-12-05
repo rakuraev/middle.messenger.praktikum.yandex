@@ -8,7 +8,10 @@ const enum BLOCK_EVENTS {
   FLOW_RENDER = 'flow:render',
   FLOW_UPDATE = 'flow:componentd-did-update',
 }
-
+export interface BlockClass<P extends BlockProps> extends Function {
+  new (props: P): Block<P>;
+  componentName?: string;
+}
 export default abstract class Block<P extends BlockProps> {
   private _element: Nullable<HTMLElement>;
 
@@ -68,6 +71,7 @@ export default abstract class Block<P extends BlockProps> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // @ts-expect-error
   componentDidMount(props: P) {}
 
   private _componentDidUpdate() {
@@ -180,17 +184,17 @@ export default abstract class Block<P extends BlockProps> {
     return this.element;
   }
 
-  show() {
-    const content = this.getContent();
-    if (content) {
-      content.style.display = 'block';
-    }
-  }
+  // show() {
+  //   const content = this.getContent();
+  //   if (content) {
+  //     content.style.removeProperty("display")
+  //   }
+  // }
 
   hide() {
     const content = this.getContent();
     if (content) {
-      content.style.display = 'none';
+      content.remove();
     }
   }
 }

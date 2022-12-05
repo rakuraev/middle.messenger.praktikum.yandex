@@ -13,6 +13,7 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "experimentalDecorators": true,
     "sourceMap": true,
     "declaration": true,
     "strictNullChecks": true,

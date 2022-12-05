@@ -174,7 +174,7 @@ export default class SignupPage extends Block<SignupProps> {
                   {{{Input placeholder=placeholder id=id type=type errorMessage=errorMessage isError=isError value=value ref=id onFocus=onFocus onBlur=onBlur}}}
                 {{/each}}
                 {{{Button text="Зарегистрироваться" modificator="blue" onClick=onSignup}}}
-                <a class="signup-form__registration-link" href="/">Или все-таки есть аккаунт?</a>
+                {{{RouterLink href="/" label="Или все-таки есть аккаунт?" class="signup-form__registration-link"}}}
               </form>
             </section>
           </main>`;

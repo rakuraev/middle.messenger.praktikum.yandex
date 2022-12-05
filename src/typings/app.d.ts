@@ -5,11 +5,6 @@ declare module './*.hbs' {
   export default HbsModuleExport;
 }
 
-declare type RouterPage = {
-  path: string;
-  component: Block;
-};
-
 declare type Nullable<T> = T | null;
 declare type Unknowed<T> = T | unknown;
 declare interface IImage {

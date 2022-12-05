@@ -2,8 +2,14 @@ import Login from './login';
 import Signup from './signup';
 import Profile from './profile';
 import Chat from './chat';
+import { BlockClass } from '../core/Block/Block';
 
-const Router: RouterPage[] = [
+export type Routes = {
+  path: string;
+  component: BlockClass<any>
+};
+
+const routes: Routes[] = [
   {
     path: '/',
     component: Login,
@@ -13,12 +19,13 @@ const Router: RouterPage[] = [
     component: Signup,
   },
   {
-    path: '/chat',
+    path: '/messenger',
     component: Chat,
   },
   {
-    path:'/profile',
-    component:Profile
-  }
+    path: '/setting',
+    component: Profile,
+  },
 ];
-export default Router;
+
+export default routes;

@@ -1,9 +1,17 @@
 import './login.css';
 import Block from '../../core/Block/Block';
 import validateString, { FormFieldTypes } from '../../utils/validate';
+import Router from '../../core/Router/Router';
+type LoginPageProps = {
+  router?: IRouter;
+  loginFields: LoginFields;
+  onLogin: () => void;
+};
 
-export default class LoginPage extends Block<LoginPageProps> {
+class LoginPage extends Block<LoginPageProps> {
   protected getStateFromProps() {
+    const router = new Router();
+
     const onFocus = (event: Event) => {
       const template = (event?.target as HTMLElement).parentNode as HTMLElement;
       template.classList.remove('p-input_error');
@@ -26,8 +34,7 @@ export default class LoginPage extends Block<LoginPageProps> {
       currentField.value = validateField.value;
       this.setState({ loginFields });
     };
-
-    const state:  LoginPageProps = {
+    const state: LoginPageProps = {
       loginFields: [
         {
           placeholder: 'Логин',
@@ -81,8 +88,13 @@ export default class LoginPage extends Block<LoginPageProps> {
             }
             return field;
           });
-          this.setState({ loginFields: nextInputFields });
-          console.log(inputValues);
+          const isFormValid = nextInputFields.some((field) => !field.isError);
+          if (isFormValid) {
+            console.log(this.state);
+            router.go('/messenger')
+          } else {
+            this.setState({ loginFields: nextInputFields });
+          }
         }
       },
     };
@@ -99,9 +111,11 @@ export default class LoginPage extends Block<LoginPageProps> {
                 {{{Input placeholder=placeholder id=id type=type errorMessage=errorMessage isError=isError value=value ref=id onFocus=onFocus onBlur=onBlur}}}
               {{/each}}
               {{{Button text="Авторизоваться" modificator="blue" onClick=onLogin}}}
-              <a class="login-form__registration-link" href="/signup">Нет аккаунта?</a>
+              {{{RouterLink href="/signup" label="Нет акаунта?" class="login-form__registration-link"}}}
             </form>
           </section>
         </main>`;
   }
 }
+
+export default LoginPage;
