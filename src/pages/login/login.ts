@@ -2,14 +2,17 @@ import './login.css';
 import Block from '../../core/Block/Block';
 import validateString, { FormFieldTypes } from '../../utils/validate';
 import Router from '../../core/Router/Router';
+import withRouter from '../../utils/withRouter';
+import withStore from '../../utils/withStore';
 type LoginPageProps = {
   router?: IRouter;
   loginFields: LoginFields;
   onLogin: () => void;
 };
-
+@withStore
+@withRouter
 class LoginPage extends Block<LoginPageProps> {
-  protected getStateFromProps() {
+  getStateFromProps() {
     const router = new Router();
 
     const onFocus = (event: Event) => {
@@ -91,7 +94,7 @@ class LoginPage extends Block<LoginPageProps> {
           const isFormValid = nextInputFields.some((field) => !field.isError);
           if (isFormValid) {
             console.log(this.state);
-            router.go('/messenger')
+            router.go('/messenger');
           } else {
             this.setState({ loginFields: nextInputFields });
           }

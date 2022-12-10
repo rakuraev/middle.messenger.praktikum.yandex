@@ -3,10 +3,13 @@ import validateString, {
   FormFieldTypes,
   validateIsSame,
 } from '../../utils/validate';
+import withRouter from '../../utils/withRouter';
+import withStore from '../../utils/withStore';
 import './signup.css';
-
+@withRouter
+@withStore
 export default class SignupPage extends Block<SignupProps> {
-  protected getStateFromProps(): void {
+  getStateFromProps(): void {
     const onFocus = (event: Event) => {
       const template = (event?.target as HTMLElement).parentNode as HTMLElement;
       template.classList.remove('p-input_error');
@@ -165,7 +168,7 @@ export default class SignupPage extends Block<SignupProps> {
     this.state = state;
   }
 
-  protected render(): string {
+  render(): string {
     return `<main class="signup-page">
             <section class="signup-form__wrapper">
               <form class="signup-form">

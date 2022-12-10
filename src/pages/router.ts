@@ -6,8 +6,9 @@ import { BlockClass } from '../core/Block/Block';
 
 export type Routes = {
   path: string;
-  component: BlockClass<any>
+  component: BlockClass<any>;
 };
+
 
 const routes: Routes[] = [
   {
@@ -23,7 +24,7 @@ const routes: Routes[] = [
     component: Chat,
   },
   {
-    path: '/setting',
+    path: '/settings',
     component: Profile,
   },
 ];

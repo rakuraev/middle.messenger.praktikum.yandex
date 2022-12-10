@@ -1,8 +1,43 @@
 import Block from '../../core/Block/Block';
+import Router from '../../core/Router/Router';
 import './chat.css';
 
 export default class ChatPage extends Block<BlockProps> {
-  protected render(): string {
+  private _addLinkListeners(links: NodeListOf<HTMLAnchorElement>) {
+    const router = new Router();
+    links.forEach((link) => {
+      link.onclick = (e) => {
+        e.preventDefault();
+        router.go(link.pathname);
+      };
+    });
+  }
+
+  private _removeLinkListeners(links: NodeListOf<HTMLAnchorElement>) {
+    links.forEach((link) => {
+      link.onclick = () => {};
+    });
+  }
+  componentDidMount(): void {
+    console.log("add")
+    const navLinks: NodeListOf<HTMLAnchorElement> | undefined = document
+      .querySelector('.navigation-bar')
+      ?.querySelectorAll('.navigation-bar__link');
+    if (navLinks) {
+      this._addLinkListeners(navLinks);
+    }
+  }
+
+  componentBeforeUnmount(props: BlockProps): void {
+    console.log('remove');
+    const navLinks: NodeListOf<HTMLAnchorElement> | undefined = document
+      .querySelector('.navigation-bar')
+      ?.querySelectorAll('.navigation-bar__link');
+    if (navLinks) {
+      this._removeLinkListeners(navLinks);
+    }
+  }
+  render(): string {
     return `<main class="chats-page">
               <aside class="left-panel">
                 <div class="search">
@@ -237,7 +272,7 @@ export default class ChatPage extends Block<BlockProps> {
                       </a>
                     </li>
                     <li class="navigation-bar__item">
-                      <a class="navigation-bar__link" href="#">
+                      <a class="navigation-bar__link" href="/settings">
                         {{{SvgTemplate svgId="settings"}}}
                       </a>
                     </li>

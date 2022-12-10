@@ -1,4 +1,3 @@
-import withRouter from '../../utils/withRouter';
-import loginPage from './login';
+import LoginPage from './login';
 
-export default withRouter(loginPage);
+export default LoginPage;

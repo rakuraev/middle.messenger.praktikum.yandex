@@ -1,4 +1,4 @@
-@import "variables/variables.css";
+@import 'variables/variables.css';
 
 .chats-page {
   height: 100vh;
@@ -29,6 +29,7 @@
 
   & .users-list {
     overflow: auto;
+    width: calc(100% + 17px);
     height: calc(100vh - 83px - 73px);
   }
 

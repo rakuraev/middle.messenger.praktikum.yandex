@@ -6,26 +6,31 @@ const enum BLOCK_EVENTS {
   INIT = 'init',
   FLOW_CDM = 'flow:component-did-mount',
   FLOW_RENDER = 'flow:render',
-  FLOW_UPDATE = 'flow:componentd-did-update',
+  FLOW_UPDATE = 'flow:component-did-update',
+  FLOW_CBU = 'flow:component-before-unmount',
+  FLOW_CDU = 'flow:component-did-unmounted',
 }
-export interface BlockClass<P extends BlockProps> extends Function {
-  new (props: P): Block<P>;
+export interface BlockClass<P> extends Function {
+  new (props: P): Block<any>;
   componentName?: string;
 }
+
+export type BlockConstructor<P extends BlockProps> = new (props:P) => Block<P>
+
 export default abstract class Block<P extends BlockProps> {
   private _element: Nullable<HTMLElement>;
 
-  protected readonly _meta: BlockMeta<P>;
+  readonly _meta: BlockMeta<P>;
 
-  protected readonly props: P;
+  readonly props: P;
 
-  protected state: P = {} as P;
+  state: P = {} as P;
 
   readonly eventBus: IEventBus;
 
-  protected refs: Record<string, HTMLElement> = {};
+  refs: Record<string, HTMLElement> = {};
 
-  protected children: { [id: string]: Block<P> } = {};
+  children: { [id: string]: Block<P> } = {};
 
   id: string;
 
@@ -45,7 +50,7 @@ export default abstract class Block<P extends BlockProps> {
     this.eventBus.emit(BLOCK_EVENTS.INIT);
   }
 
-  protected getStateFromProps(props?: P): void {
+  getStateFromProps(props?: P): void {
     if (props) {
       this.state = props;
     }
@@ -59,6 +64,14 @@ export default abstract class Block<P extends BlockProps> {
       BLOCK_EVENTS.FLOW_UPDATE,
       this._componentDidUpdate.bind(this)
     );
+    this.eventBus.on(
+      BLOCK_EVENTS.FLOW_CBU,
+      this._componentBeforeUnmount.bind(this)
+    );
+    this.eventBus.on(
+      BLOCK_EVENTS.FLOW_CDU,
+      this._componentDidUnmount.bind(this)
+    );
   }
 
   init() {
@@ -66,7 +79,7 @@ export default abstract class Block<P extends BlockProps> {
     this.eventBus.emit(BLOCK_EVENTS.FLOW_RENDER, this.props);
   }
 
-  _componentDidMount() {
+  private _componentDidMount() {
     this.componentDidMount(this.props);
   }
 
@@ -74,11 +87,23 @@ export default abstract class Block<P extends BlockProps> {
   // @ts-expect-error
   componentDidMount(props: P) {}
 
+  private _componentDidUnmount() {
+    this.componentDidUnmount(this.props);
+  }
+
+  componentDidUnmount(props: P) {}
+
+  private _componentBeforeUnmount() {
+    this.componentBeforeUnmount(this.props);
+  }
+
+  componentBeforeUnmount(props: P) {}
+
   private _componentDidUpdate() {
     this._render();
   }
 
-  protected render(): string {
+  render(): string {
     return '';
   }
 
@@ -193,8 +218,10 @@ export default abstract class Block<P extends BlockProps> {
 
   hide() {
     const content = this.getContent();
+    this.eventBus.emit(BLOCK_EVENTS.FLOW_CBU);
     if (content) {
       content.remove();
+      this.eventBus.emit(BLOCK_EVENTS.FLOW_CDU);
     }
   }
 }
