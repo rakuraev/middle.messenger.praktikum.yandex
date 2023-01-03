@@ -2,8 +2,9 @@
 export enum FormFieldTypes {
   login,
   password,
+  phone,
   firstName,
-  lastName,
+  secondName,
   email,
   repeatPassword,
 }
@@ -13,16 +14,17 @@ const VALIDATORS_REG_EXP: Record<string, RegExp> = {
   ),
   password: new RegExp(/^(?=.*\d)(?=.*[A-Z]).{8,40}$/),
   firstName: new RegExp(/^[А-ЯЁA-Z][А-ЯЁA-Zа-яёa-z-]+$/),
-  lastName: new RegExp(/^[А-ЯЁA-Z][А-ЯЁA-Zа-яёa-z-]+$/),
+  secondName: new RegExp(/^[А-ЯЁA-Z][А-ЯЁA-Zа-яёa-z-]+$/),
   email: new RegExp(
     /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i
   ),
+  phone: new RegExp(/^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/)
 };
 const VALIDATORS_MESSAGES: Record<string, string> = {
   login: 'Неверный формат логина',
   password: 'Неверный формат пароля',
   firstName: 'Неверный формат Имени',
-  lastName: 'Неверный формат Фамилии',
+  secondName: 'Неверный формат Фамилии',
   email: 'Неверный формат email',
   phone: 'Неверный формат телефона',
   repeatPassword: 'Пароли не совпадают',

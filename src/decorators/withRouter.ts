@@ -3,8 +3,8 @@ import Router from '../core/Router/Router';
 
 const router = new Router();
 export default function withRouter(
-  WrappedBlock: BlockConstructor<any>
-): BlockConstructor<any> {
+  WrappedBlock: BlockConstructor<any,any>
+): BlockConstructor<any,any> {
   return class WrappedBlockWithRouter<P> extends WrappedBlock {
     constructor(props: P) {
       super({ ...props, router });

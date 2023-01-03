@@ -3,6 +3,7 @@ import isMap from './typeguards/isMap';
 import isPlainObject from './typeguards/isPlainObject';
 import isPrimitive from './typeguards/isPrimitive';
 import isSet from './typeguards/isSet';
+import isDate from './typeguards/isDate';
 
 function cloneDeep<T>(copiedValue: T): T {
   // Handle:

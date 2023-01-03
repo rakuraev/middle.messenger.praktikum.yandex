@@ -2,11 +2,13 @@ import registerComponent from '../core/registerComponents';
 import Input from './Input';
 import Button from './Button';
 import SvgTemplate from './SvgTemplate';
-import RouterLink from './RourerLink/routerLink';
+import Link from './Link/link';
+import RouterLink from './Link/routerLink';
 
 export default () => {
   registerComponent(Input);
   registerComponent(Button);
   registerComponent(SvgTemplate);
+  registerComponent(Link);
   registerComponent(RouterLink);
 };

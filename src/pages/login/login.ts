@@ -1,47 +1,46 @@
 import './login.css';
 import Block from '../../core/Block/Block';
 import validateString, { FormFieldTypes } from '../../utils/validate';
-import Router from '../../core/Router/Router';
-import withRouter from '../../utils/withRouter';
-import withStore from '../../utils/withStore';
+import withRouter from '../../decorators/withRouter';
+import withStore from '../../decorators/withStore';
+import AuthController from '../../controllers/AuthController';
+import Input from '../../components/Input';
+
 type LoginPageProps = {
   router?: IRouter;
   loginFields: LoginFields;
   onLogin: () => void;
 };
-@withStore
-@withRouter
-class LoginPage extends Block<LoginPageProps> {
-  getStateFromProps() {
-    const router = new Router();
 
+type LoginPageRefs = {
+  login: Input;
+  password: Input;
+};
+@withRouter
+@withStore()
+class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
+  getStateFromProps() {
     const onFocus = (event: Event) => {
-      const template = (event?.target as HTMLElement).parentNode as HTMLElement;
-      template.classList.remove('p-input_error');
+      const id = (event.target as HTMLInputElement).id as LoginFieldsId;
+      this.refs[id].hideError();
     };
     const onBlur = (event: Event) => {
       const id = (event.target as HTMLInputElement).id as LoginFieldsId;
-      const inputElement = this.refs?.[id].querySelector(
-        `#${id}`
-      ) as HTMLInputElement;
-      const loginFields = { ...this.state }.loginFields as LoginFields;
-      const currentField = loginFields.find(
-        (field) => field.id === id
-      ) as IInput;
+      const currentRef = this.refs[id];
       const validateField = validateString(
-        inputElement.value,
+        currentRef.getValue(),
         FormFieldTypes[id]
       );
-      currentField.isError = !validateField.isValid;
-      currentField.errorMessage = validateField.message;
-      currentField.value = validateField.value;
-      this.setState({ loginFields });
+      if (!validateField.isValid) {
+        currentRef.setError(validateField.message);
+      }
     };
     const state: LoginPageProps = {
       loginFields: [
         {
           placeholder: 'Логин',
           id: 'login',
+          name: 'login',
           type: 'text',
           value: '',
           isError: false,
@@ -52,6 +51,7 @@ class LoginPage extends Block<LoginPageProps> {
         {
           placeholder: 'Пароль',
           id: 'password',
+          name: 'password',
           type: 'password',
           value: '',
           isError: false,
@@ -61,49 +61,41 @@ class LoginPage extends Block<LoginPageProps> {
         },
       ],
       onLogin: () => {
-        const inputValues = {
-          login: (this.refs.login.querySelector('#login') as HTMLInputElement)
-            ?.value,
-          password: (
-            this.refs.password.querySelector('#password') as HTMLInputElement
-          )?.value,
+        const inputValues: SigninData = {
+          login: this.refs.login.getValue(),
+          password: this.refs.password.getValue(),
         };
-        if ('loginFields' in state) {
-          const validatedFields: Record<string, ValidateOutput> = {
-            login: validateString(inputValues.login, FormFieldTypes.login),
-            password: validateString(
-              inputValues.password,
-              FormFieldTypes.password
-            ),
-          };
-          const nextInputFields = state.loginFields.map((field) => {
-            const fieldId = field.id;
-            if (fieldId in validatedFields) {
-              const validatedField = validatedFields?.[fieldId];
-              if (!validatedField.isValid) {
-                field.isError = true;
-                field.errorMessage = validatedField.message;
-              } else {
-                field.isError = false;
-                field.errorMessage = '';
-              }
-              field.value = validatedField.value;
+        const validatedFields: Record<string, ValidateOutput> = {
+          login: validateString(inputValues.login, FormFieldTypes.login),
+          password: validateString(
+            inputValues.password,
+            FormFieldTypes.password
+          ),
+        };
+        const nextInputFields = state.loginFields.map((field) => {
+          const fieldId = field.id as LoginFieldsId;
+          if (fieldId in validatedFields) {
+            const validatedField = validatedFields?.[fieldId];
+            if (!validatedField.isValid) {
+              field.isError = true;
+              field.errorMessage = validatedField.message;
+              this.refs[fieldId].setError(field.errorMessage);
+            } else {
+              field.isError = false;
+              field.errorMessage = '';
             }
-            return field;
-          });
-          const isFormValid = nextInputFields.some((field) => !field.isError);
-          if (isFormValid) {
-            console.log(this.state);
-            router.go('/messenger');
-          } else {
-            this.setState({ loginFields: nextInputFields });
+            field.value = validatedField.value;
           }
+          return field;
+        });
+        const isFormValid = nextInputFields.some((field) => !field.isError);
+        if (isFormValid) {
+          AuthController.signin(inputValues);
         }
       },
     };
     this.state = state;
   }
-
   render() {
     return `
         <main class="login-page">
@@ -111,7 +103,7 @@ class LoginPage extends Block<LoginPageProps> {
             <form class="login-form">
               <h1 class="login-form__title">Вход</h1>
               {{#each loginFields}}
-                {{{Input placeholder=placeholder id=id type=type errorMessage=errorMessage isError=isError value=value ref=id onFocus=onFocus onBlur=onBlur}}}
+                {{{Input placeholder=placeholder id=id type=type name=name errorMessage=errorMessage isError=isError value=value ref=id onFocus=onFocus onBlur=onBlur}}}
               {{/each}}
               {{{Button text="Авторизоваться" modificator="blue" onClick=onLogin}}}
               {{{RouterLink href="/signup" label="Нет акаунта?" class="login-form__registration-link"}}}

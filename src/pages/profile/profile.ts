@@ -1,27 +1,35 @@
 import Block from '../../core/Block/Block';
 import './profile.css';
 import './components';
+import AuthController from '../../controllers/AuthController';
+import withRouter from '../../decorators/withRouter';
+import withStore from '../../decorators/withStore';
+import { StateKeys } from '../../store';
 
-const state: ProfilePageProps = {
-  img: {
-    src: 'https://memepedia.ru/wp-content/uploads/2021/08/maxresdefault.jpg',
-    alt: 'Аватар пользователя',
-  },
-  name: 'Иван Резня',
-  profileInfo: [
-    { label: 'Имя', value: 'Иван' },
-    { label: 'Фамилия', value: 'Резня' },
-    { label: 'Имя в чате', value: 'Иван Резня' },
-    { label: 'Телефон', value: '79999999999' },
-    { label: 'Почта', value: 'email@example.ru' },
-    { label: 'Логин', value: 'ivanmassacre' },
-  ],
-};
+@withRouter
+@withStore(StateKeys.User)
 export default class ProfilePage extends Block<ProfilePageProps> {
-  getStateFromProps() {
-    this.state = state;
+  getStateFromProps(props:ProfilePageProps) {
+    const state: ProfilePageProps = {
+      img: {
+        src: 'https://memepedia.ru/wp-content/uploads/2021/08/maxresdefault.jpg',
+        alt: 'Аватар пользователя',
+      },
+      name: 'Иван Резня',
+      profileInfo: [
+        { label: 'Имя', value: 'Иван' },
+        { label: 'Фамилия', value: 'Резня' },
+        { label: 'Имя в чате', value: 'Иван Резня' },
+        { label: 'Телефон', value: '79999999999' },
+        { label: 'Почта', value: 'email@example.ru' },
+        { label: 'Логин', value: 'ivanmassacre' },
+      ],
+      onLogout() {
+        AuthController.logout();
+      },
+    };
+    this.state = {...state,...props};
   }
-
   render() {
     return `<main class="profile-page">
               <nav class="profile-page__back">
@@ -53,7 +61,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
                       <a class="profile-info__item-link" href="#">Изменить пароль</a>
                     </li>
                     <li class="profile-info__item profile-info__item_danger">
-                      <a class="profile-info__item-link" href="#">Выйти</a>
+                      {{{Link href="/"label="Выйти" class="profile-info__item-link" onClick=onLogout}}}
                     </li>
                   </ul>
                 </div>

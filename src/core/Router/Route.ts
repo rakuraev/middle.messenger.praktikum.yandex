@@ -11,10 +11,11 @@ class Route {
   private _blockClass: BlockClass<any>;
   private _block: Nullable<InstanceType<BlockClass<any>>>;
   private _props: any;
-
+  public withAuth: boolean;
   constructor(page: Routes, props: RouteProps) {
-    const { path, component } = page;
+    const { path, component, withAuth } = page;
     this._path = path;
+    this.withAuth = withAuth || false;
     this._blockClass = component;
     this._block = null;
     this._props = props;
@@ -38,14 +39,10 @@ class Route {
   }
 
   render() {
-    if (!this._block) {
-      this._block = new this._blockClass({});
-      console.log(this._block);
-      renderDOM(this._block, this._props.rootQuery);
-      return;
-    }
-
+    this._block = new this._blockClass({});
     renderDOM(this._block, this._props.rootQuery);
+    console.log(this._block);
+    // renderDOM(this._block, this._props.rootQuery);
   }
 }
 

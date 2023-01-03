@@ -1,8 +1,15 @@
 import Block from '../../core/Block/Block';
 import Router from '../../core/Router/Router';
+import withRouter from '../../decorators/withRouter';
+import withStore from '../../decorators/withStore';
 import './chat.css';
 
-export default class ChatPage extends Block<BlockProps> {
+@withRouter
+@withStore()
+class ChatPage extends Block<any, any> {
+  getStateFromProps(): void {
+    this.state = {};
+  }
   private _addLinkListeners(links: NodeListOf<HTMLAnchorElement>) {
     const router = new Router();
     links.forEach((link) => {
@@ -19,7 +26,7 @@ export default class ChatPage extends Block<BlockProps> {
     });
   }
   componentDidMount(): void {
-    console.log("add")
+    console.log('add');
     const navLinks: NodeListOf<HTMLAnchorElement> | undefined = document
       .querySelector('.navigation-bar')
       ?.querySelectorAll('.navigation-bar__link');
@@ -282,3 +289,5 @@ export default class ChatPage extends Block<BlockProps> {
             </main>`;
   }
 }
+
+export default ChatPage;

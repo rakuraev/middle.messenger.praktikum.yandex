@@ -4,6 +4,7 @@ import { EventBus } from '../EventBus/EventBus';
 
 const enum BLOCK_EVENTS {
   INIT = 'init',
+  FLOW_CDI = 'flow:component-did-inited',
   FLOW_CDM = 'flow:component-did-mount',
   FLOW_RENDER = 'flow:render',
   FLOW_UPDATE = 'flow:component-did-update',
@@ -11,24 +12,28 @@ const enum BLOCK_EVENTS {
   FLOW_CDU = 'flow:component-did-unmounted',
 }
 export interface BlockClass<P> extends Function {
-  new (props: P): Block<any>;
+  new (props: P): Block<any, any>;
   componentName?: string;
 }
 
-export type BlockConstructor<P extends BlockProps> = new (props:P) => Block<P>
+export type BlockConstructor<P extends BlockProps, R> = new (props: P) => Block<
+  P,
+  R
+>;
 
-export default abstract class Block<P extends BlockProps> {
+export default abstract class Block<P extends BlockProps, R = {}> {
   private _element: Nullable<HTMLElement>;
-
   readonly _meta: BlockMeta<P>;
 
   readonly props: P;
+
+  private _initialState: P = {} as P;
 
   state: P = {} as P;
 
   readonly eventBus: IEventBus;
 
-  refs: Record<string, HTMLElement> = {};
+  refs: R;
 
   children: { [id: string]: Block<P> } = {};
 
@@ -41,7 +46,7 @@ export default abstract class Block<P extends BlockProps> {
     };
     this.eventBus = new EventBus();
     this.getStateFromProps(props);
-
+    this.refs = {} as R;
     this.props = this._makePropsProxy(props);
     this.state = this._makePropsProxy(this.state);
     this._element = null;
@@ -58,6 +63,10 @@ export default abstract class Block<P extends BlockProps> {
 
   private _registerEvents() {
     this.eventBus.on(BLOCK_EVENTS.INIT, this.init.bind(this));
+    this.eventBus.on(
+      BLOCK_EVENTS.FLOW_CDI,
+      this._componentDidInited.bind(this)
+    );
     this.eventBus.on(BLOCK_EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     this.eventBus.on(BLOCK_EVENTS.FLOW_RENDER, this._render.bind(this));
     this.eventBus.on(
@@ -76,18 +85,24 @@ export default abstract class Block<P extends BlockProps> {
 
   init() {
     this._element = document.createElement(this._meta.tagName);
+    this.eventBus.emit(BLOCK_EVENTS.FLOW_CDI);
     this.eventBus.emit(BLOCK_EVENTS.FLOW_RENDER, this.props);
   }
+
+  private _componentDidInited() {
+    this.componentDidInited();
+  }
+
+  componentDidInited() {}
 
   private _componentDidMount() {
     this.componentDidMount(this.props);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // @ts-expect-error
   componentDidMount(props: P) {}
 
   private _componentDidUnmount() {
+    this.getStateFromProps();
     this.componentDidUnmount(this.props);
   }
 
@@ -180,7 +195,7 @@ export default abstract class Block<P extends BlockProps> {
         return typeof value === 'function' ? value.bind(target) : value;
       },
       // Так вообще нормально указывать тип для value или есть какой-то более правильный способ?
-      set: (target: P, name: string, value: typeof target[keyof P]) => {
+      set: (target: P, name: string, value: P[keyof P]) => {
         target[name as keyof P] = value;
         this.eventBus.emit(BLOCK_EVENTS.FLOW_UPDATE);
         return true;

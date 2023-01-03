@@ -30,6 +30,8 @@
     margin-bottom: 2px;
     transition: 0.1s ease-in border;
     cursor: pointer;
+    background-color: var(--white);
+
     &:hover,
     &:focus,
     &:not(:placeholder-shown) {

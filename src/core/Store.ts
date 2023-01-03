@@ -1,8 +1,10 @@
-import type { State } from '../store';
-import cloneDeep from '../utils/cloneDeep';
-import isEqual from '../utils/isEqual';
+import { state } from '../store';
+import set from '../utils/set';
 import { EventBus } from './EventBus/EventBus';
 
+export enum StoreEvents {
+  Updated = 'updated',
+}
 export class Store extends EventBus {
   private _state: Nullable<State> = null;
   private static __instance: Store;
@@ -12,25 +14,16 @@ export class Store extends EventBus {
     }
     super();
     Store.__instance = this;
-  }
-  public use(state: State) {
-    this._state = state as State;
-    this.set(state as State);
+    this._state = state;
   }
   public getState() {
     return this._state;
   }
-  public set(nextState: Partial<State>) {
-    const prevState = cloneDeep(this._state) as State;
-    if (!isEqual(prevState, nextState)) {
-      this.emit('changed', prevState, nextState);
-    }
-  }
-  dispatch(nextStateOrAction: any, payload?: unknown) {
-    if (typeof nextStateOrAction === 'function') {
-      nextStateOrAction(this.dispatch.bind(this), this._state, payload);
-    } else {
-      this.set({ ...this._state });
-    }
+  public set(keypath: string, data: unknown) {
+    set(this._state, keypath, data);
+    console.log(this);
+    this.emit(StoreEvents.Updated, this.getState());
   }
 }
+
+export default new Store();

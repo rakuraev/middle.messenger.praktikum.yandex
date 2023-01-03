@@ -7,25 +7,34 @@ import { BlockClass } from '../core/Block/Block';
 export type Routes = {
   path: string;
   component: BlockClass<any>;
+  withAuth?: boolean;
 };
 
+export enum RoutePaths {
+  Login = '/',
+  Signup = '/signup',
+  Chat = '/messenger',
+  Profile = '/settings',
+}
 
 const routes: Routes[] = [
   {
-    path: '/',
+    path: RoutePaths.Login,
     component: Login,
   },
   {
-    path: '/signup',
+    path: RoutePaths.Signup,
     component: Signup,
   },
   {
-    path: '/messenger',
+    path: RoutePaths.Chat,
     component: Chat,
+    withAuth: true,
   },
   {
-    path: '/settings',
+    path: RoutePaths.Profile,
     component: Profile,
+    withAuth: true,
   },
 ];
 

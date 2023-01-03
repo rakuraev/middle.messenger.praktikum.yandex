@@ -7,6 +7,8 @@ type SignupFieldsId =
   | 'login'
   | 'email'
   | 'password'
+  | 'phone'
   | 'repeatPassword'
   | 'firstName'
-  | 'lastName';
+  | 'secondName';
+

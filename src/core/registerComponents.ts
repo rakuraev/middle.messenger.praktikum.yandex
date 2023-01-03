@@ -32,7 +32,7 @@ export default function registerComponent<P extends BlockProps>(Component: Block
       const component = new Component(hash);
       children[component.id] = component;
       if (ref) {
-        refs[ref] = component.getContent();
+        refs[ref] = component;
       }
 
       const contents = fn ? fn(this) : '';

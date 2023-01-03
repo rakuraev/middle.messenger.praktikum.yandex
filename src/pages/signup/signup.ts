@@ -1,45 +1,52 @@
+import Input from '../../components/Input';
+import AuthController from '../../controllers/AuthController';
 import Block from '../../core/Block/Block';
+import omit from '../../utils/omit';
 import validateString, {
   FormFieldTypes,
   validateIsSame,
 } from '../../utils/validate';
-import withRouter from '../../utils/withRouter';
-import withStore from '../../utils/withStore';
+import withRouter from '../../decorators/withRouter';
+import withStore from '../../decorators/withStore';
 import './signup.css';
+
+interface ISignupRef {
+  login: Input;
+  email: Input;
+  phone: Input;
+  password: Input;
+  repeatPassword: Input;
+  firstName: Input;
+  secondName: Input;
+}
 @withRouter
-@withStore
-export default class SignupPage extends Block<SignupProps> {
+@withStore()
+export default class SignupPage extends Block<SignupProps, ISignupRef> {
   getStateFromProps(): void {
     const onFocus = (event: Event) => {
-      const template = (event?.target as HTMLElement).parentNode as HTMLElement;
-      template.classList.remove('p-input_error');
+      const id = (event.target as HTMLInputElement).id as SignupFieldsId;
+      this.refs[id].hideError();
     };
     const onBlur = (event: Event) => {
       const id = (event.target as HTMLInputElement).id as SignupFieldsId;
-      const inputElement = this.refs?.[id].querySelector(
-        `#${id}`
-      ) as HTMLInputElement;
-      const signupFields = { ...this.state }.signupFields as SignupFields;
-      const currentField = signupFields.find(
-        (field) => field.id === id
-      ) as IInput;
+      const currentRef = this.refs[id];
       let validateField;
       if (id === 'repeatPassword') {
-        const passwordInputValue = (
-          this.refs.password.querySelector('#password') as HTMLInputElement
-        ).value;
+        const passwordInputValue = this.refs.password.getValue();
         validateField = validateIsSame(
-          inputElement.value,
+          currentRef.getValue(),
           passwordInputValue,
           FormFieldTypes.repeatPassword
         );
       } else {
-        validateField = validateString(inputElement.value, FormFieldTypes[id]);
+        validateField = validateString(
+          currentRef.getValue(),
+          FormFieldTypes[id]
+        );
       }
-      currentField.isError = !validateField.isValid;
-      currentField.errorMessage = validateField.message;
-      currentField.value = validateField.value;
-      this.setState({ signupFields });
+      if (!validateField.isValid) {
+        currentRef.setError(validateField.message);
+      }
     };
     const state: SignupProps = {
       signupFields: [
@@ -64,6 +71,16 @@ export default class SignupPage extends Block<SignupProps> {
           onBlur,
         },
         {
+          placeholder: 'Телефон',
+          id: 'phone',
+          type: 'text',
+          value: '',
+          isError: false,
+          errorMessage: '',
+          onFocus,
+          onBlur,
+        },
+        {
           placeholder: 'Имя',
           id: 'firstName',
           type: 'text',
@@ -75,7 +92,7 @@ export default class SignupPage extends Block<SignupProps> {
         },
         {
           placeholder: 'Фамилия',
-          id: 'lastName',
+          id: 'secondName',
           type: 'text',
           value: '',
           isError: false,
@@ -106,63 +123,52 @@ export default class SignupPage extends Block<SignupProps> {
       ],
       onSignup: () => {
         const inputValues = {
-          email: (this.refs.email.querySelector('#email') as HTMLInputElement)
-            ?.value,
-          login: (this.refs.login.querySelector('#login') as HTMLInputElement)
-            ?.value,
-          firstName: (
-            this.refs.login.querySelector('#firstName') as HTMLInputElement
-          )?.value,
-          lastName: (
-            this.refs.lastName.querySelector('#lastName') as HTMLInputElement
-          )?.value,
-          password: (
-            this.refs.password.querySelector('#password') as HTMLInputElement
-          )?.value,
-          repeatPassword: (
-            this.refs.repeatPassword.querySelector(
-              '#repeatPassword'
-            ) as HTMLInputElement
-          )?.value,
+          email: this.refs.email.getValue(),
+          login: this.refs.login.getValue(),
+          phone: this.refs.phone.getValue(),
+          first_name: this.refs.firstName.getValue(),
+          second_name: this.refs.secondName.getValue(),
+          password: this.refs.password.getValue(),
+          repeat_password: this.refs.repeatPassword.getValue(),
         };
 
         const validatedFields: Record<string, ValidateOutput> = {
           email: validateString(inputValues.email, FormFieldTypes.email),
           login: validateString(inputValues.login, FormFieldTypes.login),
+          phone: validateString(inputValues.phone, FormFieldTypes.phone),
           password: validateString(
             inputValues.password,
             FormFieldTypes.password
           ),
           firstName: validateString(
-            inputValues.firstName,
+            inputValues.first_name,
             FormFieldTypes.firstName
           ),
-          lastName: validateString(
-            inputValues.lastName,
-            FormFieldTypes.lastName
+          secondName: validateString(
+            inputValues.second_name,
+            FormFieldTypes.secondName
           ),
           repeatPassword: validateIsSame(
-            inputValues.repeatPassword,
+            inputValues.repeat_password,
             inputValues.password,
             FormFieldTypes.repeatPassword
           ),
         };
-        const nextInputFields = state.signupFields.map((field) => {
-          if (field.id in validatedFields) {
-            const validatedField = validatedFields?.[field.id];
-            if (!validatedField.isValid) {
-              field.isError = true;
-              field.errorMessage = validatedField.message;
-            } else {
-              field.isError = false;
-              field.errorMessage = '';
+        state.signupFields.forEach((field) => {
+          const fieldId = field.id as SignupFieldsId;
+          if ('isValid' in validatedFields?.[fieldId]) {
+            if (!validatedFields?.[fieldId].isValid) {
+              this.refs[fieldId].setError(validatedFields[fieldId].message);
             }
-            field.value = validatedField.value;
           }
-          return field;
         });
-        this.setState({ signupFields: nextInputFields });
-        console.log(inputValues);
+        const isFormValid = Object.values(validatedFields).every(
+          (field) => field.isValid
+        );
+        if (isFormValid) {
+          const signupData = omit(inputValues, ['repeat_password']);
+          AuthController.signup(signupData);
+        }
       },
     };
     this.state = state;

@@ -5,9 +5,9 @@ class Router {
   private static __instance: Router;
   routes: Route[] = [];
   history: any;
-  private _currentRoute: any;
-  private _rootQuery: string = "";
-  constructor(rootQuery: string = "#app") {
+  private _currentRoute: Nullable<Route> = null;
+  private _rootQuery: string = '';
+  constructor(rootQuery: string = '#app') {
     if (Router.__instance) {
       return Router.__instance;
     }
@@ -19,7 +19,7 @@ class Router {
     Router.__instance = this;
   }
 
-  use(routes:Routes[]) {
+  use(routes: Routes[]) {
     routes.forEach((route) => {
       this.routes.push(new Route(route, { rootQuery: this._rootQuery }));
     });
@@ -38,8 +38,8 @@ class Router {
         this._currentRoute.leave();
       }
     }
-    this._currentRoute = route;
     if (route) {
+      this._currentRoute = route;
       route.render();
     }
   }
@@ -61,6 +61,9 @@ class Router {
     return this.routes.find((route) => route.match(pathname));
   }
 
+  getCurrentRoute() {
+    return this._currentRoute;
+  }
   _registerHistoryListener() {
     window.onpopstate = this._onPopState.bind(this);
   }
