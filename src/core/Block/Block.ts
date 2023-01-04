@@ -11,24 +11,22 @@ const enum BLOCK_EVENTS {
   FLOW_CBU = 'flow:component-before-unmount',
   FLOW_CDU = 'flow:component-did-unmounted',
 }
-export interface BlockClass<P> extends Function {
-  new (props: P): Block<any, any>;
+export interface BlockClass<P extends {}> extends Function {
+  new (props: P): Block<P>;
   componentName?: string;
 }
 
-export type BlockConstructor<P extends BlockProps, R> = new (props: P) => Block<
-  P,
-  R
->;
+export type BlockConstructor<P extends {} = {}, R = {}> = new (
+  props: P
+) => Block<P, R>;
 
-export default abstract class Block<P extends BlockProps, R = {}> {
+export default abstract class Block<P extends object, R = {}> {
   private _element: Nullable<HTMLElement>;
   readonly _meta: BlockMeta<P>;
 
-  readonly props: P;
+  readonly props: P = {} as P;
 
-  private _initialState: P = {} as P;
-
+  // TODO Сделать Приватным
   state: P = {} as P;
 
   readonly eventBus: IEventBus;
@@ -152,7 +150,6 @@ export default abstract class Block<P extends BlockProps, R = {}> {
     });
     Object.entries(this.children).forEach(([id, component]) => {
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);
-
       if (!stub) {
         return;
       }
@@ -166,26 +163,30 @@ export default abstract class Block<P extends BlockProps, R = {}> {
   }
 
   private _addEvents() {
-    const events: BlockEvents = this.props?.events;
+    if ('events' in this.props) {
+      const events: BlockEvents = this.props.events;
 
-    if (!events || !this._element) {
-      return;
+      if (!events || !this._element) {
+        return;
+      }
+      Object.entries(events).forEach(([event, listener]) => {
+        this._element?.addEventListener(event, listener);
+      });
     }
-    Object.entries(events).forEach(([event, listener]) => {
-      this._element?.addEventListener(event, listener);
-    });
   }
 
   private _removeEvents() {
-    const events = this.props?.events;
+    if ('events' in this.props) {
+      const events = this.props.events;
 
-    if (!events || !this._element) {
-      return;
+      if (!events || !this._element) {
+        return;
+      }
+
+      Object.entries(events).forEach(([event, listener]) => {
+        this._element?.removeEventListener(event, listener);
+      });
     }
-
-    Object.entries(events).forEach(([event, listener]) => {
-      this._element?.removeEventListener(event, listener);
-    });
   }
 
   private _makePropsProxy(props: P) {

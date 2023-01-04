@@ -1,4 +1,4 @@
-type LoginFields = IInputProps[]
+type LoginFields = IInputProps[];
 
 interface IInputProps {
   placeholder: string;
@@ -8,9 +8,10 @@ interface IInputProps {
   value: string;
   isError: boolean;
   errorMessage: string;
+  validateType?: number;
+  autocomplete?: 'on' | 'off' | 'new-password' | 'current-password';
   onFocus;
   onBlur;
 }
 
 type LoginFieldsId = 'password' | 'login';
-

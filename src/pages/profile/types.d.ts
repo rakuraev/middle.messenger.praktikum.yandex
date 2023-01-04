@@ -1,12 +1,13 @@
-
 type ProfileInfo = {
   label: string;
-  value: string;
+  value: () => string | undefined;
 };
 type ProfilePageProps = {
   img: IImage;
-  name: string;
+  name: () => string;
   profileInfo: ProfileInfo[];
-  user?: Pick<State, 'user'>;
   onLogout: () => void;
+  changePassword: () => void;
+  user?: PickType<State, 'user'>;
+  backLinkSlot: () => BlockSlot;
 };

@@ -8,6 +8,7 @@ enum HttpMethods {
 type Options = {
   method: HttpMethods;
   data?: unknown;
+  formData?: FormData;
 };
 export default class HTTPTransport {
   private _apiUrl: string = '';
@@ -32,10 +33,15 @@ export default class HTTPTransport {
     };
     return this._request(path, options);
   }
-  public put<R>(path: string = '/', data: unknown): Promise<R> {
+  public put<R>(
+    path: string = '/',
+    data: unknown,
+    formData?: FormData
+  ): Promise<R> {
     const options: Options = {
       method: HttpMethods.Put,
       data,
+      formData,
     };
     return this._request(path, options);
   }
@@ -58,9 +64,8 @@ export default class HTTPTransport {
     path: string,
     options: Options = { method: HttpMethods.Get }
   ): Promise<R> {
-    const { method, data } = options;
+    const { method, data, formData } = options;
     const url = `${this._endpoint}${path}`;
-
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
@@ -79,13 +84,19 @@ export default class HTTPTransport {
       xhr.onerror = () => reject({ reason: 'network error' });
       xhr.ontimeout = () => reject({ reason: 'timeout' });
 
-      xhr.setRequestHeader('Content-Type', 'application/json');
+      if (!formData) {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+      }
 
+      xhr;
       xhr.withCredentials = true;
       xhr.responseType = 'json';
 
-      if (method === HttpMethods.Get || !data) {
+      if (method === HttpMethods.Get || (!data && !formData)) {
         xhr.send();
+      } else if (formData) {
+        console.log(formData.getAll('avatar'));
+        xhr.send(formData);
       } else {
         xhr.send(JSON.stringify(data));
       }

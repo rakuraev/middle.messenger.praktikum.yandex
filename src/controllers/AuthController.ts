@@ -1,4 +1,4 @@
-import AuthApi from '../api/AuthApi';
+import AuthApi from '../api/AuthApi/AuthApi';
 import Router from '../core/Router/Router';
 import Store from '../core/Store';
 import { RoutePaths } from '../pages/router';

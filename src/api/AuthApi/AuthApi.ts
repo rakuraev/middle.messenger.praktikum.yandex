@@ -1,4 +1,4 @@
-import BaseApi from './BaseApi';
+import BaseApi from '../BaseApi';
 
 export class AuthApi extends BaseApi {
   constructor() {
@@ -11,7 +11,7 @@ export class AuthApi extends BaseApi {
     return this.http.post('/signin', data);
   }
 
-  getUserInfo():Promise<UserData> {
+  getUserInfo(): Promise<UserData> {
     return this.http.get('/user');
   }
   logout() {

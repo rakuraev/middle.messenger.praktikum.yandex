@@ -5,39 +5,58 @@ import AuthController from '../../controllers/AuthController';
 import withRouter from '../../decorators/withRouter';
 import withStore from '../../decorators/withStore';
 import { StateKeys } from '../../store';
+import ChangePassword from './components/changePassword/changePassword';
+
+type ProfilePageRef = {
+  changePasswordMW: ChangePassword;
+};
 
 @withRouter
 @withStore(StateKeys.User)
-export default class ProfilePage extends Block<ProfilePageProps> {
-  getStateFromProps(props:ProfilePageProps) {
+export default class ProfilePage extends Block<
+  ProfilePageProps,
+  ProfilePageRef
+> {
+  getStateFromProps(props: any) {
     const state: ProfilePageProps = {
       img: {
-        src: 'https://memepedia.ru/wp-content/uploads/2021/08/maxresdefault.jpg',
+        src: () => this.state.user?.avatar || null,
         alt: 'Аватар пользователя',
       },
-      name: 'Иван Резня',
+      name: () =>
+        this.state.user
+          ? `${this.state.user?.first_name} ${this.state.user?.second_name}`
+          : ' ',
       profileInfo: [
-        { label: 'Имя', value: 'Иван' },
-        { label: 'Фамилия', value: 'Резня' },
-        { label: 'Имя в чате', value: 'Иван Резня' },
-        { label: 'Телефон', value: '79999999999' },
-        { label: 'Почта', value: 'email@example.ru' },
-        { label: 'Логин', value: 'ivanmassacre' },
+        {
+          label: 'Имя',
+          value: () => this.state.user?.first_name,
+        },
+        { label: 'Фамилия', value: () => this.state.user?.second_name },
+        { label: 'Имя в чате', value: () => this.state.user?.display_name },
+        { label: 'Телефон', value: () => this.state.user?.phone },
+        { label: 'Почта', value: () => this.state.user?.email },
+        { label: 'Логин', value: () => this.state.user?.login },
       ],
+
       onLogout() {
         AuthController.logout();
       },
+      changePassword: () => {
+        this.refs.changePasswordMW.showModal();
+      },
+      backLinkSlot: () => {
+        return `  <div class="profile-page__back-icon">
+                    <div class="profile-page__back-arrow"></div>
+                  </div>`;
+      },
     };
-    this.state = {...state,...props};
+    this.setState({ ...state, ...props });
   }
   render() {
     return `<main class="profile-page">
               <nav class="profile-page__back">
-                <a href="#" class="profile-page__link">
-                  <div class="profile-page__back-icon">
-                    <div class="profile-page__back-arrow"></div>
-                  </div>
-                </a>
+              {{{Link href="/messenger" class="profile-page__link" slot=backLinkSlot}}}
               </nav>
               <section class="profile-info__wrapper">
                 <div class="profile-info">
@@ -58,14 +77,16 @@ export default class ProfilePage extends Block<ProfilePageProps> {
                       <a class="profile-info__item-link" href="#">Изменить данные</a>
                     </li>
                     <li class="profile-info__item">
-                      <a class="profile-info__item-link" href="#">Изменить пароль</a>
+                    {{{Link href="/" label="Изменить пароль" class="profile-info__item-link" onClick=changePassword}}}
                     </li>
                     <li class="profile-info__item profile-info__item_danger">
-                      {{{Link href="/"label="Выйти" class="profile-info__item-link" onClick=onLogout}}}
+                      {{{Link href="/" label="Выйти" class="profile-info__item-link" onClick=onLogout}}}
                     </li>
                   </ul>
                 </div>
               </section>
-            </main>`;
+                 {{{ChangePassword ref="changePasswordMW"}}}
+              </main>
+            `;
   }
 }

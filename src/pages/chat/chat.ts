@@ -26,7 +26,6 @@ class ChatPage extends Block<any, any> {
     });
   }
   componentDidMount(): void {
-    console.log('add');
     const navLinks: NodeListOf<HTMLAnchorElement> | undefined = document
       .querySelector('.navigation-bar')
       ?.querySelectorAll('.navigation-bar__link');
@@ -35,8 +34,7 @@ class ChatPage extends Block<any, any> {
     }
   }
 
-  componentBeforeUnmount(props: BlockProps): void {
-    console.log('remove');
+  componentBeforeUnmount(): void {
     const navLinks: NodeListOf<HTMLAnchorElement> | undefined = document
       .querySelector('.navigation-bar')
       ?.querySelectorAll('.navigation-bar__link');

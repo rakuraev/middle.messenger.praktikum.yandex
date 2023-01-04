@@ -3,42 +3,40 @@ import Store, { StoreEvents } from '../core/Store';
 import { StateKeys } from '../store';
 import isEqual from '../utils/isEqual';
 
-export default function withStore(...stateKeys: StateKeys[]) {
-  const mapStateToProps = (state: State): Omit<State, StateKeys> => {
-    console.log(stateKeys);
+export default function withStore<K extends StateKeys>(...stateKeys: K[]) {
+  const mapStateToProps = (state: State): Pick<State, K> => {
     return stateKeys.reduce((nextState, stateKey) => {
       return { ...nextState, [stateKey]: state[stateKey] };
     }, {} as State);
   };
 
-  let currentState: Nullable<State> = null;
+  let currentState: Pick<State, K>;
 
-  return function withMapStateStore(
+  return function withMapStateStore<P extends {}>(
     WrappedBlock: BlockConstructor<any, any>
   ): BlockConstructor<any, any> {
-    return class WrappedBlockWithStore<P> extends WrappedBlock {
+    return class WrappedBlockWithStore extends WrappedBlock {
       constructor(props: P) {
         const state = Store.getState() as State;
         currentState = mapStateToProps(state);
         super({ ...props, ...currentState });
       }
-      __onChangeStoreCallback() {
+      private _onChangeStoreCallback() {
         const state = Store.getState() as State;
         const nextState = mapStateToProps(state);
 
-        if (isEqual(currentState as State, nextState)) {
+        if (isEqual(currentState, nextState)) {
           return;
         }
-        //@ts-expect-error
-        this.setProps({ ...this.props, ...nextState });
+        this.setState({ ...this.state, ...nextState });
       }
 
       componentDidInited() {
-        Store.on(StoreEvents.Updated, this.__onChangeStoreCallback);
+        Store.on(StoreEvents.Updated, this._onChangeStoreCallback.bind(this));
       }
 
       componentBeforeUnmount() {
-        Store.off(StoreEvents.Updated, this.__onChangeStoreCallback);
+        Store.off(StoreEvents.Updated, this._onChangeStoreCallback.bind(this));
       }
     };
   };

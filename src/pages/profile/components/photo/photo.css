@@ -28,4 +28,12 @@
   &:hover > .photo__change {
     opacity: 1;
   }
+
+  & .photo__file-input {
+    z-index: 100;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
 }

@@ -17,7 +17,7 @@ interface UserData {
   second_name: string;
   login: string;
   email: string;
-  password: string;
   phone: string;
+  display_name: string;
   avatar: string;
 }

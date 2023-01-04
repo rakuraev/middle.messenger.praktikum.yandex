@@ -41,8 +41,6 @@ class Route {
   render() {
     this._block = new this._blockClass({});
     renderDOM(this._block, this._props.rootQuery);
-    console.log(this._block);
-    // renderDOM(this._block, this._props.rootQuery);
   }
 }
 

@@ -7,7 +7,5 @@ declare module './*.hbs' {
 
 declare type Nullable<T> = T | null;
 declare type Unknowed<T> = T | unknown;
-declare interface IImage {
-  src: Nullable<string>;
-  alt: string;
-}
+
+declare type PickType<T, K extends keyof T> = Pick<T, K>[K];

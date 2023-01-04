@@ -22,14 +22,18 @@ export default class Input extends Block<InputProps> {
   public setError(errorMessage: string) {
     const content = this.getContent() as HTMLElement;
     content.classList.add(ERROR_CLASS);
-    content.querySelector(`.${ERROR_MESSAGE_CLASS}`)!.textContent = errorMessage;
+    content.querySelector(`.${ERROR_MESSAGE_CLASS}`)!.textContent =
+      errorMessage;
   }
 
   public hideError() {
     this.getContent()?.classList.remove(ERROR_CLASS);
   }
 
-  public clearValue() {}
+  public clearValue() {
+    this.setState({ ...this.state, value: null });
+  }
+
   render() {
     return `<div class="p-input {{#if isError}}p-input_error{{/if}}">
               <input
@@ -38,6 +42,7 @@ export default class Input extends Block<InputProps> {
                 name="{{name}}"
                 id="{{id}}"
                 value="{{value}}"
+                autocomplete="{{autocomplete}}"
                 placeholder=" "
               />
               <label class="p-input__label" for="{{id}}">

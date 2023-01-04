@@ -15,6 +15,7 @@
     align-items: center;
     cursor: pointer;
     transition: 0.2s ease-in-out background;
+    flex-direction: column;
 
     & .profile-page__back-icon {
       width: 28px;
@@ -39,9 +40,20 @@
     }
   }
 
+  & .profile-page__link {
+    cursor: pointer;
+    flex-grow: 1;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   & .profile-info__wrapper {
     flex-grow: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -55,6 +67,7 @@
       text-align: center;
       font-weight: 500;
       margin-bottom: 60px;
+      height: 1rem;
     }
 
     & .profile-info {
@@ -88,15 +101,18 @@
 
     & .profile-info__change-info .profile-info__item {
       border-bottom: 1px solid var(--gray-s-l);
-      padding: 10px 0;
+      cursor: pointer;
       color: var(--blue);
+      display: flex;
 
       &:last-child {
         border-bottom: none;
       }
 
       & .profile-info__item-link {
+        padding: 10px 0;
         color: var(--blue);
+        flex-grow: 1;
       }
     }
 
