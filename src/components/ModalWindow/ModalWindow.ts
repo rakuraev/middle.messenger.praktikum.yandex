@@ -23,7 +23,6 @@ export default class ModalWindow<P, R> extends Block<IMWState & P, R> {
       const isOutsideModalContentClick = (e.target as HTMLElement).hasAttribute(
         'hide-on-click'
       );
-      console.log(isOutsideModalContentClick, e.target);
       if (isOutsideModalContentClick) {
         this.hideModal();
       }

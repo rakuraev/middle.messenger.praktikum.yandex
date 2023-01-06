@@ -24,10 +24,12 @@ function isEqual(
       return compareValues(leftValue, rightValue);
     });
   } else if (isArray(lhs) && isArray(rhs)) {
-    return lhs.every((leftValue, idx) => {
-      const rightValue = rhs[idx];
-      return compareValues(leftValue, rightValue);
-    });
+    if (lhs.length === rhs.length) {
+      return lhs.every((leftValue, idx) => {
+        const rightValue = rhs[idx];
+        return compareValues(leftValue, rightValue);
+      });
+    }
   }
 
   return false;

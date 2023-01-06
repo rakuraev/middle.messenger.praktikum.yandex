@@ -16,6 +16,7 @@ export default function withStore<K extends StateKeys>(...stateKeys: K[]) {
     WrappedBlock: BlockConstructor<any, any>
   ): BlockConstructor<any, any> {
     return class WrappedBlockWithStore extends WrappedBlock {
+      private _onChangeCallback: () => void = () => {};
       constructor(props: P) {
         const state = Store.getState() as State;
         currentState = mapStateToProps(state);
@@ -28,15 +29,16 @@ export default function withStore<K extends StateKeys>(...stateKeys: K[]) {
         if (isEqual(currentState, nextState)) {
           return;
         }
-        this.setState({ ...this.state, ...nextState });
+        this.setProps({ ...this.state, ...nextState });
       }
 
       componentDidInited() {
-        Store.on(StoreEvents.Updated, this._onChangeStoreCallback.bind(this));
+        this._onChangeCallback = this._onChangeStoreCallback.bind(this);
+        Store.on(StoreEvents.Updated, this._onChangeCallback);
       }
 
       componentBeforeUnmount() {
-        Store.off(StoreEvents.Updated, this._onChangeStoreCallback.bind(this));
+        Store.off(StoreEvents.Updated, this._onChangeCallback);
       }
     };
   };

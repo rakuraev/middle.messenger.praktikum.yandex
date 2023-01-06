@@ -3,6 +3,7 @@
 .chats-page {
   height: 100vh;
   overflow: hidden;
+  display: flex;
 
   & .left-panel {
     width: 390px;
@@ -28,7 +29,7 @@
   }
 
   & .users-list {
-    overflow: auto;
+    overflow-y: scroll;
     width: calc(100% + 17px);
     height: calc(100vh - 83px - 73px);
   }
@@ -75,13 +76,19 @@
       background: var(--blue);
       width: 20px;
       height: 20px;
-      font-size: 0.5rem;
       border-radius: 100%;
       font-weight: 500;
       color: var(--white);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      position: relative;
+    }
+    & .user__not-readed-messages-count {
+      display: block;
+      padding-top: 0.05rem;
+      font-size: 0.7rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -91,6 +98,7 @@
 
   & .navigation-bar {
     display: flex;
+    height: 4.625rem;
     justify-content: space-between;
     padding: 15px 50px;
     border-top: 1px solid var(--gray-l);

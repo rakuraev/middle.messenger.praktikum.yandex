@@ -46,12 +46,12 @@ export default class ProfilePage extends Block<
         this.refs.changePasswordMW.showModal();
       },
       backLinkSlot: () => {
-        return `  <div class="profile-page__back-icon">
-                    <div class="profile-page__back-arrow"></div>
-                  </div>`;
+        return `<div class="profile-page__back-icon">
+                 <div class="profile-page__back-arrow"></div>
+                </div>`;
       },
     };
-    this.setState({ ...state, ...props });
+    this.state = { ...props, ...state };
   }
   render() {
     return `<main class="profile-page">

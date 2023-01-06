@@ -22,7 +22,7 @@ export class AuthController {
     try {
       await this.api.signup(signupData);
       await this.getUserInfo();
-      router.go(RoutePaths.Login);
+      router.go(RoutePaths.Chat);
     } catch (e) {
       console.error('Error on signup');
     }

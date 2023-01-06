@@ -3,6 +3,8 @@ export const state: State = {
   isLoading: false,
   chats: [],
   user: null,
+  chatId: 1,
+  chatToken: null,
 };
 
 export enum StateKeys {
@@ -10,4 +12,6 @@ export enum StateKeys {
   IsLoading = 'isLoading',
   Chats = 'chats',
   User = 'user',
+  ChatId = 'chatId',
+  ChatToken = 'chatToken',
 }

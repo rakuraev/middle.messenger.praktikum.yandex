@@ -1,46 +1,41 @@
+import ChatsController from '../../controllers/ChatsController';
 import Block from '../../core/Block/Block';
 import Router from '../../core/Router/Router';
 import withRouter from '../../decorators/withRouter';
 import withStore from '../../decorators/withStore';
+import { StateKeys } from '../../store';
 import './chat.css';
+import './components';
 
+interface ChatState {
+  linkToSettingsSlot: () => string;
+  linkToChatsSlot: () => string;
+  linkToProfileSlot: () => string;
+}
+interface ChatProps {
+  router: Router;
+  chats: PickType<State, StateKeys.Chats>;
+}
 @withRouter
-@withStore()
-class ChatPage extends Block<any, any> {
-  getStateFromProps(): void {
-    this.state = {};
+@withStore(StateKeys.Chats)
+class ChatPage extends Block<ChatState> {
+  getStateFromProps(props: any) {
+    const linkToSettingsSlot = () => `{{{SvgTemplate svgId="profile"}}}`;
+    const linkToChatsSlot = () => `{{{SvgTemplate svgId="chat"}}}`;
+    const linkToProfileSlot = () => `{{{SvgTemplate svgId="settings"}}}`;
+    const state: ChatState = {
+      linkToSettingsSlot,
+      linkToChatsSlot,
+      linkToProfileSlot,
+    };
+    this.state = {
+      ...state,
+      ...props,
+    };
+    setInterval(() => console.log(Object.keys(this.children).length), 1000);
   }
-  private _addLinkListeners(links: NodeListOf<HTMLAnchorElement>) {
-    const router = new Router();
-    links.forEach((link) => {
-      link.onclick = (e) => {
-        e.preventDefault();
-        router.go(link.pathname);
-      };
-    });
-  }
-
-  private _removeLinkListeners(links: NodeListOf<HTMLAnchorElement>) {
-    links.forEach((link) => {
-      link.onclick = () => {};
-    });
-  }
-  componentDidMount(): void {
-    const navLinks: NodeListOf<HTMLAnchorElement> | undefined = document
-      .querySelector('.navigation-bar')
-      ?.querySelectorAll('.navigation-bar__link');
-    if (navLinks) {
-      this._addLinkListeners(navLinks);
-    }
-  }
-
-  componentBeforeUnmount(): void {
-    const navLinks: NodeListOf<HTMLAnchorElement> | undefined = document
-      .querySelector('.navigation-bar')
-      ?.querySelectorAll('.navigation-bar__link');
-    if (navLinks) {
-      this._removeLinkListeners(navLinks);
-    }
+  componentDidMount() {
+    ChatsController.getChatsList();
   }
   render(): string {
     return `<main class="chats-page">
@@ -48,242 +43,24 @@ class ChatPage extends Block<any, any> {
                 <div class="search">
                   <input class="search__input" type="text" />
                 </div>
-                <div class="users-list-container">
-                  <ul class="users-list">
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-                    <li class="user">
-                      <div class="user__img"></div>
-                      <div class="user__user-info">
-                        <div class="user__name">Пинус Августовкий</div>
-                        <div class="user__last-message">И Human Interface Guidelines и Material Design рекомендуют кушать Кузю Ла...</div>
-                      </div>
-                      <div class="user__message-info">
-                        <div class="user__last-time">04:20</div>
-                        <div class="user__not-readed-messages">99</div>
-                      </div>
-                    </li>
-
-                  </ul>
-                </div>
+                {{{ChatList chats=chats}}}
                 <nav class="navigation-bar-container">
                   <ul class="navigation-bar">
                     <li class="navigation-bar__item">
-                      <a class="navigation-bar__link" href="#">
-                        {{{SvgTemplate svgId="profile"}}}
-                      </a>
+                      {{{Link href="#" class="navigation-bar__link" slot=linkToProfileSlot}}}
                     </li>
                     <li class="navigation-bar__item">
-                      <a class="navigation-bar__link" href="#">
-                        {{{SvgTemplate svgId="chat"}}}
-                      </a>
+                      {{{Link href="#" class="navigation-bar__link" slot=linkToChatsSlot}}}
                     </li>
                     <li class="navigation-bar__item">
-                      <a class="navigation-bar__link" href="/settings">
-                        {{{SvgTemplate svgId="settings"}}}
-                      </a>
+                      {{{Link href="/settings"  class="navigation-bar__link" slot=linkToSettingsSlot}}}
                     </li>
                   </ul>
                 </nav>
               </aside>
+              <section class="chat">
+                {{{Chat}}}
+              </section>
             </main>`;
   }
 }

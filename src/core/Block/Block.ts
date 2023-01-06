@@ -97,7 +97,7 @@ export default abstract class Block<P extends object, R = {}> {
     this.componentDidMount(this.props);
   }
 
-  componentDidMount(props: P) {}
+  componentDidMount(props?: P) {}
 
   private _componentDidUnmount() {
     this.getStateFromProps();
@@ -124,8 +124,15 @@ export default abstract class Block<P extends object, R = {}> {
     if (!nextState) {
       return;
     }
-
     Object.assign(this.state, nextState);
+  };
+
+  setProps = (nextProps: Partial<P>) => {
+    if (!nextProps) {
+      return;
+    }
+
+    Object.assign(this.props, nextProps);
   };
 
   private _render() {
@@ -195,14 +202,13 @@ export default abstract class Block<P extends object, R = {}> {
         const value = target[name as keyof P];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      // Так вообще нормально указывать тип для value или есть какой-то более правильный способ?
       set: (target: P, name: string, value: P[keyof P]) => {
         target[name as keyof P] = value;
         this.eventBus.emit(BLOCK_EVENTS.FLOW_UPDATE);
         return true;
       },
       deleteProperty() {
-        throw new Error('Отказано в доступе');
+        throw new Error('access denied');
       },
     });
   }
