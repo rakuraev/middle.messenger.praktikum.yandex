@@ -19,6 +19,9 @@ interface ChatProps {
 @withRouter
 @withStore(StateKeys.Chats)
 class ChatPage extends Block<ChatState> {
+  constructor(props: ChatProps) {
+    super(props);
+  }
   getStateFromProps(props: any) {
     const linkToSettingsSlot = () => `{{{SvgTemplate svgId="profile"}}}`;
     const linkToChatsSlot = () => `{{{SvgTemplate svgId="chat"}}}`;
@@ -32,7 +35,6 @@ class ChatPage extends Block<ChatState> {
       ...state,
       ...props,
     };
-    setInterval(() => console.log(Object.keys(this.children).length), 1000);
   }
   componentDidMount() {
     ChatsController.getChatsList();

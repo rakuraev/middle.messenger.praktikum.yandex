@@ -22,7 +22,9 @@ export default function registerComponent<P extends BlockProps>(
       if (!data.root.refs) {
         data.root.refs = {};
       }
+
       const { children, refs } = data.root;
+
       (Object.keys(hash) as any).forEach((key: keyof BlockProps) => {
         if (this[key] && typeof this[key] === 'string') {
           hash[key] = hash[key].replace(
@@ -31,8 +33,11 @@ export default function registerComponent<P extends BlockProps>(
           );
         }
       });
+
       const component = new Component(hash);
+
       children[component.id] = component;
+
       if (ref) {
         refs[ref] = component;
       }

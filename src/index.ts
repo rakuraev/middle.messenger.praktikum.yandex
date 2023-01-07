@@ -8,12 +8,10 @@ import registerHelpers from './helpers/registerHelpers';
 
 registerComponents();
 registerHelpers();
-// TODO Переделать, так как сначала редерица страница которая в url-e
+const element = document.createElement('div');
+element.innerHTML = svgSprites();
+document.body.appendChild(element);
 new Router('#app').use(routes).start();
-
 window.onload = async () => {
-  const element = document.createElement('div');
-  element.innerHTML = svgSprites();
-  document.body.appendChild(element);
   await checkAuth();
 };

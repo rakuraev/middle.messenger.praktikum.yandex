@@ -1,3 +1,5 @@
+import debounce from '../../utils/debounce';
+
 export class EventBus implements IEventBus {
   protected listeners: Record<string, EventBusListener[]>;
 
@@ -5,11 +7,18 @@ export class EventBus implements IEventBus {
     this.listeners = {};
   }
 
-  on(event: string, listener: EventBusListener) {
+  on(event: string, listener: EventBusListener, options?: IEventBusOnOptions) {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
-    this.listeners[event].push(listener);
+    if (options) {
+      const { delay } = options;
+      if (delay) {
+        this.listeners[event].push(debounce(listener, delay));
+      }
+    } else {
+      this.listeners[event].push(listener);
+    }
   }
 
   off(event: string, listener: EventBusListener) {

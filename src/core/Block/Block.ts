@@ -1,6 +1,8 @@
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import { EventBus } from '../EventBus/EventBus';
+// import { getSameKeysWithNotEqualValue } from '../../utils/getSameKeysWithNotEqualValue';
+// import pick from '../../utils/pick';
 
 const enum BLOCK_EVENTS {
   INIT = 'init',
@@ -8,6 +10,7 @@ const enum BLOCK_EVENTS {
   FLOW_CDM = 'flow:component-did-mount',
   FLOW_RENDER = 'flow:render',
   FLOW_UPDATE = 'flow:component-did-update',
+  FLOW_CHILD_UPDATE = 'flow:component-did-child-update',
   FLOW_CBU = 'flow:component-before-unmount',
   FLOW_CDU = 'flow:component-did-unmounted',
 }
@@ -16,14 +19,15 @@ export interface BlockClass<P extends {}> extends Function {
   componentName?: string;
 }
 
-export type BlockConstructor<P extends {} = {}, R = {}> = new (
+export type BlockConstructor<P extends {} = {}, R extends {} = {}> = new (
   props: P
 ) => Block<P, R>;
 
-export default abstract class Block<P extends object, R = {}> {
+export default abstract class Block<P extends object, R extends {} = {}> {
   private _element: Nullable<HTMLElement>;
   readonly _meta: BlockMeta<P>;
-
+  // parentBlock: Nullable<Block<P, R>> = null;
+  // isInited: boolean = false;
   readonly props: P = {} as P;
 
   // TODO Сделать Приватным
@@ -69,7 +73,8 @@ export default abstract class Block<P extends object, R = {}> {
     this.eventBus.on(BLOCK_EVENTS.FLOW_RENDER, this._render.bind(this));
     this.eventBus.on(
       BLOCK_EVENTS.FLOW_UPDATE,
-      this._componentDidUpdate.bind(this)
+      this._componentDidUpdate.bind(this),
+      { delay: 10 }
     );
     this.eventBus.on(
       BLOCK_EVENTS.FLOW_CBU,
@@ -79,6 +84,10 @@ export default abstract class Block<P extends object, R = {}> {
       BLOCK_EVENTS.FLOW_CDU,
       this._componentDidUnmount.bind(this)
     );
+    // this.eventBus.on(
+    //   BLOCK_EVENTS.FLOW_CHILD_UPDATE,
+    //   this.componentUpdateChild.bind(this)
+    // );
   }
 
   init() {
@@ -112,6 +121,10 @@ export default abstract class Block<P extends object, R = {}> {
 
   componentBeforeUnmount(props: P) {}
 
+  // componentUpdateChild(childId: unknown) {
+  //   console.log(this.children[childId as string]);
+  // }
+
   private _componentDidUpdate() {
     this._render();
   }
@@ -131,36 +144,64 @@ export default abstract class Block<P extends object, R = {}> {
     if (!nextProps) {
       return;
     }
-
     Object.assign(this.props, nextProps);
+    // this.updateChildrenProps();
   };
+
+  // updateChildrenProps() {
+  //   // console.log(this.props);
+  //   Object.entries(this.children).forEach(([childId, childComponent]) => {
+  //     const equalPropsKeysWithNotEqualValue = getSameKeysWithNotEqualValue(
+  //       this.props,
+  //       childComponent.props
+  //     );
+  //     if (equalPropsKeysWithNotEqualValue.length > 0) {
+  //       const nextProps = pick(this.props, equalPropsKeysWithNotEqualValue);
+  //       childComponent.setProps({ ...childComponent.props, ...nextProps });
+  //     }
+  //   });
+  // }
+
+  // private setParent(block: Block<P, R>) {
+  //   this.parentBlock = block;
+  // }
 
   private _render() {
     const fragment = this._compile();
     this._removeEvents();
+    // console.log(fragment.firstElementChild);
     const newElement = fragment.firstElementChild;
     if (newElement instanceof HTMLElement) {
       this._element?.replaceWith(newElement);
     }
     this._element = newElement as HTMLElement;
+    // console.log(this.element);
     this._addEvents();
+    // if (this.parentBlock) {
+    //   this.parentBlock.eventBus.emit(BLOCK_EVENTS.FLOW_CHILD_UPDATE, this.id);
+    // }
   }
 
   private _compile(): DocumentFragment {
     const fragment = document.createElement('template');
     const template = Handlebars.compile(this.render());
-    fragment.innerHTML = template({
+    const htmlString = template({
       ...this.state,
       ...this.props,
       children: this.children,
       refs: this.refs,
     });
+    // this.isInited = true;
+
+    fragment.innerHTML = htmlString;
     Object.entries(this.children).forEach(([id, component]) => {
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);
       if (!stub) {
         return;
       }
       const content = component.getContent();
+      // content?.setAttribute('data-id', id);
+      // component.setParent(this);
       if (content) {
         stub.replaceWith(content);
       }

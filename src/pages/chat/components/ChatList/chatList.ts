@@ -12,18 +12,14 @@ class ChatsList extends Block<ChatListProps> {
       Store.set(StateKeys.ChatId, chatId);
       ChatsController.getChatTokenById(chatId);
     };
-    const chats = props.chats.map((chat: ChatsListData) => ({
-      ...chat,
-      selectChat,
-    }));
-    super({ ...props, chats, selectChat });
+    super({ ...props, selectChat });
   }
 
   render() {
     return `    <div class="users-list-container">
                   <ul class="users-list">
                   {{#each chats}}
-                    {{{ChatListUser onClick=selectChat id=id title=title avatar=avatar unreaded_count=unreaded_count last_message=last_message}}}
+                    {{{ChatListUser onClick=../selectChat id=id title=title avatar=avatar unread_count=unread_count last_message=last_message}}}
                   {{/each}}
                   </ul>
                 </div>`;
