@@ -8,10 +8,13 @@ import registerHelpers from './helpers/registerHelpers';
 
 registerComponents();
 registerHelpers();
-const element = document.createElement('div');
-element.innerHTML = svgSprites();
-document.body.appendChild(element);
-new Router('#app').use(routes).start();
-window.onload = async () => {
+
+(async () => {
+  const element = document.createElement('div');
+  element.innerHTML = svgSprites();
+  document.body.appendChild(element);
+  const router = new Router('#app').use(routes);
+  router.start();
+
   await checkAuth();
-};
+})();

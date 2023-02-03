@@ -20,23 +20,23 @@ export default class ProfilePage extends Block<
   getStateFromProps(props: any) {
     const state: ProfilePageProps = {
       img: {
-        src: () => this.state.user?.avatar || null,
+        src: () => this.props.user?.avatar || null,
         alt: 'Аватар пользователя',
       },
       name: () =>
-        this.state.user
-          ? `${this.state.user?.first_name} ${this.state.user?.second_name}`
+        this.props.user
+          ? `${this.props.user?.first_name} ${this.props.user?.second_name}`
           : ' ',
       profileInfo: [
         {
           label: 'Имя',
-          value: () => this.state.user?.first_name,
+          value: () => this.props.user?.first_name,
         },
-        { label: 'Фамилия', value: () => this.state.user?.second_name },
-        { label: 'Имя в чате', value: () => this.state.user?.display_name },
-        { label: 'Телефон', value: () => this.state.user?.phone },
-        { label: 'Почта', value: () => this.state.user?.email },
-        { label: 'Логин', value: () => this.state.user?.login },
+        { label: 'Фамилия', value: () => this.props.user?.second_name },
+        { label: 'Имя в чате', value: () => this.props.user?.display_name },
+        { label: 'Телефон', value: () => this.props.user?.phone },
+        { label: 'Почта', value: () => this.props.user?.email },
+        { label: 'Логин', value: () => this.props.user?.login },
       ],
 
       onLogout() {

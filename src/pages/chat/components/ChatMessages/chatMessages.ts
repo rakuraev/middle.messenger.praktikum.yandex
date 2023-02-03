@@ -1,15 +1,19 @@
 import Block from '../../../../core/Block/Block';
-import withStore from '../../../../decorators/withStore';
-import { StateKeys } from '../../../../store';
 
-@withStore(StateKeys.ChatToken)
 class ChatMessages extends Block<any> {
   static _name = 'ChatMessages';
-  constructor({ chatId, ...props }: any) {
-    super({ chatId, ...props });
+  constructor(props: any) {
+    super(props);
+  }
+  getStateFromProps(props: any): void {
+    this.state = { ...props };
   }
   render() {
-    return `<div>{{chatToken}}</div>`;
+    return `<div>
+              {{#each allMessages}}
+                <div>{{content}}</div>
+              {{/each}}
+            </div>`;
   }
 }
 

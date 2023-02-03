@@ -1,7 +1,6 @@
 import './login.css';
 import Block from '../../core/Block/Block';
 import validateString, { FormFieldTypes } from '../../utils/validate';
-import withRouter from '../../decorators/withRouter';
 import withStore from '../../decorators/withStore';
 import AuthController from '../../controllers/AuthController';
 import Input from '../../components/Input';
@@ -16,7 +15,6 @@ type LoginPageRefs = {
   login: Input;
   password: Input;
 };
-@withRouter
 @withStore()
 class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
   getStateFromProps() {

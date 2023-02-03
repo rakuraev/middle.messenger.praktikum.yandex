@@ -19,7 +19,6 @@ interface ISignupRef {
   firstName: Input;
   secondName: Input;
 }
-@withRouter
 @withStore()
 export default class SignupPage extends Block<SignupProps, ISignupRef> {
   getStateFromProps(): void {

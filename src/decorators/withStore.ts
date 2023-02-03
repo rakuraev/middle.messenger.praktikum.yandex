@@ -1,4 +1,4 @@
-import type { BlockConstructor } from '../core/Block/Block';
+import type { BlockConstructor, BlockProps } from '../core/Block/Block';
 import Store, { StoreEvents } from '../core/Store';
 import { StateKeys } from '../store';
 import isEqual from '../utils/isEqual';
@@ -12,16 +12,18 @@ export default function withStore<K extends StateKeys>(...stateKeys: K[]) {
 
   let currentState: Pick<State, K>;
 
-  return function withMapStateStore<P extends {}>(
-    WrappedBlock: BlockConstructor<any, any>
-  ): BlockConstructor<any, any> {
+  return function withMapStateStore<P extends BlockProps = any>(
+    WrappedBlock: BlockConstructor<any>
+  ): BlockConstructor<any> {
     return class WrappedBlockWithStore extends WrappedBlock {
       private _onChangeCallback: () => void = () => {};
+
       constructor(props: P) {
         const state = Store.getState() as State;
         currentState = mapStateToProps(state);
         super({ ...props, ...currentState });
       }
+
       private _onChangeStoreCallback() {
         const state = Store.getState() as State;
         const nextState = mapStateToProps(state);

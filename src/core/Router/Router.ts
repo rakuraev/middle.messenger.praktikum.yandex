@@ -69,7 +69,6 @@ class Router {
   }
 
   _onPopState() {
-    console.log(window.location.pathname);
     this._onRoute.bind(this)(window.location.pathname);
   }
 }

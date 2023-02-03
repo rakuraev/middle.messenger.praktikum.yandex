@@ -50,6 +50,7 @@
 }
 
 .messenger .messenger-footer {
+  padding: 0 3rem;
   background: var(--white);
   border: 1px solid var(--gray-l);
   border-left: none;

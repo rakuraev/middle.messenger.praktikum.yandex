@@ -1,14 +1,12 @@
 import Block from '../../../../core/Block/Block';
 import Store from '../../../../core/Store';
-import withStore from '../../../../decorators/withStore';
 import { StateKeys } from '../../../../store';
 import './chat.css';
 
-@withStore(StateKeys.ChatId)
 class Chat extends Block<any> {
   static _name = 'Chat';
 
-  constructor(props) {
+  constructor(props: any) {
     const currentChat = () => {
       const chatId = props.chatId;
       if (chatId) {
@@ -18,7 +16,6 @@ class Chat extends Block<any> {
       }
     };
     super({ ...props, ...currentChat() });
-    console.log(this.state);
   }
   render() {
     return `
@@ -29,8 +26,8 @@ class Chat extends Block<any> {
             <div class="messenger-header__name">{{title}}</div>
             <div class="messenger-header__control"></div>
           </div>
-          <div class="messenger-main">{{{ChatMessages chatId=chatId}}}</div>
-          <div class="messenger-footer"></div>
+          <div class="messenger-main">{{{ChatMessages allMessages=allMessages}}}</div>
+          <div class="messenger-footer">{{{ChatInput onSendMessage=onSendMessage}}}</div>
         </div>
       {{else}}
         <div class="chat__not-selected-message">

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Block from './Block/Block';
+import type { BlockProps } from './Block/Block';
 import Handlebars, { HelperOptions } from 'handlebars';
 
 interface BlockConstructable<P extends BlockProps> {
@@ -33,7 +34,6 @@ export default function registerComponent<P extends BlockProps>(
           );
         }
       });
-
       const component = new Component(hash);
 
       children[component.id] = component;

@@ -35,7 +35,7 @@ export default class Input extends Block<InputProps> {
   }
 
   render() {
-    return `<div class="p-input {{#if isError}}p-input_error{{/if}}">
+    return `<div class="p-input {{#if isError}}p-input_error{{/if}} {{class}}">
               <input
                 class="p-input__input"
                 type="{{type}}"
@@ -45,9 +45,11 @@ export default class Input extends Block<InputProps> {
                 autocomplete="{{autocomplete}}"
                 placeholder=" "
               />
+              {{#if placeholder}}
               <label class="p-input__label" for="{{id}}">
                 {{placeholder}}
               </label>
+              {{/if}}
               <span class="p-input__error-message">{{errorMessage}}</span>
             </div>`;
   }

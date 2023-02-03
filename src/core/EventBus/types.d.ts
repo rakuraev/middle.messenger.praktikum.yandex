@@ -5,7 +5,3 @@ interface IEventBus {
   off(event: string, listener: EventBusListener);
   emit(event: string, ...args: ?unknown[]);
 }
-
-interface IEventBusOnOptions {
-  delay: number;
-}

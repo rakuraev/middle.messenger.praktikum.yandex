@@ -9,7 +9,7 @@ type RouteProps = {
 class Route {
   private _path: string;
   private _blockClass: BlockClass<any>;
-  private _block: Nullable<InstanceType<BlockClass<any>>>;
+  #block: Nullable<InstanceType<BlockClass<any>>>;
   private _props: any;
   public withAuth: boolean;
   constructor(page: Routes, props: RouteProps) {
@@ -17,7 +17,7 @@ class Route {
     this._path = path;
     this.withAuth = withAuth || false;
     this._blockClass = component;
-    this._block = null;
+    this.#block = null;
     this._props = props;
   }
 
@@ -29,8 +29,8 @@ class Route {
   }
 
   leave() {
-    if (this._block) {
-      this._block.hide();
+    if (this.#block) {
+      this.#block.hide();
     }
   }
 
@@ -39,8 +39,8 @@ class Route {
   }
 
   render() {
-    this._block = new this._blockClass({});
-    renderDOM(this._block, this._props.rootQuery);
+    this.#block = new this._blockClass({});
+    renderDOM(this.#block, this._props.rootQuery);
   }
 }
 

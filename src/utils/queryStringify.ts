@@ -24,7 +24,6 @@ function queryStringify(data: PlainObject | unknown[]): string {
 
   function queryValues(map: Map<string, unknown>, accKey?: string) {
     const result: string[] = [];
-    console.log(accKey);
     map.forEach((value, key: string) => {
       if (isMap(value)) {
         if (accKey) {

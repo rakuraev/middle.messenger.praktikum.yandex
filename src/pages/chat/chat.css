@@ -8,6 +8,7 @@
   & .left-panel {
     width: 390px;
     display: flex;
+    flex-shrink: 0;
     flex-direction: column;
     border-right: 1px solid var(--gray-l);
   }

@@ -17,6 +17,7 @@ class ChatsController {
 
   async getChatTokenById(chatId: number) {
     try {
+      Store.set(StateKeys.ChatToken, null);
       const data = await this.api.getChatTokenById(chatId);
       Store.set(StateKeys.ChatToken, data.token);
     } catch (e) {

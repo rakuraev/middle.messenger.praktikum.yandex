@@ -3,7 +3,7 @@ export const state: State = {
   isLoading: false,
   chats: [],
   user: null,
-  chatId: 1,
+  chatId: null,
   chatToken: null,
 };
 

@@ -1,0 +1,9 @@
+.chat-input {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.chat-input .chat-input__input {
+  flex-grow: 1;
+}
