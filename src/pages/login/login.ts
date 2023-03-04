@@ -1,9 +1,9 @@
 import './login.css';
-import Block from '../../core/Block/Block';
-import validateString, { FormFieldTypes } from '../../utils/validate';
-import withStore from '../../decorators/withStore';
-import AuthController from '../../controllers/AuthController';
-import Input from '../../components/Input';
+import { AuthController } from 'entities/Auth';
+import { Block } from 'shared/lib/core';
+import { withStore } from 'shared/lib/decorators';
+import validateString, { FormFieldTypes } from 'shared/lib/validate';
+import Input from 'shared/ui/Input';
 
 type LoginPageProps = {
   router?: IRouter;
@@ -94,6 +94,7 @@ class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
     };
     this.state = state;
   }
+
   render() {
     return `
         <main class="login-page">

@@ -1,11 +1,10 @@
-import Block from '../../core/Block/Block';
+import { AuthController } from 'entities/Auth';
+import { StateKeys } from 'shared/config';
+import { Block } from 'shared/lib/core';
+import { withRouter, withStore } from 'shared/lib/decorators';
+import { ChangePassword } from './components';
 import './profile.css';
 import './components';
-import AuthController from '../../controllers/AuthController';
-import withRouter from '../../decorators/withRouter';
-import withStore from '../../decorators/withStore';
-import { StateKeys } from '../../store';
-import ChangePassword from './components/changePassword/changePassword';
 
 type ProfilePageRef = {
   changePasswordMW: ChangePassword;
@@ -53,6 +52,7 @@ export default class ProfilePage extends Block<
     };
     this.state = { ...props, ...state };
   }
+
   render() {
     return `<main class="profile-page">
               <nav class="profile-page__back">

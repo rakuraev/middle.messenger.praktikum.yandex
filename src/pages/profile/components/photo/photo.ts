@@ -1,6 +1,6 @@
-import { API_BASE_URL_RES } from '../../../../api/BaseApi';
-import UserController from '../../../../controllers/UserController';
-import Block from '../../../../core/Block/Block';
+import { UserController } from 'entities/User';
+import { API_BASE_URL_RES } from 'shared/config';
+import { Block } from 'shared/lib/core';
 import './photo.css';
 
 export default class Photo extends Block<PhotoProps> {

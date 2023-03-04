@@ -1,13 +1,12 @@
-import Input from '../../components/Input';
-import AuthController from '../../controllers/AuthController';
-import Block from '../../core/Block/Block';
-import omit from '../../utils/omit';
+import { AuthController } from 'entities/Auth';
+import { Block } from 'shared/lib/core';
+import { withStore } from 'shared/lib/decorators';
+import { omit } from 'shared/lib/tipa-lodash';
 import validateString, {
   FormFieldTypes,
   validateIsSame,
-} from '../../utils/validate';
-import withRouter from '../../decorators/withRouter';
-import withStore from '../../decorators/withStore';
+} from 'shared/lib/validate';
+import Input from 'shared/ui/Input';
 import './signup.css';
 
 interface ISignupRef {
@@ -155,7 +154,7 @@ export default class SignupPage extends Block<SignupProps, ISignupRef> {
         };
         state.signupFields.forEach((field) => {
           const fieldId = field.id as SignupFieldsId;
-          if ('isValid' in validatedFields?.[fieldId]) {
+          if ('isValid' in validatedFields[fieldId]) {
             if (!validatedFields?.[fieldId].isValid) {
               this.refs[fieldId].setError(validatedFields[fieldId].message);
             }

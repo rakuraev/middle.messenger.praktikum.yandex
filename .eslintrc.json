@@ -5,18 +5,30 @@
   },
   "extends": [
     "eslint:recommended",
-    "prettier/@typescript-eslint",
+    "prettier",
     "airbnb-typescript/base",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "@feature-sliced"
   ],
   "parser": "@typescript-eslint/parser",
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
   "parserOptions": {
     "ecmaVersion": 8,
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["prettier", "@typescript-eslint"],
   "rules": {
+    "indent": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-shadow": "off",
     "no-underscore-dangle": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",

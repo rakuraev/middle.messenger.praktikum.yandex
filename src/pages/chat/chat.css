@@ -1,4 +1,4 @@
-@import 'variables/variables.css';
+@import 'vars';
 
 .chats-page {
   height: 100vh;
@@ -56,9 +56,19 @@
       color: var(--black-l);
     }
 
+    & .user__user-info {
+      flex-grow: 1;
+    }
+
     & .user__last-message {
+      /* white-space: nowrap; */
       color: var(--gray-m);
       font-size: 0.8rem;
+      overflow: hidden;
+      display: -webkit-box;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
     & .user__message-info {

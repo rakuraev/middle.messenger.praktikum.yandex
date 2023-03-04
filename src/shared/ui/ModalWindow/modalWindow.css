@@ -1,0 +1,30 @@
+@import 'vars';
+
+.modal-window {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #0000001a;
+  backdrop-filter: blur(7px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, visibility 0s 0.2s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.modal-window_show {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s, visibility 0s;
+}
+
+.modal-window__content {
+  padding: 2.5rem 1.875rem;
+  min-width: 15rem;
+  background: var(--white);
+  border-radius: 0.75rem;
+}

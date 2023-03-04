@@ -1,4 +1,4 @@
-@import 'variables/variables.css';
+@import 'vars';
 
 .login-page {
   height: 100%;

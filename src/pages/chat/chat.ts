@@ -1,11 +1,10 @@
-import ChatsController from '../../controllers/ChatsController';
-import WSChatsController from '../../controllers/WSChatController/WSChatController';
-import Block from '../../core/Block/Block';
-import Router from '../../core/Router/Router';
-import withStore from '../../decorators/withStore';
-import { StateKeys } from '../../store';
+import { ChatController, WSChatController } from 'entities/Chat';
+import { StateKeys } from 'shared/config';
+import { Block } from 'shared/lib/core';
+import { Router } from 'shared/lib/core';
+import { withStore } from 'shared/lib/decorators';
 import './chat.css';
-import './components';
+import './ui';
 
 interface ChatState extends ChatProps {
   allMessages: any[];
@@ -20,21 +19,22 @@ interface ChatProps {
   chats: PickType<State, StateKeys.Chats>;
   chatToken: PickType<State, StateKeys.ChatToken>;
   chatId: PickType<State, StateKeys.ChatId>;
-  ws: WSChatsController;
+  ws: WSChatController;
 }
 
 @withStore(StateKeys.Chats, StateKeys.ChatToken, StateKeys.ChatId)
 class ChatPage extends Block<ChatState> {
-  constructor(props: ChatState) {
-    super(props);
-  }
+  // constructor(props: ChatState) {
+  //   super(props);
+  // }
+
   getStateFromProps(props: ChatState) {
     const allMessages: any[] = [];
-    const linkToSettingsSlot = () => `{{{SvgTemplate svgId="profile"}}}`;
+    const linkToSettingsSlot = () => '{{{SvgTemplate svgId="profile"}}}';
 
-    const linkToChatsSlot = () => `{{{SvgTemplate svgId="chat"}}}`;
+    const linkToChatsSlot = () => '{{{SvgTemplate svgId="chat"}}}';
 
-    const linkToProfileSlot = () => `{{{SvgTemplate svgId="settings"}}}`;
+    const linkToProfileSlot = () => '{{{SvgTemplate svgId="settings"}}}';
 
     const onSendMessage = (text: string) => {
       if (this.props.ws?.isConnected()) {
@@ -62,12 +62,14 @@ class ChatPage extends Block<ChatState> {
       ...props,
     };
   }
+
   componentDidMount() {
-    ChatsController.getChatsList();
-    this.props.ws = new WSChatsController(
+    ChatController.getChatsList();
+    this.props.ws = new WSChatController(
       this.state.onSetMessages as EventBusListener
     );
   }
+
   componentDidUpdate(props: ChatProps): void {
     const { chatId, chatToken } = props;
     if (chatId && chatToken && this.props.ws?.isNewChat(chatToken, chatId)) {
@@ -77,6 +79,7 @@ class ChatPage extends Block<ChatState> {
       this.props.ws?.connect(chatToken, chatId);
     }
   }
+
   render(): string {
     return `<main class="chats-page">
               <aside class="left-panel">

@@ -1,4 +1,4 @@
-@import 'variables/variables.css';
+@import 'vars';
 
 .photo-wrapper {
   height: 130px;

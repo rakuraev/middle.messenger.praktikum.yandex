@@ -1,9 +1,7 @@
-import Input from '../../../../components/Input';
-import ModalWindow, {
-  MWProps,
-} from '../../../../components/ModalWindow/ModalWindow';
-import UserController from '../../../../controllers/UserController';
-import validateString, { FormFieldTypes } from '../../../../utils/validate';
+import { UserController } from 'entities/User';
+import validateString, { FormFieldTypes } from 'shared/lib/validate';
+import Input from 'shared/ui/Input';
+import ModalWindow, { MWProps } from 'shared/ui/ModalWindow';
 import './changePassword.css';
 
 type ChangePasswordFielsId = 'oldPassword' | 'newPassword';
@@ -20,6 +18,7 @@ export default class ChangePassword extends ModalWindow<
   IChangePasswordChange
 > {
   static _name = 'ChangePassword';
+
   constructor() {
     const className = ['change-password-mw'];
     super({ className });
@@ -108,6 +107,7 @@ export default class ChangePassword extends ModalWindow<
           try {
             await UserController.updatePassword(inputValues);
           } catch (e) {
+            console.error(e);
           } finally {
             this.refs.newPassword.clearValue();
             this.refs.oldPassword.clearValue();
@@ -118,6 +118,7 @@ export default class ChangePassword extends ModalWindow<
     };
     this.setState(state);
   }
+
   render() {
     const content = `<div class="change-password-mw">
           <div>Замена пароля</div>
