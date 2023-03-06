@@ -24,7 +24,8 @@ class UserController {
       Store.set(StateKeys.User, data);
     } catch (e) {
       console.error('Error on change avatar');
-      throw e;
+      const reason = (e as XMLHttpRequest)?.response?.reason;
+      throw reason;
     }
   }
 }

@@ -5,6 +5,11 @@ import { Store } from 'shared/lib/core';
 
 interface ChatListState {}
 
+interface ChatListProps {
+  chats: PickType<State, StateKeys.Chats>;
+  chatId: PickType<State, StateKeys.ChatId>;
+  selectChat: (chatId: number) => void;
+}
 class ChatList extends Block<ChatListProps> {
   static _name = 'ChatList';
 
@@ -20,7 +25,7 @@ class ChatList extends Block<ChatListProps> {
     return `    <div class="users-list-container">
                   <ul class="users-list">
                   {{#each chats}}
-                    {{{ChatListUser onClick=../selectChat id=id title=title avatar=avatar unread_count=unread_count last_message=last_message}}}
+                    {{{ChatListUser onClick=../selectChat id=id title=title avatar=avatar unread_count=unread_count last_message=last_message chatId=../ chatId}}}
                   {{/each}}
                   </ul>
                 </div>`;

@@ -2,10 +2,12 @@ import './login.css';
 import { AuthController } from 'entities/Auth';
 import { Block } from 'shared/lib/core';
 import { withStore } from 'shared/lib/decorators';
+import { Toast, useToast } from 'shared/lib/toast';
 import validateString, { FormFieldTypes } from 'shared/lib/validate';
 import Input from 'shared/ui/Input';
 
 type LoginPageProps = {
+  toast: Toast;
   router?: IRouter;
   loginFields: LoginFields;
   onLogin: () => void;
@@ -18,6 +20,7 @@ type LoginPageRefs = {
 @withStore()
 class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
   getStateFromProps() {
+    const toast = useToast;
     const onFocus = (event: Event) => {
       const id = (event.target as HTMLInputElement).id as LoginFieldsId;
       this.refs[id].hideError();
@@ -34,6 +37,7 @@ class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
       }
     };
     const state: LoginPageProps = {
+      toast,
       loginFields: [
         {
           placeholder: 'Логин',
@@ -58,7 +62,7 @@ class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
           onBlur,
         },
       ],
-      onLogin: () => {
+      onLogin: async () => {
         const inputValues: SigninData = {
           login: this.refs.login.getValue(),
           password: this.refs.password.getValue(),
@@ -88,7 +92,14 @@ class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
         });
         const isFormValid = nextInputFields.some((field) => !field.isError);
         if (isFormValid) {
-          AuthController.signin(inputValues);
+          try {
+            await AuthController.signin(inputValues);
+            this.state.toast.success('Успешная авторизация');
+          } catch (reason: unknown) {
+            if (typeof reason === 'string') {
+              this.state.toast.error(reason);
+            }
+          }
         }
       },
     };
@@ -97,6 +108,7 @@ class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
 
   render() {
     return `
+    {{#Layout}}
         <main class="login-page">
           <section class="login-form__wrapper">
             <form class="login-form">
@@ -108,7 +120,8 @@ class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
               {{{RouterLink href="/signup" label="Нет акаунта?" class="login-form__registration-link"}}}
             </form>
           </section>
-        </main>`;
+        </main>
+    {{/Layout}}`;
   }
 }
 

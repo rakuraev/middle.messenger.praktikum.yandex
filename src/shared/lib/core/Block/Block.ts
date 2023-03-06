@@ -172,7 +172,6 @@ export abstract class Block<
       children: this.children,
       refs: this.refs,
     });
-
     fragment.innerHTML = htmlString;
     Object.entries(this.children).forEach(([id, component]) => {
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);
@@ -183,6 +182,14 @@ export abstract class Block<
 
       if (content) {
         stub.replaceWith(content);
+      }
+      const stubChilds = stub.childNodes.length ? stub.childNodes : [];
+      if (content) {
+        const layoutContent =
+          fragment.content.querySelector('[layout-content]');
+        if (layoutContent && stubChilds.length) {
+          layoutContent.append(...stubChilds);
+        }
       }
     });
 

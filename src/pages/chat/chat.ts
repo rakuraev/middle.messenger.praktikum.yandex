@@ -81,17 +81,16 @@ class ChatPage extends Block<ChatState> {
   }
 
   render(): string {
-    return `<main class="chats-page">
+    return `
+          {{#Layout}}
+            <main class="chats-page">
               <aside class="left-panel">
                 <div class="search">
                   <input class="search__input" type="text" />
                 </div>
-                {{{ChatList chats=chats}}}
+                {{{ChatList chats=chats chatId=chatId}}}
                 <nav class="navigation-bar-container">
                   <ul class="navigation-bar">
-                    <li class="navigation-bar__item">
-                      {{{Link href="#" class="navigation-bar__link" slot=linkToProfileSlot}}}
-                    </li>
                     <li class="navigation-bar__item">
                       {{{Link href="#" class="navigation-bar__link" slot=linkToChatsSlot}}}
                     </li>
@@ -104,7 +103,8 @@ class ChatPage extends Block<ChatState> {
               <section class="chat">
                 {{{Chat chatId=chatId onSendMessage=onSendMessage allMessages=allMessages}}}
               </section>
-            </main>`;
+            </main>
+          {{/Layout}}`;
   }
 }
 

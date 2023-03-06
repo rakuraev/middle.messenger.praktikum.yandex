@@ -1,13 +1,23 @@
-import { Routes } from '../../pages/router';
 import { Route } from 'shared/lib/core';
+import { BlockClass } from 'shared/lib/core';
 
+export type RouteSignature = {
+  path: string;
+  component: BlockClass;
+  withAuth?: boolean;
+};
 export class Router {
   private static __instance: Router;
+
   routes: Route[] = [];
+
   history: any;
+
   private _currentRoute: Nullable<Route> = null;
-  private _rootQuery: string = '';
-  constructor(rootQuery: string = '#app') {
+
+  private _rootQuery: string | undefined;
+
+  constructor(rootQuery = '#app') {
     if (Router.__instance) {
       return Router.__instance;
     }
@@ -19,7 +29,7 @@ export class Router {
     Router.__instance = this;
   }
 
-  use(routes: Routes[]) {
+  use(routes: RouteSignature[]) {
     routes.forEach((route) => {
       this.routes.push(new Route(route, { rootQuery: this._rootQuery }));
     });
@@ -64,6 +74,7 @@ export class Router {
   getCurrentRoute() {
     return this._currentRoute;
   }
+
   _registerHistoryListener() {
     window.onpopstate = this._onPopState.bind(this);
   }

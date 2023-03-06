@@ -15,7 +15,8 @@ export class AuthController {
       router.go(RoutePaths.Chat);
     } catch (e) {
       console.error('Error on signin');
-      throw e;
+      const reason = (e as XMLHttpRequest)?.response?.reason;
+      throw reason;
     }
   }
 

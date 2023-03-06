@@ -1,6 +1,5 @@
-import isEqual from './tipa-lodash/isEqual';
-import isArrayOrObject from './typeguards/isArrayOrObject';
-import isPlainObject from './typeguards/isPlainObject';
+import { isEqual } from './tipa-lodash';
+import { isPlainObject, isArrayOrObject } from './typeguards';
 
 export function getSameKeysWithNotEqualValue(
   lhs: Record<string, unknown>,

@@ -1,9 +1,10 @@
 import registerComponent from 'shared/lib/registerComponents';
-import Input from './Input';
 import Button from './Button';
+import Input from './Input';
+import { Layout } from './Layout';
+import { Link, RouterLink } from './Link';
 import SvgTemplate from './SvgTemplate';
-import Link from './Link/link';
-import RouterLink from './Link/routerLink';
+import { ToastComponent } from './Toast';
 
 export default () => {
   registerComponent(Input);
@@ -11,6 +12,7 @@ export default () => {
   registerComponent(SvgTemplate);
   registerComponent(Link);
   registerComponent(RouterLink);
+  registerComponent(Layout);
 };
 
-export { Input, Button };
+export { Input, Button, ToastComponent };

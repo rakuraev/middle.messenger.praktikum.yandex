@@ -1,14 +1,8 @@
-import { BlockClass } from 'shared/lib/core';
+import { RouteSignature } from 'shared/lib/core';
 import Chat from './chat';
 import Login from './login';
 import Profile from './profile';
 import Signup from './signup';
-
-export type Routes = {
-  path: string;
-  component: BlockClass;
-  withAuth?: boolean;
-};
 
 export enum RoutePaths {
   Login = '/',
@@ -17,7 +11,7 @@ export enum RoutePaths {
   Profile = '/settings',
 }
 
-export const routes: Routes[] = [
+export const routes: RouteSignature[] = [
   {
     path: RoutePaths.Login,
     component: Login,

@@ -54,7 +54,9 @@ export default class ProfilePage extends Block<
   }
 
   render() {
-    return `<main class="profile-page">
+    return `
+            {{#Layout}}
+            <main class="profile-page">
               <nav class="profile-page__back">
               {{{Link href="/messenger" class="profile-page__link" slot=backLinkSlot}}}
               </nav>
@@ -87,6 +89,7 @@ export default class ProfilePage extends Block<
               </section>
                  {{{ChangePassword ref="changePasswordMW"}}}
               </main>
+            {{/Layout}}
             `;
   }
 }
