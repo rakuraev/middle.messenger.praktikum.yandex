@@ -1,5 +1,5 @@
 import { Block } from 'shared/lib/core';
-import './ModalWindow.css';
+import './modalWindow.css';
 
 export type MWProps = {
   className: string[];
