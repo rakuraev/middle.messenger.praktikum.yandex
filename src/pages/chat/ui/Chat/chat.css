@@ -42,9 +42,6 @@
     font-weight: 600;
     color: var(--gray-d);
   }
-
-  & .messenger-header__control {
-  }
 }
 
 .messenger .messenger-footer {

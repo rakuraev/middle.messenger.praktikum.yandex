@@ -49,6 +49,23 @@
     align-items: center;
   }
 
+  & .profile-info__change-info .profile-info__item {
+    border-bottom: 1px solid var(--gray-s-l);
+    cursor: pointer;
+    color: var(--blue);
+    display: flex;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    & .profile-info__item-link {
+      padding: 10px 0;
+      color: var(--blue);
+      flex-grow: 1;
+    }
+  }
+
   & .profile-info__wrapper {
     flex-grow: 1;
     display: flex;
@@ -95,23 +112,6 @@
         &:last-child {
           border-bottom: none;
         }
-      }
-    }
-
-    & .profile-info__change-info .profile-info__item {
-      border-bottom: 1px solid var(--gray-s-l);
-      cursor: pointer;
-      color: var(--blue);
-      display: flex;
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      & .profile-info__item-link {
-        padding: 10px 0;
-        color: var(--blue);
-        flex-grow: 1;
       }
     }
 
