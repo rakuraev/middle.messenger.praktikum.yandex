@@ -76,7 +76,7 @@ export class ModalWindow extends Block<IMWState> {
   }
 
   render() {
-    return `<div class="modal-window" teleport="#app">
+    return `<div class="modal-window" teleport="body">
               <div class="modal-window__content" slot>
               </div>
             </div>`;

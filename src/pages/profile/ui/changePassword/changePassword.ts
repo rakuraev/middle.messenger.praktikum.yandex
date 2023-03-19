@@ -86,7 +86,7 @@ export default class ChangePassword extends Block<
         const validatedFields: Record<string, ValidateOutput> = {
           newPassword: validateString(
             inputValues.newPassword,
-            FormFieldTypes.login
+            FormFieldTypes.password
           ),
           oldPassword: validateString(
             inputValues.oldPassword,
@@ -134,7 +134,7 @@ export default class ChangePassword extends Block<
     return `
           {{#ModalWindow className=className ref="modalWindow"}}
               <div class="change-password-mw">
-                  <div>Замена пароля</div>
+                  <div class="change-password-mw__title">Замена пароля</div>
                   {{#each changePasswordFields}}
                         {{{Input placeholder=placeholder id=id validateType=validateType type=type errorMessage=errorMessage isError=isError value=value ref=id onFocus=onFocus onBlur=onBlur autocomplete=autocomplete}}}
                   {{/each}}

@@ -1,19 +1,27 @@
-import { Block } from 'shared/lib/core';
+import { ChatEventBusEvents } from 'pages/chat/chat';
+import { WSChatController } from 'entities/Chat';
+import { Block, EventBus } from 'shared/lib/core';
 import { Input } from 'shared/ui';
 import './chat-input.css';
-interface IChatRef {
+interface IChatInputRef {
   chatInput: Input;
 }
-class ChatInput extends Block<any, IChatRef> {
+
+interface IChatInputProps {
+  ChatEventBus: EventBus;
+  ws: WSChatController;
+  onSend: () => void;
+}
+class ChatInput extends Block<IChatInputProps, IChatInputRef> {
   static _name = 'ChatInput';
 
-  constructor({ onSendMessage, ...props }: any) {
+  constructor(props: IChatInputProps) {
     const onSend = () => {
       const text = this.refs.chatInput.getValue();
-      onSendMessage(text);
+      props.ChatEventBus.emit(ChatEventBusEvents.SEND_NEW_MESSAGE, text);
       this.refs.chatInput.clearValue();
     };
-    super({ onSend, ...props });
+    super({ ...props, onSend });
   }
 
   render(): string {

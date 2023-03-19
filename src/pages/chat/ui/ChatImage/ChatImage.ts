@@ -23,7 +23,6 @@ export class ChatImage extends Block<IChatImageProps> {
   }
 
   onLoad = () => {
-    console.log('pisya');
     this.showImage();
   };
 

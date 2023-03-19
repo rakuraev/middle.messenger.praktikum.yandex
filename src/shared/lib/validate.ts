@@ -7,6 +7,7 @@ export enum FormFieldTypes {
   'secondName',
   'email',
   'repeatPassword',
+  'displayName',
 }
 
 const VALIDATORS_REG_EXP: Record<string, RegExp> = {

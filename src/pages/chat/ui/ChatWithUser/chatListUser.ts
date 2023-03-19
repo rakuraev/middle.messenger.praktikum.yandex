@@ -1,7 +1,8 @@
 import { Block } from 'shared/lib/core';
 interface ChatListUserProps extends ChatsListData {
   chatId: number;
-  onClick: () => void;
+  isActiveChat: boolean;
+  onClick: (chatId: number) => void;
 }
 
 class ChatListUser extends Block<any> {
@@ -9,10 +10,17 @@ class ChatListUser extends Block<any> {
 
   constructor({ onClick, ...props }: ChatListUserProps) {
     const isActiveChat = props.chatId === props.id;
+
+    const onPickChat = () => {
+      if (isActiveChat) {
+        return;
+      }
+      onClick(props.id);
+    };
     super({
       ...props,
       isActiveChat,
-      events: { click: onClick.bind(null, props.id) },
+      events: { click: onPickChat },
     });
   }
 

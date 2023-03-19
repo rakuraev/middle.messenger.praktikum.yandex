@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Web-application \"chat\"",
   "scripts": {
-    "dev": "parcel --port 3001",
+    "dev": "parcel --port 3000",
     "build": "rimraf dist && parcel build index.html",
     "start:express": "cd server && node index.js",
     "types": "tsc --noEmit",

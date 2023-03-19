@@ -68,21 +68,15 @@ export class AddFile extends Block<IAddFileProps, IAddFileRefs> {
     uploadFile(UploadFileMIMETypes.MEDIA, this.onInput.bind(this));
   }
 
-  addFile() {
-    uploadFile(UploadFileMIMETypes.ALL, this.onInput.bind(this));
-  }
-
   async onInput(event: Event) {
     const file = (event?.target as HTMLInputElement)?.files?.[0];
     if (file) {
       try {
         const res = await ResourcesController.uploadFile(file);
-        console.log(res);
         if (this.state.ws.isConnected() && res) {
           this.state.ws.sendFile(res.id.toString());
         }
       } catch (error) {
-        console.log(error);
         const reason = (error as XMLHttpRequest)?.response?.reason;
         if (reason) {
           this.state.toast.error(reason);

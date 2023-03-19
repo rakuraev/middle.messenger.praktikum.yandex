@@ -1,13 +1,17 @@
 export class EventBus implements IEventBus {
   protected listeners: Record<string, EventBusListener[]>;
 
-  isDestroyed = false;
+  private _isDestroyed = false;
 
   constructor() {
     this.listeners = {};
   }
 
   public on(event: string, listener: EventBusListener) {
+    if (this._isDestroyed) {
+      throw new Error('Братанчик, я умер, оставь меня в покое 🥲');
+    }
+
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -25,7 +29,7 @@ export class EventBus implements IEventBus {
   }
 
   public emit(event: string, ...args: unknown[]) {
-    if (this.isDestroyed) return;
+    if (this._isDestroyed) return;
     if (!this.listeners[event]) {
       throw new Error(`Нет такого события "${event}"`);
     }
@@ -36,6 +40,6 @@ export class EventBus implements IEventBus {
 
   public destroy() {
     this.listeners = {};
-    this.isDestroyed = true;
+    this._isDestroyed = true;
   }
 }

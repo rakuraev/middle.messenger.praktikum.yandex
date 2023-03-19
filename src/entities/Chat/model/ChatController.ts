@@ -8,7 +8,6 @@ class ChatsController {
   async getChatsList() {
     try {
       const data = await this.api.getChats();
-      // const data: [] = [];
       Store.set(StateKeys.Chats, data);
     } catch (e) {
       console.error('Error on fetch Chats');
@@ -41,6 +40,18 @@ class ChatsController {
   async deleteUsersFromChat(users: number[], chatId: number) {
     try {
       await this.api.deleteUsersToChat(users, chatId);
+    } catch (error) {
+      console.log('Error on delete users to chat');
+      if ((error as XMLHttpRequest)?.response?.reason) {
+        throw (error as XMLHttpRequest).response.reason;
+      }
+    }
+  }
+
+  async createChat(title: string) {
+    try {
+      await this.api.createChat({ title });
+      await this.getChatsList();
     } catch (error) {
       console.log('Error on delete users to chat');
       if ((error as XMLHttpRequest)?.response?.reason) {

@@ -9,6 +9,7 @@
 }
 
 .chat-messages__spinner {
+  color: var(--gray-m);
   position: sticky;
   top: 50%;
   display: flex;
@@ -23,8 +24,10 @@
 }
 
 .chat-messages__content {
+  min-height: calc(100% - 1.25rem);
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   gap: 0.625rem;
   opacity: 1;
   transition: opacity 0.1s ease-in;

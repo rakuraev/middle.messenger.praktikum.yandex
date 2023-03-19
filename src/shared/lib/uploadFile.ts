@@ -1,6 +1,5 @@
 export enum UploadFileMIMETypes {
-  MEDIA = 'image/*, video/*',
-  ALL = '*',
+  MEDIA = 'image/*',
 }
 
 export const uploadFile = (

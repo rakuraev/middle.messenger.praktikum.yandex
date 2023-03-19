@@ -216,7 +216,7 @@ export abstract class Block<
           slot.removeAttribute('slot');
           slot.append(...slotNodes);
         }
-        // Телепорт
+        // Телепорт (Багованый 🥲 не работает если атрибут телепорт на родительском элементе)
         const elementToTeleport = content.querySelector('[teleport]');
         if (elementToTeleport) {
           const teleportQuery = elementToTeleport.getAttribute('teleport');
@@ -226,25 +226,9 @@ export abstract class Block<
             ) as Nullable<HTMLElement>;
             if (teleportTarget) {
               elementToTeleport.remove();
-              elementToTeleport.removeAttribute('teleport');
               teleportTarget.append(elementToTeleport);
             }
           }
-        } else {
-          // TODO телепорт для root атрибута
-          // const isContentToTeleport = content.hasAttribute('teleport');
-          // if (isContentToTeleport) {
-          //   const teleportQuery = content.getAttribute('teleport') as string;
-          //   const teleportTarget = document.querySelector(
-          //     teleportQuery
-          //   ) as Nullable<HTMLElement>;
-          //   if (teleportTarget) {
-          //     content.removeAttribute('teleport');
-          //     teleportTarget.append(content);
-          //   }
-          //   content.removeAttribute('teleport');
-          //   return;
-          // }
         }
         stub.replaceWith(content);
       }
@@ -341,7 +325,6 @@ export abstract class Block<
   private _destroyAllChildrens() {
     Object.entries(this.children).forEach(([componentId, component]) => {
       component.hide();
-      // component.destroySelf();
       delete this.children[componentId];
     });
   }

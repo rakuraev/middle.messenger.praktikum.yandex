@@ -2,12 +2,13 @@ import { AuthController } from 'entities/Auth';
 import { StateKeys } from 'shared/config';
 import { Block } from 'shared/lib/core';
 import { withRouter, withStore } from 'shared/lib/decorators';
-import { ChangePassword } from './components';
+import { ChangePassword, ChangeProfileData } from './ui';
 import './profile.css';
-import './components';
+import './ui';
 
 type ProfilePageRef = {
   changePasswordMW: ChangePassword;
+  changeProfileDataMW: ChangeProfileData;
 };
 
 @withRouter
@@ -46,10 +47,9 @@ export default class ProfilePage extends Block<
       changePassword: () => {
         this.refs.changePasswordMW.showModal();
       },
-      backLinkSlot: () => {
-        return `<div class="profile-page__back-icon">
-                 <div class="profile-page__back-arrow"></div>
-                </div>`;
+      changeProfileData: () => {
+        console.log(this.refs);
+        this.refs.changeProfileDataMW.showModal();
       },
     };
     this.state = { ...props, ...state };
@@ -60,7 +60,11 @@ export default class ProfilePage extends Block<
             {{#Layout}}
             <main class="profile-page">
               <nav class="profile-page__back">
-              {{{Link href="/messenger" class="profile-page__link" slot=backLinkSlot}}}
+              {{#Link href="/messenger" class="profile-page__link"}}
+                <div class="profile-page__back-icon">
+                 <div class="profile-page__back-arrow"></div>
+                </div>
+              {{/Link}}
               </nav>
               <section class="profile-info__wrapper">
                 <div class="profile-info">
@@ -78,7 +82,7 @@ export default class ProfilePage extends Block<
                   </ul>
                   <ul class="profile-info__change-info">
                     <li class="profile-info__item">
-                      <a class="profile-info__item-link" href="#">Изменить данные</a>
+                      {{{Link href="/" label="Изменить данные" class="profile-info__item-link" onClick=changeProfileData}}}
                     </li>
                     <li class="profile-info__item">
                     {{{Link href="/" label="Изменить пароль" class="profile-info__item-link" onClick=changePassword}}}
@@ -90,6 +94,7 @@ export default class ProfilePage extends Block<
                 </div>
               </section>
                  {{{ChangePassword ref="changePasswordMW"}}}
+                 {{{ChangeProfileData ref="changeProfileDataMW" user=user}}}
               </main>
             {{/Layout}}
             `;

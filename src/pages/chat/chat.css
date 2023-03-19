@@ -14,7 +14,7 @@
   }
 
   & .search {
-    padding: 25px 15px;
+    height: 3.5rem;
 
     & .search__input {
       background: var(--gray-l);
@@ -54,14 +54,20 @@
     }
 
     & .user__name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       font-weight: 500;
       font-size: 0.9rem;
       margin-bottom: 5px;
       color: var(--black-l);
+      max-width: 100%;
     }
 
     & .user__user-info {
       flex-grow: 1;
+      flex-basis: 16.75rem;
+      overflow: hidden;
     }
 
     & .user__last-message {

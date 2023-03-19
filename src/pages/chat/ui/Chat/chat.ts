@@ -1,23 +1,22 @@
+import { WSChatController } from 'entities/Chat';
 import { StateKeys } from 'shared/config';
-import { Block } from 'shared/lib/core';
-import { Store } from 'shared/lib/core';
+import { Block, EventBus } from 'shared/lib/core';
+import { withStore } from 'shared/lib/decorators';
 import './chat.css';
 
-class Chat extends Block<any> {
+interface ChatProps {
+  chatId: number;
+  ChatEventBus: EventBus;
+  chats: PickType<State, StateKeys.Chats>;
+  ws: WSChatController;
+}
+@withStore(StateKeys.Chats)
+class Chat extends Block<ChatProps> {
   static _name = 'Chat';
 
-  constructor(props: any) {
-    const currentChat = () => {
-      const chatId = props.chatId;
-      if (chatId) {
-        return Store.getState()?.[StateKeys.Chats]?.find(
-          (chat: ChatsListData) => {
-            return chat.id === chatId;
-          }
-        );
-      }
-    };
-    super({ ...props, ...currentChat() });
+  constructor(props: ChatProps) {
+    const currentChat = props.chats.find((chat) => chat.id === props.chatId);
+    super({ ...props, ...currentChat });
   }
 
   render() {
@@ -29,8 +28,8 @@ class Chat extends Block<any> {
             <div class="messenger-header__name">{{title}}</div>
             <div class="messenger-header__control">{{{Control chatId=chatId}}}</div>
           </div>
-          {{{ChatMessages allMessages=allMessages}}}
-          <div class="messenger-footer">{{{ChatInput onSendMessage=onSendMessage ws=ws}}}</div>
+          {{{ChatMessages ChatEventBus=ChatEventBus}}}
+          <div class="messenger-footer">{{{ChatInput ChatEventBus=ChatEventBus ws=ws}}}</div>
         </div>
       {{else}}
         <div class="chat__not-selected-message">

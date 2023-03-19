@@ -13,8 +13,6 @@ enum WSChatEvents {
 }
 
 class WSChatController extends WSTransport {
-  offset = 0;
-
   _token: Nullable<string> = null;
 
   _chatId: Nullable<number> = null;
@@ -36,8 +34,13 @@ class WSChatController extends WSTransport {
     this.on(WSEvents.Open, this.getOldMessages.bind(this));
   }
 
-  getOldMessages() {
-    this.send({ content: this.offset.toString(), type: 'get old' });
+  getOldMessages(offset: unknown) {
+    if (typeof offset === 'number') {
+      offset = offset.toString();
+    }
+    if (typeof offset === 'string') {
+      this.send({ content: offset, type: 'get old' });
+    }
   }
 
   isNewChat(token: string, chatId: number) {

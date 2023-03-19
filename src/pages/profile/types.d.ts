@@ -8,6 +8,6 @@ type ProfilePageProps = {
   profileInfo: ProfileInfo[];
   onLogout: () => void;
   changePassword: () => void;
+  changeProfileData: () => void;
   user?: PickType<State, 'user'>;
-  backLinkSlot: () => BlockSlot;
 };

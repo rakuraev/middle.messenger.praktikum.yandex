@@ -43,6 +43,18 @@ class UserController {
       }
     }
   }
+
+  async updateUserProfile(UpdateProfileData: UpdateProfileData) {
+    try {
+      const result = await this.api.updateProfileInfo(UpdateProfileData);
+      Store.set(StateKeys.User, result);
+    } catch (e) {
+      console.error('Error on search user');
+      if ((e as XMLHttpRequest)?.response?.reason) {
+        throw (e as XMLHttpRequest).response.reason;
+      }
+    }
+  }
 }
 
 export default new UserController();

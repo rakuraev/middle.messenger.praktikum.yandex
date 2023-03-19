@@ -6,7 +6,7 @@ import './chatMessage.css';
 
 interface IChatMessageProps {
   message: Message;
-  user: UserData;
+  user?: UserData;
 }
 
 type IChatMessageState = {
@@ -24,7 +24,7 @@ export class ChatMessage extends Block<IChatMessageProps> {
   static _name = 'ChatMessage';
 
   getStateFromProps(props: IChatMessageProps) {
-    const isMineMessage = props.user.id === props.message.user_id;
+    const isMineMessage = props.user?.id === props.message.user_id;
     const isFile = props.message.type === 'file';
     const isReaded = props.message.is_read;
     const time = getFormatHourAndMinutes(new Date(props.message.time));

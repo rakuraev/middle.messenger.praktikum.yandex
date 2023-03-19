@@ -66,12 +66,10 @@ export abstract class WSTransport extends EventBus {
   }
 
   private _onWSClose(messageEvent: MessageEvent) {
-    console.log(messageEvent);
     this.emit(WSEvents.Close, messageEvent);
   }
 
   private _onWSMessage(messageEvent: MessageEvent) {
-    console.log(messageEvent);
     this.emit(WSEvents.Message, messageEvent);
   }
 
