@@ -19,6 +19,8 @@ type LoginPageRefs = {
 };
 @withStore()
 class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
+  static _name = 'LoginPage';
+
   getStateFromProps() {
     const toast = useToast;
     const onFocus = (event: Event) => {
@@ -94,7 +96,7 @@ class LoginPage extends Block<LoginPageProps, LoginPageRefs> {
         if (isFormValid) {
           try {
             await AuthController.signin(inputValues);
-            this.state.toast.success('Успешная авторизация');
+            this.state.toast.success('Successful authorization');
           } catch (reason: unknown) {
             if (typeof reason === 'string') {
               this.state.toast.error(reason);

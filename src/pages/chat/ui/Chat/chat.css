@@ -27,6 +27,7 @@
   gap: 1.125rem;
   align-items: center;
   padding: 0 1rem;
+  z-index: 1;
 
   & .messenger-header__avatar {
     height: 2.2rem;
@@ -46,11 +47,8 @@
   }
 }
 
-.messenger .messenger-main {
-}
-
 .messenger .messenger-footer {
-  padding: 0 3rem;
+  padding: 0 0.813rem;
   background: var(--white);
   border: 1px solid var(--gray-l);
   border-left: none;

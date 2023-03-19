@@ -39,7 +39,6 @@ export default function registerComponent<P extends BlockProps>(
       if (ref) {
         refs[ref] = component;
       }
-
       const contents = fn ? fn(this) : '';
 
       return `<div data-id="${component.id}">${contents}</div>`;

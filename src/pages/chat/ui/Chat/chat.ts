@@ -10,9 +10,11 @@ class Chat extends Block<any> {
     const currentChat = () => {
       const chatId = props.chatId;
       if (chatId) {
-        return Store.getState()?.[StateKeys.Chats].find((chat) => {
-          return chat.id === chatId;
-        });
+        return Store.getState()?.[StateKeys.Chats]?.find(
+          (chat: ChatsListData) => {
+            return chat.id === chatId;
+          }
+        );
       }
     };
     super({ ...props, ...currentChat() });
@@ -25,10 +27,10 @@ class Chat extends Block<any> {
           <div class="messenger-header">
             <div class="messenger-header__avatar"></div>
             <div class="messenger-header__name">{{title}}</div>
-            <div class="messenger-header__control"></div>
+            <div class="messenger-header__control">{{{Control chatId=chatId}}}</div>
           </div>
-          <div class="messenger-main">{{{ChatMessages allMessages=allMessages}}}</div>
-          <div class="messenger-footer">{{{ChatInput onSendMessage=onSendMessage}}}</div>
+          {{{ChatMessages allMessages=allMessages}}}
+          <div class="messenger-footer">{{{ChatInput onSendMessage=onSendMessage ws=ws}}}</div>
         </div>
       {{else}}
         <div class="chat__not-selected-message">

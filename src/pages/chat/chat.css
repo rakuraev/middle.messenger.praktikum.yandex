@@ -32,7 +32,6 @@
   & .users-list {
     overflow-y: scroll;
     width: calc(100% + 17px);
-    height: calc(100vh - 83px - 73px);
   }
 
   & .user {
@@ -40,6 +39,10 @@
     padding: 9px 8px 9px 15px;
     border-top: 1px solid var(--gray-l);
     cursor: pointer;
+
+    &:nth-last-child(1) {
+      border-bottom: 1px solid var(--gray-l);
+    }
 
     & .user__img {
       width: 55px;
@@ -62,6 +65,7 @@
     }
 
     & .user__last-message {
+      word-break: break-all;
       color: var(--gray-m);
       font-size: 0.8rem;
       overflow: hidden;
@@ -94,6 +98,7 @@
       color: var(--white);
       position: relative;
     }
+
     & .user__not-readed-messages-count {
       display: block;
       padding-top: 0.05rem;

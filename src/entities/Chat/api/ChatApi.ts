@@ -20,6 +20,16 @@ class ChatApi extends BaseApi {
   getChatTokenById(id: number): Promise<IChatTokenById> {
     return this.http.post(`/token/${id}`);
   }
+
+  addUsersToChat(users: number[], chatId: number): Promise<void> {
+    const data = { users, chatId };
+    return this.http.put('/users', data);
+  }
+
+  deleteUsersToChat(users: number[], chatId: number): Promise<void> {
+    const data = { users, chatId };
+    return this.http.delete('/users', data);
+  }
 }
 
 export default new ChatApi();

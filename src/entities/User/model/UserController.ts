@@ -10,7 +10,9 @@ class UserController {
       await this.api.changePassword(updatePasswordData);
     } catch (e) {
       console.error('Error on change password');
-      throw e;
+      if ((e as XMLHttpRequest)?.response?.reason) {
+        throw (e as XMLHttpRequest).response.reason;
+      }
     }
   }
 
@@ -24,8 +26,21 @@ class UserController {
       Store.set(StateKeys.User, data);
     } catch (e) {
       console.error('Error on change avatar');
-      const reason = (e as XMLHttpRequest)?.response?.reason;
-      throw reason;
+      if ((e as XMLHttpRequest)?.response?.reason) {
+        throw (e as XMLHttpRequest).response.reason;
+      }
+    }
+  }
+
+  async searchUserByLogin(login: string) {
+    try {
+      const result = await this.api.searchUserByLogin(login);
+      return result;
+    } catch (e) {
+      console.error('Error on search user');
+      if ((e as XMLHttpRequest)?.response?.reason) {
+        throw (e as XMLHttpRequest).response.reason;
+      }
     }
   }
 }

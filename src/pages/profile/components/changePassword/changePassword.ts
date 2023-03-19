@@ -1,30 +1,36 @@
 import { UserController } from 'entities/User';
+import { Block } from 'shared/lib/core';
+import { Toast, useToast } from 'shared/lib/toast';
 import validateString, { FormFieldTypes } from 'shared/lib/validate';
+import { ModalWindow } from 'shared/ui';
 import Input from 'shared/ui/Input';
-import ModalWindow, { MWProps } from 'shared/ui/ModalWindow';
 import './changePassword.css';
 
 type ChangePasswordFielsId = 'oldPassword' | 'newPassword';
 interface IChangePasswordState {
   changePasswordFields: IInputProps[];
+  toast: Toast;
   onChangePassword: (e: Event) => void;
 }
-interface IChangePasswordChange {
+interface IChangePasswordRefs {
   oldPassword: Input;
   newPassword: Input;
+  modalWindow: ModalWindow;
 }
-export default class ChangePassword extends ModalWindow<
-  MWProps,
-  IChangePasswordChange
+
+export default class ChangePassword extends Block<
+  IChangePasswordState,
+  IChangePasswordRefs
 > {
   static _name = 'ChangePassword';
 
-  constructor() {
+  constructor(props: any) {
     const className = ['change-password-mw'];
-    super({ className });
+    super({ ...props, className });
   }
 
   getStateFromProps() {
+    const toast = useToast;
     const onFocus = (event: Event) => {
       const id = (event.target as HTMLInputElement).id as ChangePasswordFielsId;
       this.refs[id].hideError();
@@ -42,6 +48,7 @@ export default class ChangePassword extends ModalWindow<
       }
     };
     const state: IChangePasswordState = {
+      toast,
       changePasswordFields: [
         {
           placeholder: 'Старый пароль',
@@ -106,12 +113,12 @@ export default class ChangePassword extends ModalWindow<
         if (isFormValid) {
           try {
             await UserController.updatePassword(inputValues);
-          } catch (e) {
-            console.error(e);
-          } finally {
+            this.state.toast.success('Successful password change');
             this.refs.newPassword.clearValue();
             this.refs.oldPassword.clearValue();
-            this.hideModal();
+            this.refs.modalWindow.hideModal();
+          } catch (e) {
+            this.state.toast.error(e);
           }
         }
       },
@@ -119,16 +126,20 @@ export default class ChangePassword extends ModalWindow<
     this.setState(state);
   }
 
-  render() {
-    const content = `<div class="change-password-mw">
-          <div>Замена пароля</div>
-          {{#each changePasswordFields}}
-                {{{Input placeholder=placeholder id=id validateType=validateType type=type errorMessage=errorMessage isError=isError value=value ref=id onFocus=onFocus onBlur=onBlur autocomplete=autocomplete}}}
-          {{/each}}
-          {{{Button text="Изменить пароль" modificator="blue" onClick=onChangePassword}}}
+  showModal() {
+    this.refs.modalWindow.showModal();
+  }
 
-    </div>`;
-    const mwContent = super.wrapContent(content);
-    return mwContent;
+  render() {
+    return `
+          {{#ModalWindow className=className ref="modalWindow"}}
+              <div class="change-password-mw">
+                  <div>Замена пароля</div>
+                  {{#each changePasswordFields}}
+                        {{{Input placeholder=placeholder id=id validateType=validateType type=type errorMessage=errorMessage isError=isError value=value ref=id onFocus=onFocus onBlur=onBlur autocomplete=autocomplete}}}
+                  {{/each}}
+                  {{{Button text="Изменить пароль" modificator="blue" onClick=onChangePassword}}}
+              </div>
+          {{/ModalWindow}}`;
   }
 }

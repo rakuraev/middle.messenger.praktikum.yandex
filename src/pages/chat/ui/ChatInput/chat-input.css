@@ -1,9 +1,34 @@
+@import 'vars';
+
 .chat-input {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 0.625rem;
+  height: 100%;
 }
 
 .chat-input .chat-input__input {
   flex-grow: 1;
+}
+
+.chat-input__button .button__button {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 100%;
+  background-color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.1s ease-in;
+
+  &:hover {
+    background-color: var(--blue-f);
+  }
+}
+
+.chat-input__button .svg-icon {
+  height: 0.75rem;
+  width: 0.813rem;
+  color: var(--white);
 }

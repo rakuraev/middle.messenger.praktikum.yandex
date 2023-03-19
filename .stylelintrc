@@ -7,7 +7,8 @@
     "prettier/prettier": true,
     "color-hex-case": "lower",
     "selector-class-pattern": null,
-    "string-quotes": "single"
+    "string-quotes": "single",
+    "declaration-colon-newline-after": null
   },
   "ignoreFiles": [
     "dist/*",

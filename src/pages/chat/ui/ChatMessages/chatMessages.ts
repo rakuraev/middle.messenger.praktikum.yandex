@@ -1,21 +1,47 @@
 import { Block } from 'shared/lib/core';
+import './chatMessages.css';
 
-class ChatMessages extends Block<any> {
+interface IChatMessagesProps {
+  allMessages?: Message[];
+  sortedMessagesByTime: Message[];
+}
+class ChatMessages extends Block<IChatMessagesProps> {
   static _name = 'ChatMessages';
 
-  // constructor(props: any) {
-  //   super(props);
-  // }
+  getStateFromProps(props: IChatMessagesProps): void {
+    const sortedMessagesByTime =
+      props?.allMessages?.sort(
+        (lhsMessage, rhsMessage) =>
+          new Date(lhsMessage.time).getTime() -
+          new Date(rhsMessage.time).getTime()
+      ) || [];
+    this.state = { ...props, sortedMessagesByTime };
+  }
 
-  getStateFromProps(props: any): void {
-    this.state = { ...props };
+  componentBeforeMount(props: IChatMessagesProps): void {
+    const messagesCount = props.allMessages?.length || 0;
+    if (this.element && messagesCount > 0) {
+      this.element.classList.add('chat-messages_pending');
+    }
+  }
+
+  componentDidMount(props?: IChatMessagesProps): void {
+    if (this.element) {
+      this.element.scrollTop = this.element.scrollHeight;
+      setTimeout(() => {
+        this.element?.classList.remove('chat-messages_pending');
+      }, 100);
+    }
   }
 
   render() {
-    return `<div>
-              {{#each allMessages}}
-                <div>{{content}}</div>
-              {{/each}}
+    return `<div class="chat-messages ">
+              <div class="chat-messages__spinner">{{{Spinner}}}</div>
+              <div class="chat-messages__content">
+                {{#each sortedMessagesByTime}}
+                  {{{ChatMessage message=this}}}
+                {{/each}}
+              </div>
             </div>`;
   }
 }

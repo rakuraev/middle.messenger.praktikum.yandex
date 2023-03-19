@@ -1,6 +1,6 @@
+import { StateKeys } from 'shared/config';
 import type { BlockConstructor } from 'shared/lib/core';
 import { Store, StoreEvents } from 'shared/lib/core';
-import { StateKeys } from 'shared/config';
 import { isEqual } from 'shared/lib/tipa-lodash';
 
 export function withStore<K extends StateKeys>(...stateKeys: K[]) {
@@ -12,14 +12,13 @@ export function withStore<K extends StateKeys>(...stateKeys: K[]) {
 
   let currentState: Pick<State, K>;
 
-  return function withMapStateStore<P extends BlockProps = any>(
+  return function withMapStateStore<P extends BlockProps>(
     WrappedBlock: BlockConstructor
   ): BlockConstructor {
     return class WrappedBlockWithStore extends WrappedBlock {
       private _onChangeCallback: () => void = () => {};
 
       constructor(props: P) {
-        console.log(Store);
         const state = Store.getState() as State;
         currentState = mapStateToProps(state);
         super({ ...props, ...currentState });

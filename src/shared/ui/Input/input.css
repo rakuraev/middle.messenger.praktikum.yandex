@@ -4,7 +4,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: 0.7rem;
 
   & .p-input__label {
     position: absolute;
@@ -56,6 +55,7 @@
     font-size: 0.8rem;
     margin-top: 5px;
     margin-left: 14px;
+    margin-bottom: 0.8rem;
   }
 }
 

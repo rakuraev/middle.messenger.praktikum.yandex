@@ -1,6 +1,6 @@
 import { BlockClass } from 'shared/lib/core';
-import renderDOM from 'shared/lib/renderDOM';
-import type { Routes } from '../../pages/router';
+import type { RouteSignature } from 'shared/lib/core';
+import { renderDOM } from 'shared/lib/renderDOM';
 
 type RouteProps = {
   rootQuery?: string;
@@ -17,7 +17,7 @@ export class Route {
 
   public withAuth: boolean;
 
-  constructor(page: Routes, props: RouteProps) {
+  constructor(page: RouteSignature, props: RouteProps) {
     const { path, component, withAuth } = page;
     this._path = path;
     this.withAuth = withAuth || false;

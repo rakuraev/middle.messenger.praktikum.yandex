@@ -9,8 +9,8 @@ export default class Button extends Block<ButtonProps> {
   }
 
   render() {
-    return `<div class="button {{#if modificator}}button_{{modificator}}{{/if}}">
-              <button tabindex="{{tabIndex}}" class="button__button" type="button">{{text}}</button>
+    return `<div class="button{{#if modificator}} button_{{modificator}}{{/if}} {{class}}">
+              <button tabindex="{{tabIndex}}" class="button__button" type="button" slot>{{text}}</button>
             </div>`;
   }
 }

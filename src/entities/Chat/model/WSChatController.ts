@@ -2,7 +2,8 @@ import { StateKeys } from 'shared/config';
 import { Store, WSTransport, WSEvents } from 'shared/lib/core';
 import { isArray } from 'shared/lib/typeguards';
 
-enum WSChatMessageTypes {
+export enum WSChatMessageTypes {
+  File = 'file',
   Pong = 'pong',
   Message = 'message',
 }
@@ -48,11 +49,18 @@ class WSChatController extends WSTransport {
     this.send(data);
   }
 
+  sendFile(resourceId: string) {
+    const data: IFileMessage = { type: 'file', content: resourceId };
+    this.send(data);
+  }
+
   onMessage(messageEvent: MessageEvent<any>): void {
     const data: IWSData = JSON.parse(messageEvent.data);
     const type = data.type;
     if (type) {
       if (type === WSChatMessageTypes.Message) {
+        this.emit(WSChatEvents.addMessage, data);
+      } else if (type === WSChatMessageTypes.File) {
         this.emit(WSChatEvents.addMessage, data);
       }
     } else {

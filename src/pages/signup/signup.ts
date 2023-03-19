@@ -18,8 +18,11 @@ interface ISignupRef {
   firstName: Input;
   secondName: Input;
 }
+
 @withStore()
 export default class SignupPage extends Block<SignupProps, ISignupRef> {
+  static _name = 'SignupPage';
+
   getStateFromProps(): void {
     const onFocus = (event: Event) => {
       const id = (event.target as HTMLInputElement).id as SignupFieldsId;

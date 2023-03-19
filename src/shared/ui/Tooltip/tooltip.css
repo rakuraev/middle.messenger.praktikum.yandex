@@ -1,0 +1,54 @@
+@import 'vars';
+
+.tooltip {
+  position: relative;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.tooltip_show {
+  visibility: visible;
+  animation: tooltip-in 0.1s ease-in;
+  animation-fill-mode: forwards;
+  will-change: opacity;
+}
+
+.tooltip_hidding {
+  visibility: visible;
+  animation: tooltip-out 0.1s ease-in;
+  animation-fill-mode: forwards;
+  will-change: opacity;
+}
+
+.tooltip__content {
+  position: absolute;
+  padding: 1rem;
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  border-radius: 1rem;
+}
+
+@keyframes tooltip-in {
+  from {
+    transform: translateY(-0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tooltip-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}

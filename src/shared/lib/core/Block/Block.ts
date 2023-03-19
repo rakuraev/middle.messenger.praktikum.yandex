@@ -7,6 +7,7 @@ import { debounceForCDU } from './lib';
 const enum BLOCK_EVENTS {
   INIT = 'init',
   FLOW_CDI = 'flow:component-did-inited',
+  FLOW_CBM = 'flow:component-before-mount',
   FLOW_CDM = 'flow:component-did-mount',
   FLOW_RENDER = 'flow:render',
   FLOW_UPDATE = 'flow:component-did-update',
@@ -23,13 +24,15 @@ export interface BlockClass<P extends BlockProps = any> extends Function {
 export type BlockConstructor<
   P extends BlockProps = any,
   R extends BlockRefs = any
-> = new (props: P) => Block<P, R>;
+> = { new (props: P): Block<P, R>; _name: string };
 
 export abstract class Block<
   P extends BlockProps = any,
   R extends BlockRefs = any
 > {
   private _element: Nullable<HTMLElement>;
+
+  isDestroyed = false;
 
   readonly _meta: BlockMeta<P>;
 
@@ -51,12 +54,12 @@ export abstract class Block<
       tagName: 'div',
     };
     this.eventBus = new EventBus();
+    this.id = nanoid(6);
     this.getStateFromProps(props);
     this.refs = {} as R;
     this.props = this._makePropsProxy(props);
     this.state = this._makePropsProxy(this.state);
     this._element = null;
-    this.id = nanoid(6);
     this._registerEvents();
     this.eventBus.emit(BLOCK_EVENTS.INIT);
   }
@@ -76,6 +79,10 @@ export abstract class Block<
     this.eventBus.on(
       BLOCK_EVENTS.FLOW_CDI,
       this._componentDidInited.bind(this)
+    );
+    this.eventBus.on(
+      BLOCK_EVENTS.FLOW_CBM,
+      this._componentBeforeMount.bind(this)
     );
     this.eventBus.on(BLOCK_EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     this.eventBus.on(BLOCK_EVENTS.FLOW_RENDER, this._render.bind(this));
@@ -102,6 +109,12 @@ export abstract class Block<
 
   componentDidInited() {}
 
+  private _componentBeforeMount() {
+    this.componentBeforeMount(this.props);
+  }
+
+  componentBeforeMount(props: P) {}
+
   private _componentDidMount() {
     this.componentDidMount(this.props);
   }
@@ -109,7 +122,6 @@ export abstract class Block<
   componentDidMount(props?: P) {}
 
   private _componentDidUnmount() {
-    this.getStateFromProps();
     this.componentDidUnmount(this.props);
   }
 
@@ -119,11 +131,25 @@ export abstract class Block<
     this.componentBeforeUnmount(this.props);
   }
 
-  componentBeforeUnmount(props: P) {}
+  public componentBeforeUnmount(props: P) {}
 
   private _componentDidUpdate(oldProps: P, newProps: P) {
     if (!isEqual(oldProps, newProps)) {
+      const resplaceMark = new Comment('UPDATE-TARGET 🩼');
+      const content = this.getContent();
+
+      if (content) {
+        const contentParentNode = content.parentNode;
+        if (contentParentNode) {
+          contentParentNode.insertBefore(resplaceMark, content);
+        }
+      }
+      this._destroyAllChildrens();
       this._render();
+      const newContent = this.getContent();
+      if (newContent) {
+        resplaceMark.replaceWith(newContent);
+      }
       this.componentDidUpdate(this.props);
     }
   }
@@ -153,7 +179,6 @@ export abstract class Block<
   private _render() {
     const fragment = this._compile();
     this._removeEvents();
-    // console.log(fragment.firstElementChild);
     const newElement = fragment.firstElementChild;
     if (newElement instanceof HTMLElement) {
       this._element?.replaceWith(newElement);
@@ -178,18 +203,50 @@ export abstract class Block<
       if (!stub) {
         return;
       }
+
       const content = component.getContent();
 
       if (content) {
-        stub.replaceWith(content);
-      }
-      const stubChilds = stub.childNodes.length ? stub.childNodes : [];
-      if (content) {
-        const layoutContent =
-          fragment.content.querySelector('[layout-content]');
-        if (layoutContent && stubChilds.length) {
-          layoutContent.append(...stubChilds);
+        // Cлоты
+        const slot = content.hasAttribute('slot')
+          ? content
+          : content.querySelector('[slot]');
+        const slotNodes = stub.childNodes.length ? stub.childNodes : [];
+        if (slotNodes.length && slot) {
+          slot.removeAttribute('slot');
+          slot.append(...slotNodes);
         }
+        // Телепорт
+        const elementToTeleport = content.querySelector('[teleport]');
+        if (elementToTeleport) {
+          const teleportQuery = elementToTeleport.getAttribute('teleport');
+          if (teleportQuery) {
+            const teleportTarget = document.querySelector(
+              teleportQuery
+            ) as Nullable<HTMLElement>;
+            if (teleportTarget) {
+              elementToTeleport.remove();
+              elementToTeleport.removeAttribute('teleport');
+              teleportTarget.append(elementToTeleport);
+            }
+          }
+        } else {
+          // TODO телепорт для root атрибута
+          // const isContentToTeleport = content.hasAttribute('teleport');
+          // if (isContentToTeleport) {
+          //   const teleportQuery = content.getAttribute('teleport') as string;
+          //   const teleportTarget = document.querySelector(
+          //     teleportQuery
+          //   ) as Nullable<HTMLElement>;
+          //   if (teleportTarget) {
+          //     content.removeAttribute('teleport');
+          //     teleportTarget.append(content);
+          //   }
+          //   content.removeAttribute('teleport');
+          //   return;
+          // }
+        }
+        stub.replaceWith(content);
       }
     });
 
@@ -251,6 +308,7 @@ export abstract class Block<
 
   getContent(): Nullable<HTMLElement> {
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+      this.eventBus.emit(BLOCK_EVENTS.FLOW_CBM);
       setTimeout(() => {
         if (
           this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
@@ -265,10 +323,26 @@ export abstract class Block<
 
   hide() {
     const content = this.getContent();
+    this.isDestroyed = true;
     this.eventBus.emit(BLOCK_EVENTS.FLOW_CBU);
     if (content) {
       content.remove();
       this.eventBus.emit(BLOCK_EVENTS.FLOW_CDU);
     }
+    this._destroyAllChildrens();
+  }
+
+  destroySelf() {
+    this.eventBus.destroy();
+    this._removeEvents();
+  }
+
+  // Скрытие дочерних блоков для того, чтобы у них была отработка хуков жизненого цикла
+  private _destroyAllChildrens() {
+    Object.entries(this.children).forEach(([componentId, component]) => {
+      component.hide();
+      // component.destroySelf();
+      delete this.children[componentId];
+    });
   }
 }

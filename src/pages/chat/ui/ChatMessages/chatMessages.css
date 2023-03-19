@@ -1,0 +1,35 @@
+@import 'vars';
+
+.chat-messages {
+  overflow-y: scroll;
+  width: calc(100% + 17px);
+  background-color: var(--white);
+  padding: 1.25rem;
+  position: relative;
+}
+
+.chat-messages__spinner {
+  position: sticky;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.chat-messages_pending .chat-messages__spinner {
+  opacity: 1;
+  visibility: visible;
+}
+
+.chat-messages__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  opacity: 1;
+  transition: opacity 0.1s ease-in;
+}
+
+.chat-messages_pending .chat-messages__content {
+  opacity: 0;
+}

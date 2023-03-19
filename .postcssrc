@@ -1,7 +1,10 @@
 {
   "plugins": {
     "postcss-import": {
-      "path": "./src/shared/styles"
+      "path": [
+        "./src/shared/styles",
+        "./src/app/styles"
+      ]
     },
     "postcss-nesting": {},
     "postcss-mixins": {},

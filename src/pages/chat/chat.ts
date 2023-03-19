@@ -7,42 +7,36 @@ import './chat.css';
 import './ui';
 
 interface ChatState extends ChatProps {
-  allMessages: any[];
-  linkToSettingsSlot: () => string;
-  linkToChatsSlot: () => string;
-  linkToProfileSlot: () => string;
-  onSetMessages: (...messages: string[]) => void;
+  allMessages: Message[];
+  onSetMessages: (...messages: Message[]) => void;
   onSendMessage: (text: string) => void;
 }
+
 interface ChatProps {
   router: Router;
   chats: PickType<State, StateKeys.Chats>;
   chatToken: PickType<State, StateKeys.ChatToken>;
   chatId: PickType<State, StateKeys.ChatId>;
-  ws: WSChatController;
+  ws?: WSChatController;
 }
 
 @withStore(StateKeys.Chats, StateKeys.ChatToken, StateKeys.ChatId)
 class ChatPage extends Block<ChatState> {
-  // constructor(props: ChatState) {
-  //   super(props);
-  // }
+  static _name = 'ChatPage';
+
+  constructor(props: ChatState) {
+    const allMessages: Message[] = [];
+    super({ ...props, allMessages });
+  }
 
   getStateFromProps(props: ChatState) {
-    const allMessages: any[] = [];
-    const linkToSettingsSlot = () => '{{{SvgTemplate svgId="profile"}}}';
-
-    const linkToChatsSlot = () => '{{{SvgTemplate svgId="chat"}}}';
-
-    const linkToProfileSlot = () => '{{{SvgTemplate svgId="settings"}}}';
-
     const onSendMessage = (text: string) => {
       if (this.props.ws?.isConnected()) {
         this.props.ws.sendMessage(text);
       }
     };
 
-    const onSetMessages = (...messages: string[]) => {
+    const onSetMessages = (...messages: Message[]) => {
       this.setProps({
         ...this.props,
         allMessages: [...this.props.allMessages, ...messages],
@@ -50,10 +44,6 @@ class ChatPage extends Block<ChatState> {
     };
 
     const state: Partial<ChatState> = {
-      allMessages: allMessages,
-      linkToSettingsSlot,
-      linkToChatsSlot,
-      linkToProfileSlot,
       onSendMessage,
       onSetMessages,
     };
@@ -86,22 +76,26 @@ class ChatPage extends Block<ChatState> {
             <main class="chats-page">
               <aside class="left-panel">
                 <div class="search">
-                  <input class="search__input" type="text" />
+                  <!-- <input class="search__input" type="text" /> -->
                 </div>
                 {{{ChatList chats=chats chatId=chatId}}}
                 <nav class="navigation-bar-container">
                   <ul class="navigation-bar">
                     <li class="navigation-bar__item">
-                      {{{Link href="#" class="navigation-bar__link" slot=linkToChatsSlot}}}
+                      {{#Link href="#" class="navigation-bar__link"}}
+                        {{{SvgTemplate svgId="chat"}}}
+                      {{/Link}}
                     </li>
                     <li class="navigation-bar__item">
-                      {{{Link href="/settings"  class="navigation-bar__link" slot=linkToSettingsSlot}}}
+                      {{#Link href="/settings"  class="navigation-bar__link"}}
+                        {{{SvgTemplate svgId="settings"}}}
+                      {{/Link}}
                     </li>
                   </ul>
                 </nav>
               </aside>
               <section class="chat">
-                {{{Chat chatId=chatId onSendMessage=onSendMessage allMessages=allMessages}}}
+                {{{Chat chatId=chatId onSendMessage=onSendMessage allMessages=allMessages ws=ws}}}
               </section>
             </main>
           {{/Layout}}`;

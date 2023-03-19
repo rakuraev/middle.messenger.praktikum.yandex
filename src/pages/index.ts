@@ -1,4 +1,4 @@
-import { RouteSignature } from 'shared/lib/core';
+import type { RouteSignature } from 'shared/lib/core';
 import Chat from './chat';
 import Login from './login';
 import Profile from './profile';

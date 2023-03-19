@@ -1,13 +1,15 @@
 interface IInput {
-  id: string;
+  id?: string;
   placeholder: string;
   type: string;
   value: string;
   errorMessage: string;
   validateType?: string;
   isError: boolean;
-  onFocus: (e: Event) => void;
-  onBlur: (e: Event) => void;
+  disableError?: boolean;
+  onFocus?: (e: Event) => void;
+  onBlur?: (e: Event) => void;
+  onInput?: (e: Event) => void;
 }
 
 type InputProps = {

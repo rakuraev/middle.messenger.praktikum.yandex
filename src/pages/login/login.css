@@ -21,6 +21,7 @@
     font-size: 1.25rem;
     color: var(--black-l);
     margin-bottom: 36px;
+    font-weight: 500;
   }
 
   & .button {

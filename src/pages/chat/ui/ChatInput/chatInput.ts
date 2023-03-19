@@ -14,13 +14,15 @@ class ChatInput extends Block<any, IChatRef> {
       this.refs.chatInput.clearValue();
     };
     super({ onSend, ...props });
-    console.log(this);
   }
 
   render(): string {
     return `<div class="chat-input">
-              {{{Input class="chat-input__input" ref='chatInput'}}}
-              {{{Button class="chat-input__button" onClick=onSend text="Отправить сообщение"}}}
+              {{{AddFile ws=ws}}}
+              {{{Input class="chat-input__input" ref='chatInput' disableError=true placeholder="Сообщение"}}}
+              {{#Button class="chat-input__button" onClick=onSend}}
+                {{{SvgTemplate svgId="arrow"}}}
+              {{/Button}}
             </div>`;
   }
 }

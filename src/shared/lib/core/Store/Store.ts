@@ -30,7 +30,7 @@ class Store extends EventBus {
   public set(keypath: keyof State, data: unknown) {
     set(this._state, keypath, data);
     this.emit(StoreEvents.Updated, this.getState());
-    console.log(this._state);
+    // console.log(this._state);
   }
 }
 

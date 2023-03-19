@@ -6,7 +6,6 @@ function debounceForCDU<T, P>(this: T, fn: unknown, interval = 200) {
   }
   let timeout: number;
   let firstOldProps: Nullable<P> = null;
-
   return (oldProps: P, newProps: P) => {
     if (!firstOldProps) {
       firstOldProps = oldProps;

@@ -16,7 +16,9 @@ export default class ProfilePage extends Block<
   ProfilePageProps,
   ProfilePageRef
 > {
-  getStateFromProps(props: any) {
+  static _name = 'ProfilePasge';
+
+  getStateFromProps(props: ProfilePageProps) {
     const state: ProfilePageProps = {
       img: {
         src: () => this.props.user?.avatar || null,

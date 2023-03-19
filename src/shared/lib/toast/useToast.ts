@@ -1,21 +1,21 @@
 import { EventBus } from 'shared/lib/core';
 
 export enum ToastStatuses {
-  warn = 'warn',
+  warning = 'warning',
   success = 'success',
   error = 'error',
 }
 
 export class Toast extends EventBus {
-  [ToastStatuses.warn](text: string) {
-    this.emit(ToastStatuses.warn, text);
+  [ToastStatuses.warning](text: unknown) {
+    this.emit(ToastStatuses.warning, text);
   }
 
-  [ToastStatuses.success](text: string) {
+  [ToastStatuses.success](text: unknown) {
     this.emit(ToastStatuses.success, text);
   }
 
-  [ToastStatuses.error](text: string) {
+  [ToastStatuses.error](text: unknown) {
     this.emit(ToastStatuses.error, text);
   }
 }

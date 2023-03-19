@@ -1,13 +1,14 @@
 /* eslint-disable no-useless-escape */
 export enum FormFieldTypes {
-  login,
-  password,
-  phone,
-  firstName,
-  secondName,
-  email,
-  repeatPassword,
+  'login',
+  'password',
+  'phone',
+  'firstName',
+  'secondName',
+  'email',
+  'repeatPassword',
 }
+
 const VALIDATORS_REG_EXP: Record<string, RegExp> = {
   login: new RegExp(
     /^(?=[a-zA-Z\-_\d]+[a-zA-Z\-_]+|[a-zA-Z\-_]+[a-zA-Z\-_\d]+)[a-zA-Z\-_\d]{3,20}$/

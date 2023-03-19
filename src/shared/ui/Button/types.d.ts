@@ -2,6 +2,7 @@ interface IButton {
   text: string;
   modificator: string;
   tabIndex: number;
+  class: string;
   onClick?: () => void;
 }
 
@@ -10,4 +11,5 @@ type ButtonProps = {
   modificator: string;
   tabIndex: number;
   events: BlockEvents;
+  class: string;
 };

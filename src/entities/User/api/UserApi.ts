@@ -5,6 +5,10 @@ class UserApi extends BaseApi {
     super('/user');
   }
 
+  searchUserByLogin(login: string): Promise<UserData[]> {
+    return this.http.post('/search', { login });
+  }
+
   updateProfileInfo(data: UpdateProfileData) {
     return this.http.put('/profile', data);
   }

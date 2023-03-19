@@ -1,10 +1,11 @@
-import HTTPTransport from '../core/HTTPTransport';
+import { HTTPTransport } from 'shared/lib/core';
 
 export const API_BASE_URL = 'https://ya-praktikum.tech/api/v2';
 export const API_BASE_URL_RES = 'https://ya-praktikum.tech/api/v2/resources';
 
 export abstract class BaseApi {
   http: HTTPTransport;
+
   constructor(endpoint: string) {
     this.http = new HTTPTransport(API_BASE_URL).withEndpoint(endpoint);
   }

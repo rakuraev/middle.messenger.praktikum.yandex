@@ -14,9 +14,12 @@ export class ToastComponent extends Block<PlainObject> {
     this._bindEvents();
   }
 
-  _pushToast(text: string, toastStatus: ToastStatuses) {
-    console.log(text, toastStatus);
-    const toastMessageTemplate = this._renderToastElement(text, toastStatus);
+  _pushToast(text: unknown, toastStatus: ToastStatuses) {
+    const toastMessage = typeof text === 'string' ? text : 'Unknown';
+    const toastMessageTemplate = this._renderToastElement(
+      toastMessage,
+      toastStatus
+    );
     const toastMessageTemplateId = 't' + nanoid(5);
     const messageElement =
       toastMessageTemplate.content.querySelector('.toast__message');
@@ -52,25 +55,19 @@ export class ToastComponent extends Block<PlainObject> {
   _bindEvents() {
     this.toast.on(ToastStatuses.error, this._onError.bind(this));
     this.toast.on(ToastStatuses.success, this._onSuccess.bind(this));
-    this.toast.on(ToastStatuses.warn, this._onWarn.bind(this));
+    this.toast.on(ToastStatuses.warning, this._onWarn.bind(this));
   }
 
   _onError(text: unknown) {
-    if (typeof text === 'string') {
-      this._pushToast(text, ToastStatuses.error);
-    }
+    this._pushToast(text, ToastStatuses.error);
   }
 
   _onSuccess(text: unknown) {
-    if (typeof text === 'string') {
-      this._pushToast(text, ToastStatuses.success);
-    }
+    this._pushToast(text, ToastStatuses.success);
   }
 
   _onWarn(text: unknown) {
-    if (typeof text === 'string') {
-      this._pushToast(text, ToastStatuses.warn);
-    }
+    this._pushToast(text, ToastStatuses.warning);
   }
 
   _getToastElement() {
