@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "parcel --port 3000",
     "build": "rimraf dist && parcel build index.html",
+    "build:docker": "parcel build index.html",
     "start:express": "cd server && node index.js",
     "types": "tsc --noEmit",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",

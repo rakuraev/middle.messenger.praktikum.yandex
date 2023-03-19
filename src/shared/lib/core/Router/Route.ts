@@ -1,6 +1,6 @@
 import { BlockClass } from 'shared/lib/core';
 import type { RouteSignature } from 'shared/lib/core';
-import { renderDOM } from 'shared/lib/renderDOM';
+import { renderDOM } from 'shared/lib/renderDom';
 
 type RouteProps = {
   rootQuery?: string;
@@ -13,7 +13,7 @@ export class Route {
 
   #block: Nullable<InstanceType<BlockClass<any>>>;
 
-  private _props: any;
+  private _props: RouteProps;
 
   public withAuth: boolean;
 
@@ -45,6 +45,6 @@ export class Route {
 
   render() {
     this.#block = new this._blockClass({});
-    renderDOM(this.#block, this._props.rootQuery);
+    renderDOM(this.#block, this._props?.rootQuery || 'body');
   }
 }

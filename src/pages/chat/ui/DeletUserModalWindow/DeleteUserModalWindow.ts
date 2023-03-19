@@ -4,7 +4,7 @@ import { Block } from 'shared/lib/core';
 import { Toast, useToast } from 'shared/lib/toast';
 import validateString, { FormFieldTypes } from 'shared/lib/validate';
 import { Input, ModalWindow } from 'shared/ui';
-import './DeleteUserModalWindow.css';
+import './deleteUserModalWindow.css';
 
 interface IDeleteUserModalWindowRef {
   modalWindow: ModalWindow;
