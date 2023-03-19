@@ -3,6 +3,7 @@ import { API_BASE_URL_RES } from 'shared/config';
 import { Block } from 'shared/lib/core';
 import { Toast, useToast } from 'shared/lib/toast';
 import './photo.css';
+
 type PhotoProps = {
   toast: Toast;
   src: Nullable<string>;
