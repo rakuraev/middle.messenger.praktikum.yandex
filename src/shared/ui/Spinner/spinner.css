@@ -1,0 +1,16 @@
+@keyframes spinner-border {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.spinner {
+  height: 1rem;
+  width: 1rem;
+  color: currentcolor;
+  border-width: 0.175rem;
+  border-radius: 50%;
+  border: solid;
+  border-right-color: transparent;
+  animation: spinner-border 0.4s linear infinite;
+}

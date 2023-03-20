@@ -1,0 +1,18 @@
+@import 'vars';
+
+.delete-user-mw {
+  padding: 0 2.5rem;
+  width: 25rem;
+}
+
+.delete-user-mw__title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--black-l);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.delete-user-mw__input {
+  margin-bottom: 2.15rem;
+}

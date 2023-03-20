@@ -1,4 +1,4 @@
-@import 'variables/variables.css';
+@import 'vars';
 
 .login-page {
   height: 100%;
@@ -21,6 +21,7 @@
     font-size: 1.25rem;
     color: var(--black-l);
     margin-bottom: 36px;
+    font-weight: 500;
   }
 
   & .button {

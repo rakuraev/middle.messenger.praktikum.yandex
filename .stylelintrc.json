@@ -1,0 +1,17 @@
+{
+  "plugins": [
+    "stylelint-prettier"
+  ],
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "prettier/prettier": true,
+    "color-hex-case": "lower",
+    "selector-class-pattern": null,
+    "string-quotes": "single",
+    "declaration-colon-newline-after": null
+  },
+  "ignoreFiles": [
+    "dist/*",
+    "node_modules/*"
+  ]
+}

@@ -1,0 +1,14 @@
+@import 'vars';
+
+.create-chat {
+  padding: 0 2.5rem;
+  width: 25rem;
+}
+
+.create-chat__title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--black-l);
+  margin-bottom: 3rem;
+  text-align: center;
+}

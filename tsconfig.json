@@ -4,7 +4,7 @@
     "target": "es2017" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
     /* Modules */
     "module": "CommonJS" /* Specify what module code is generated. */,
-    "rootDir": "./src" /* Specify the root folder within your source files. */,
+    "rootDir": "src" /* Specify the root folder within your source files. */,
     "typeRoots": ["node_modules/@types", "typings/app.d.ts"],
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
@@ -13,11 +13,20 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "experimentalDecorators": true,
     "sourceMap": true,
     "declaration": true,
     "strictNullChecks": true,
     "paths": {
-      "@core/*": ["./core/*"],
+      "app": ["./src/app"],
+      "app/*": ["./src/app/*"],
+      "entities/*": ["./src/entities/*"],
+      "pages": ["./src/pages"],
+      "pages/*": ["./src/pages/*"],
+      "shared/*": ["./src/shared/*"],
+      "processes/*": ["./src/processes/*"],
+      "widgets/*": ["./src/widgets/*"]
     }
-  }
+  },
+  "include": ["src/**/*"]
 }
