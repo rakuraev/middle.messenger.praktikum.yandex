@@ -47,7 +47,6 @@ export class Contol extends Block<ControlProps, ControlRef> {
         if (targetParentElement) {
           const eventType = targetParentElement.dataset
             .event as Nullable<ControlEventTypes>;
-
           if (eventType === ControlEventTypes.AddUser) {
             this.refs.addUserModalWindow?.showModal();
           } else if (eventType === ControlEventTypes.DeleteChat) {
@@ -80,7 +79,7 @@ export class Contol extends Block<ControlProps, ControlRef> {
                 </div>
               {{/Tooltip}}
               {{{AddUserModalWindow ref="addUserModalWindow" chatId=chatId onSuccess=onSuccess}}}
-              {{{DeleteChatModalWindow ref="deleteChatModalWindow" chatId=chatId onSuccess=onSuccess}}}
+              {{{DeleteChatModalWindow ref="deleteUserModalWindow" chatId=chatId onSuccess=onSuccess}}}
             </div>`;
   }
 }
