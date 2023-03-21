@@ -30,7 +30,7 @@ class ChatsController {
     try {
       await this.api.addUsersToChat(users, chatId);
     } catch (error) {
-      console.log('Error on add users to chat');
+      console.error('Error on add users to chat');
       if ((error as XMLHttpRequest)?.response?.reason) {
         throw (error as XMLHttpRequest).response.reason;
       }
@@ -41,7 +41,7 @@ class ChatsController {
     try {
       await this.api.deleteUsersToChat(users, chatId);
     } catch (error) {
-      console.log('Error on delete users to chat');
+      console.error('Error on delete users to chat');
       if ((error as XMLHttpRequest)?.response?.reason) {
         throw (error as XMLHttpRequest).response.reason;
       }
@@ -53,7 +53,19 @@ class ChatsController {
       await this.api.createChat({ title });
       await this.getChatsList();
     } catch (error) {
-      console.log('Error on delete users to chat');
+      console.error('Error on delete users to chat');
+      if ((error as XMLHttpRequest)?.response?.reason) {
+        throw (error as XMLHttpRequest).response.reason;
+      }
+    }
+  }
+
+  async deleteChat(chatId: number) {
+    try {
+      await this.api.deleteChatById({ chatId });
+      await this.getChatsList();
+    } catch (error) {
+      console.error('Error on delete users to chat');
       if ((error as XMLHttpRequest)?.response?.reason) {
         throw (error as XMLHttpRequest).response.reason;
       }

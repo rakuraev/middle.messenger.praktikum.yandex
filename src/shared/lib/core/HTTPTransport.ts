@@ -1,3 +1,5 @@
+import queryStringify from 'shared/lib/queryStringify';
+
 enum HttpMethods {
   Get = 'GET',
   Post = 'POST',
@@ -10,6 +12,7 @@ type Options = {
   data?: unknown;
   formData?: FormData;
 };
+
 export class HTTPTransport {
   private _apiUrl = '';
 
@@ -24,51 +27,53 @@ export class HTTPTransport {
     return this;
   }
 
-  public get<R>(path = '/'): Promise<R> {
+  public get<R>(path = '/', query?: PlainObject) {
     const options: Options = {
       method: HttpMethods.Get,
     };
-    return this._request(path, options);
+    const pathWithQuery = query ? path + queryStringify(query) : path;
+    return this._request<R>(pathWithQuery, options);
   }
 
-  public post<R>(path = '/', data?: unknown, formData?: FormData): Promise<R> {
+  public post<R>(path = '/', data?: unknown, formData?: FormData) {
     const options: Options = {
       method: HttpMethods.Post,
       data,
       formData,
     };
-    return this._request(path, options);
+    return this._request<R>(path, options);
   }
 
-  public put<R>(path = '/', data?: unknown, formData?: FormData): Promise<R> {
+  public put<R>(path = '/', data?: unknown, formData?: FormData) {
     const options: Options = {
       method: HttpMethods.Put,
       data,
       formData,
     };
-    return this._request(path, options);
+    return this._request<R>(path, options);
   }
 
-  public patch<R>(path = '/', data?: unknown): Promise<R> {
+  public patch<R>(path = '/', data?: unknown) {
     const options: Options = {
       method: HttpMethods.Patch,
       data,
     };
-    return this._request(path, options);
+    return this._request<R>(path, options);
   }
 
-  public delete<R>(path = '/', data?: unknown): Promise<R> {
+  public delete<R>(path = '/', data?: unknown) {
     const options: Options = {
       method: HttpMethods.Delete,
       data,
     };
-    return this._request(path, options);
+    return this._request<R>(path, options);
   }
 
-  private _request<R>(
-    path: string,
-    options: Options = { method: HttpMethods.Get }
-  ): Promise<R> {
+  // Не совсем понятно как генерик прокинуть аргумент
+  // private _get<R>: HTTPMethod<R> = (path, options) =>
+  //   this._request(path, { ...options, method: HttpMethods.Get });
+
+  private _request<R = void>(path: string, options: Options): Promise<R> {
     const { method, data, formData } = options;
     const url = `${this._endpoint}${path}`;
     return new Promise((resolve, reject) => {

@@ -2,7 +2,6 @@ import { RoutePaths } from 'pages';
 import { AuthController } from 'entities/Auth';
 import { StatusCodes } from 'shared/lib/consts';
 import { Router } from 'shared/lib/core';
-console.log(AuthController);
 const router = new Router();
 
 export const checkAuth = async () => {

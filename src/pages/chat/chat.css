@@ -31,7 +31,6 @@
 
   & .users-list {
     overflow-y: scroll;
-    width: calc(100% + 17px);
   }
 
   & .user {
@@ -39,6 +38,7 @@
     padding: 9px 8px 9px 15px;
     border-top: 1px solid var(--gray-l);
     cursor: pointer;
+    height: 4.688rem;
 
     &:nth-last-child(1) {
       border-bottom: 1px solid var(--gray-l);
@@ -51,6 +51,8 @@
       background: var(--blue);
       border-radius: 100%;
       margin-right: 15px;
+      overflow: hidden;
+      color: var(--white);
     }
 
     & .user__name {
@@ -127,6 +129,7 @@
 
       & .user__img {
         background-color: var(--white);
+        color: var(--blue);
       }
 
       & .user__not-readed-messages {

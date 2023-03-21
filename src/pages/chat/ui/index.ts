@@ -10,7 +10,7 @@ import { ChatMessages } from './ChatMessages';
 import { ChatListUser } from './ChatWithUser';
 import { Contol } from './Control';
 import { CreateChat } from './CreateChat';
-import { DeleteUserModalWindow } from './DeletUserModalWindow';
+import { DeleteChatModalWindow } from './DeleteChatModalWindow';
 
 registerComponent(ChatList);
 registerComponent(ChatListUser);
@@ -19,9 +19,14 @@ registerComponent(ChatMessages);
 registerComponent(ChatInput);
 registerComponent(Contol);
 registerComponent(AddUserModalWindow);
-registerComponent(DeleteUserModalWindow);
+registerComponent(DeleteChatModalWindow);
 registerComponent(AddFile);
 registerComponent(ChatImage);
 registerComponent(CreateChat);
 
-export { AddUserModalWindow, DeleteUserModalWindow, ChatMessage, CreateChat };
+export {
+  AddUserModalWindow,
+  DeleteChatModalWindow as DeleteUserModalWindow,
+  ChatMessage,
+  CreateChat,
+};

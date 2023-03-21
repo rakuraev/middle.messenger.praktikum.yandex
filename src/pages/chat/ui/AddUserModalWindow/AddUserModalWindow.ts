@@ -75,7 +75,6 @@ export class AddUserModalWindow extends Block<
             throw 'Error on search user by login';
           }
           const userId = userListByLogin[0].id;
-          console.log(this.state);
           await ChatController.addUsersToChat([userId], this.state.chatId);
           this.refs.modalWindow.hideModal();
           this.state.toast.success(

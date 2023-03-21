@@ -37,7 +37,6 @@ export class ChangeProfileData extends Block<
   static _name = 'ChangeProfileData';
 
   getStateFromProps(props: ChangeProfileDataProps): void {
-    console.log(props);
     const onFocus = (event: Event) => {
       const id = (event.target as HTMLInputElement).id as ChangeDataFieldsId;
       this.refs[id].hideError();

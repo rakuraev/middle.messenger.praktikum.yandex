@@ -35,4 +35,25 @@ export default () => {
       return fn(lastMessageContent || 'Пока нет сообщений');
     }
   );
+
+  Handlebars.registerHelper(
+    'scroll-y-hidden',
+    function (this: unknown, { data, fn }: HelperOptions) {
+      let template = fn(this);
+      const fragment = document.createElement('template');
+      fragment.innerHTML = template;
+      const el = document.createElement('div');
+      el.style.cssText =
+        'overflow:scroll; visibility:hidden; position:absolute;';
+      document.body.appendChild(el);
+      const width = el.offsetWidth - el.clientWidth;
+      el.remove();
+      const firstChild = fragment.content.firstElementChild;
+      if (firstChild) {
+        firstChild.setAttribute('style', `width:calc(100% + ${width}px)`);
+        template = firstChild.outerHTML;
+      }
+      return template;
+    }
+  );
 };

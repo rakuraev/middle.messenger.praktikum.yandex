@@ -5,16 +5,16 @@ class UserApi extends BaseApi {
     super('/user');
   }
 
-  searchUserByLogin(login: string): Promise<UserData[]> {
-    return this.http.post('/search', { login });
+  searchUserByLogin(login: string) {
+    return this.http.post<UserData[]>('/search', { login });
   }
 
   updateProfileInfo(data: UpdateProfileData) {
     return this.http.put('/profile', data);
   }
 
-  updateProfileAvatar(formData: UpdateProfileAvatar): Promise<UserData> {
-    return this.http.put('/profile/avatar', null, formData);
+  updateProfileAvatar(formData: UpdateProfileAvatar) {
+    return this.http.put<UserData>('/profile/avatar', null, formData);
   }
 
   changePassword(data: UpdateProfilePassword) {

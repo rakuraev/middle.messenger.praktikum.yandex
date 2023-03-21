@@ -4,7 +4,15 @@ import { TooltipPositions } from 'shared/ui/Tooltip';
 import { AddUserModalWindow, DeleteUserModalWindow } from '../';
 import './control.css';
 
-interface IRefControl {
+interface ControlProps {
+  chatId: number;
+  tooltipPosition: TooltipPositions;
+  onSuccess: () => void;
+  onClick: () => void;
+  onContentClick: (e: Event) => void;
+  events: { click: () => void };
+}
+interface ControlRef {
   tooltip?: Tooltip;
   addUserModalWindow?: AddUserModalWindow;
   deleteUserModalWindow?: DeleteUserModalWindow;
@@ -12,12 +20,12 @@ interface IRefControl {
 
 enum ControlEventTypes {
   AddUser = 'add-user',
-  DeleteUser = 'delete-user',
+  DeleteChat = 'delete-chat',
 }
-export class Contol extends Block<any, IRefControl> {
+export class Contol extends Block<ControlProps, ControlRef> {
   static _name = 'Control';
 
-  constructor(props: any) {
+  constructor(props: ControlProps) {
     const onClick = () => {
       if ('tooltip' in this.refs) {
         this.refs.tooltip?.toggleTooltip();
@@ -42,7 +50,7 @@ export class Contol extends Block<any, IRefControl> {
 
           if (eventType === ControlEventTypes.AddUser) {
             this.refs.addUserModalWindow?.showModal();
-          } else if (eventType === ControlEventTypes.DeleteUser) {
+          } else if (eventType === ControlEventTypes.DeleteChat) {
             this.refs.deleteUserModalWindow?.showModal();
           }
         }
@@ -66,13 +74,13 @@ export class Contol extends Block<any, IRefControl> {
                   {{{SvgTemplate svgId="add"}}}
                   <div class="control__text">Добавить пользователя</div>
                 </div>
-                <div class="control__remove-user" data-event="delete-user"> 
+                <div class="control__delete-chat" data-event="delete-chat"> 
                   {{{SvgTemplate svgId="add"}}}
-                  <div class="control__text">Удалить пользователя</div>
+                  <div class="control__text">Удалить чат</div>
                 </div>
               {{/Tooltip}}
               {{{AddUserModalWindow ref="addUserModalWindow" chatId=chatId onSuccess=onSuccess}}}
-              {{{DeleteUserModalWindow ref="deleteUserModalWindow" chatId=chatId onSuccess=onSuccess}}}
+              {{{DeleteChatModalWindow ref="deleteChatModalWindow" chatId=chatId onSuccess=onSuccess}}}
             </div>`;
   }
 }

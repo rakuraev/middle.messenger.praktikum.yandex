@@ -46,9 +46,7 @@ export class AddFile extends Block<IAddFileProps, IAddFileRefs> {
           const eventType = targetParentElement.dataset
             .event as Nullable<AddFileEvenets>;
 
-          if (eventType === AddFileEvenets.AddFile) {
-            console.log('Addfile');
-          } else if (eventType === AddFileEvenets.AddMedia) {
+          if (eventType === AddFileEvenets.AddMedia) {
             this.addMediaFile();
           }
         }

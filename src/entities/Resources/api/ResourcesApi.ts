@@ -5,8 +5,8 @@ class ResourcesApi extends BaseApi {
     super('/resources');
   }
 
-  post(formData: FormData): Promise<ResourcesResponse> {
-    return this.http.post('', {}, formData);
+  post(formData: FormData) {
+    return this.http.post<ResourcesResponse>('', {}, formData);
   }
 }
 

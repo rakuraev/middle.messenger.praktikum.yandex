@@ -43,7 +43,9 @@ class ChatPage extends Block<ChatProps, ChatRefs> {
   getStateFromProps(props: ChatProps) {
     const onSendMessage = (text: unknown) => {
       if (this.props.ws?.isConnected() && typeof text === 'string') {
-        this.props.ws.sendMessage(text);
+        if (text.length > 0) {
+          this.props.ws.sendMessage(text);
+        }
       }
     };
 

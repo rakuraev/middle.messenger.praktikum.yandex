@@ -48,9 +48,11 @@ const validateString = (
   }
   const TYPE_KEY = FormFieldTypes[type];
   if (TYPE_KEY) {
-    if (!VALIDATORS_REG_EXP[TYPE_KEY].test(value)) {
-      result.isValid = false;
-      result.message = VALIDATORS_MESSAGES[TYPE_KEY];
+    if (VALIDATORS_REG_EXP[TYPE_KEY]) {
+      if (!VALIDATORS_REG_EXP[TYPE_KEY].test(value)) {
+        result.isValid = false;
+        result.message = VALIDATORS_MESSAGES[TYPE_KEY];
+      }
     }
   }
   return result;

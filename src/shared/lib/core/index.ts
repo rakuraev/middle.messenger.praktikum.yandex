@@ -3,6 +3,5 @@ export * from './EventBus';
 export * from './HTTPTransport';
 export * from './Router';
 export * from './WSTransport';
-export * from './HTTPTransport';
 export * from './Store';
 export * from './BaseApi';

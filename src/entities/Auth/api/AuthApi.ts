@@ -13,8 +13,8 @@ export class AuthApi extends BaseApi {
     return this.http.post('/signin', data);
   }
 
-  getUserInfo(): Promise<UserData> {
-    return this.http.get('/user');
+  getUserInfo() {
+    return this.http.get<UserData>('/user');
   }
 
   logout() {
