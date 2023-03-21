@@ -117,9 +117,6 @@ class ChatMessages extends Block<IChatMessagesProps> {
       }
     });
 
-    // sortedMessagesByTime =
-    //   props?.allMessages?
-
     this.onChangeMessageList();
   }
 
@@ -146,11 +143,13 @@ class ChatMessages extends Block<IChatMessagesProps> {
   bindedOnScroll = this.onScroll.bind(this);
 
   render() {
-    return `<div class="chat-messages">
-              <div class="chat-messages__spinner">{{{Spinner}}}</div>
-              <div class="chat-messages__content">
+    return `{{#scroll-y-hidden}}
+              <div class="chat-messages">
+                <div class="chat-messages__spinner">{{{Spinner}}}</div>
+                <div class="chat-messages__content">
               </div>
-            </div>`;
+            </div>
+            {{/scroll-y-hidden}}`;
   }
 }
 

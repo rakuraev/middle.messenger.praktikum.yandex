@@ -48,7 +48,6 @@ export default class ProfilePage extends Block<
         this.refs.changePasswordMW.showModal();
       },
       changeProfileData: () => {
-        console.log(this.refs);
         this.refs.changeProfileDataMW.showModal();
       },
     };

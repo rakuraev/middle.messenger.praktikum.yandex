@@ -3,7 +3,7 @@ import { Block } from 'shared/lib/core';
 import './chatImage.css';
 
 interface IChatImageProps {
-  file: FileData;
+  file?: FileData;
   src: string;
 }
 
@@ -13,8 +13,10 @@ export class ChatImage extends Block<IChatImageProps> {
   bindedOnLoad: Nullable<(e: Event) => void> = null;
 
   constructor(props: IChatImageProps) {
-    const src = API_BASE_URL_RES + props.file.path;
-    super({ ...props, src });
+    if (props.file) {
+      props.src = API_BASE_URL_RES + props.file.path;
+    }
+    super({ ...props });
     this.bindedOnLoad = this.onLoad.bind(this);
   }
 

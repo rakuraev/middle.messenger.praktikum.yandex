@@ -27,7 +27,7 @@
 }
 
 .control__add-user,
-.control__remove-user {
+.control__delete-chat {
   display: flex;
   font-size: 0.75rem;
   gap: 0.5rem;
@@ -40,13 +40,13 @@
 }
 
 .control__add-user .svg-icon,
-.control__remove-user .svg-icon {
+.control__delete-chat .svg-icon {
   height: 1.375rem;
   width: 1.375rem;
   color: var(--blue);
 }
 
-.control__remove-user .svg-icon {
+.control__delete-chat .svg-icon {
   transform: rotate(-45deg);
 }
 

@@ -3,8 +3,6 @@ import { StateKeys } from 'shared/config';
 import { Block } from 'shared/lib/core';
 import { Store } from 'shared/lib/core';
 
-interface ChatListState {}
-
 interface ChatListProps {
   chats: PickType<State, StateKeys.Chats>;
   chatId: PickType<State, StateKeys.ChatId>;
@@ -23,11 +21,13 @@ class ChatList extends Block<ChatListProps> {
 
   render() {
     return `    <div class="users-list-container">
-                  <ul class="users-list">
-                  {{#each chats}}
-                    {{{ChatListUser onClick=../selectChat id=id title=title avatar=avatar unread_count=unread_count last_message=last_message chatId=../ chatId}}}
-                  {{/each}}
-                  </ul>
+                  {{#scroll-y-hidden}}
+                    <ul class="users-list">
+                      {{#each chats}}
+                        {{{ChatListUser onClick=../selectChat id=id title=title avatar=avatar unread_count=unread_count last_message=last_message chatId=../ chatId}}}
+                      {{/each}}
+                    </ul>
+                   {{/scroll-y-hidden}}
                 </div>`;
   }
 }

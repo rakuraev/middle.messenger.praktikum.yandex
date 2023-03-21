@@ -1,11 +1,11 @@
 @import 'vars';
 
-.delete-user-mw {
+.delete-chat-mw {
   padding: 0 2.5rem;
   width: 25rem;
 }
 
-.delete-user-mw__title {
+.delete-chat-mw__title {
   font-size: 1.25rem;
   font-weight: 500;
   color: var(--black-l);
@@ -13,6 +13,6 @@
   text-align: center;
 }
 
-.delete-user-mw__input {
+.delete-chat-mw__input {
   margin-bottom: 2.15rem;
 }

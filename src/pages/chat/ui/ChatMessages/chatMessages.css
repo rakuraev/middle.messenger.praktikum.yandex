@@ -2,7 +2,6 @@
 
 .chat-messages {
   overflow-y: scroll;
-  width: calc(100% + 17px);
   background-color: var(--white);
   padding: 1.25rem;
   position: relative;

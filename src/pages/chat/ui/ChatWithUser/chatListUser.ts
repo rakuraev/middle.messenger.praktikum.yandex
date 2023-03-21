@@ -3,19 +3,20 @@ interface ChatListUserProps extends ChatsListData {
   chatId: number;
   isActiveChat: boolean;
   onClick: (chatId: number) => void;
+  events: { click: (chatId: number) => void };
 }
 
-class ChatListUser extends Block<any> {
+class ChatListUser extends Block<ChatListUserProps> {
   static _name = 'ChatListUser';
 
-  constructor({ onClick, ...props }: ChatListUserProps) {
+  constructor(props: ChatListUserProps) {
     const isActiveChat = props.chatId === props.id;
 
     const onPickChat = () => {
       if (isActiveChat) {
         return;
       }
-      onClick(props.id);
+      props.onClick(props.id);
     };
     super({
       ...props,
@@ -26,7 +27,11 @@ class ChatListUser extends Block<any> {
 
   render(): string {
     return ` <li class="user {{#if isActiveChat}}user_active{{/if}}">
-                <div class="user__img"></div>
+                <div class="user__img"> 
+                  {{#if avatar}}
+                    {{{ChatImage src="avatar"}}}
+                  {{/if}}
+                </div>
                 <div class="user__user-info">
                   <div class="user__name">{{title}}</div>
                   {{#last-messages-content}}
