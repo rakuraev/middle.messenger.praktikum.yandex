@@ -9,9 +9,9 @@ type RouteProps = {
 export class Route {
   private _path: string;
 
-  private _blockClass: BlockClass<any>;
+  private _blockClass: BlockClass<BlockProps>;
 
-  #block: Nullable<InstanceType<BlockClass<any>>>;
+  #block: Nullable<InstanceType<BlockClass<BlockProps>>>;
 
   private _props: RouteProps;
 
