@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Handlebars, { HelperOptions } from 'handlebars';
 import { Block } from 'shared/lib/core';
 
@@ -25,7 +24,7 @@ export default function registerComponent<P extends BlockProps>(
 
       const { children, refs } = data.root;
 
-      (Object.keys(hash) as any).forEach((key: keyof BlockProps) => {
+      Object.keys(hash).forEach((key: keyof BlockProps) => {
         if (this[key] && typeof this[key] === 'string') {
           hash[key] = hash[key].replace(
             new RegExp(`{{${String(key)}}}`, 'i'),

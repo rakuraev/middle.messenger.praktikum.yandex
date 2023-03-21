@@ -1,4 +1,4 @@
 interface IWSData {
   type: string;
-  content?: string;
+  content?: unknown;
 }

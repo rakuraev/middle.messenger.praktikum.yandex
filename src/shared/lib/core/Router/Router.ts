@@ -11,7 +11,7 @@ export class Router {
 
   routes: Route[] = [];
 
-  history: any;
+  history: History = window.history;
 
   private _currentRoute: Nullable<Route> = null;
 
@@ -23,7 +23,6 @@ export class Router {
     }
     this._registerHistoryListener();
     this.routes = [];
-    this.history = window.history;
     this._currentRoute = null;
     this._rootQuery = rootQuery;
     Router.__instance = this;
@@ -56,7 +55,7 @@ export class Router {
 
   go(pathname: string) {
     this._onRoute(pathname);
-    this.history.pushState({}, null, pathname);
+    this.history.pushState({}, '', pathname);
   }
 
   back() {

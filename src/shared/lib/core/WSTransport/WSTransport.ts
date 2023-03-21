@@ -61,27 +61,27 @@ export abstract class WSTransport extends EventBus {
     this.ws?.addEventListener(WSEvents.Error, this._onWSError.bind(this));
   }
 
-  private _onWSOpen(messageEvent: MessageEvent) {
+  private _onWSOpen(messageEvent: unknown) {
     this.emit(WSEvents.Open, messageEvent);
   }
 
-  private _onWSClose(messageEvent: MessageEvent) {
+  private _onWSClose(messageEvent: unknown) {
     this.emit(WSEvents.Close, messageEvent);
   }
 
-  private _onWSMessage(messageEvent: MessageEvent) {
+  private _onWSMessage(messageEvent: unknown) {
     this.emit(WSEvents.Message, messageEvent);
   }
 
-  private _onWSError(messageEvent: MessageEvent) {
+  private _onWSError(messageEvent: unknown) {
     this.emit(WSEvents.Error, messageEvent);
   }
 
-  private _onMessage(messageEvent: MessageEvent) {
+  private _onMessage(messageEvent: unknown) {
     this.onMessage(messageEvent);
   }
 
-  onMessage(messageEvent: MessageEvent) {}
+  onMessage(messageEvent: unknown) {}
 
   _checkConnection() {
     this.checkConnection = setInterval(

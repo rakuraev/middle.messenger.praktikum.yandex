@@ -7,9 +7,10 @@ import Input from 'shared/ui/Input';
 import './changePassword.css';
 
 type ChangePasswordFielsId = 'oldPassword' | 'newPassword';
-interface IChangePasswordState {
+interface IChangePasswordProps {
   changePasswordFields: IInputProps[];
   toast: Toast;
+  className: string[];
   onChangePassword: (e: Event) => void;
 }
 interface IChangePasswordRefs {
@@ -19,12 +20,12 @@ interface IChangePasswordRefs {
 }
 
 export default class ChangePassword extends Block<
-  IChangePasswordState,
+  IChangePasswordProps,
   IChangePasswordRefs
 > {
   static _name = 'ChangePassword';
 
-  constructor(props: any) {
+  constructor(props: IChangePasswordProps) {
     const className = ['change-password-mw'];
     super({ ...props, className });
   }
@@ -47,8 +48,9 @@ export default class ChangePassword extends Block<
         currentRef.setError(validateField.message);
       }
     };
-    const state: IChangePasswordState = {
+    const state: IChangePasswordProps = {
       toast,
+      className: this.props.className,
       changePasswordFields: [
         {
           placeholder: 'Старый пароль',
