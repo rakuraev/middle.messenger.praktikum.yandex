@@ -63,6 +63,7 @@ class ChatsController {
   async deleteChat(chatId: number) {
     try {
       await this.api.deleteChatById({ chatId });
+      Store.set(StateKeys.ChatId, null);
       await this.getChatsList();
     } catch (error) {
       console.error('Error on delete users to chat');
