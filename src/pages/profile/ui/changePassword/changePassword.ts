@@ -30,7 +30,7 @@ export default class ChangePassword extends Block<
     super({ ...props, className });
   }
 
-  getStateFromProps() {
+  getStateFromProps(props: IChangePasswordProps) {
     const toast = useToast;
     const onFocus = (event: Event) => {
       const id = (event.target as HTMLInputElement).id as ChangePasswordFielsId;
@@ -50,7 +50,7 @@ export default class ChangePassword extends Block<
     };
     const state: IChangePasswordProps = {
       toast,
-      className: this.props.className,
+      className: props.className,
       changePasswordFields: [
         {
           placeholder: 'Старый пароль',

@@ -1,3 +1,4 @@
+import { API_BASE_URL_RES } from 'shared/config';
 import { Block } from 'shared/lib/core';
 interface ChatListUserProps extends ChatsListData {
   chatId: number;
@@ -18,8 +19,10 @@ class ChatListUser extends Block<ChatListUserProps> {
       }
       props.onClick(props.id);
     };
+    const avatar = props.avatar ? API_BASE_URL_RES + props.avatar : null;
     super({
       ...props,
+      avatar,
       isActiveChat,
       events: { click: onPickChat },
     });
@@ -29,7 +32,7 @@ class ChatListUser extends Block<ChatListUserProps> {
     return ` <li class="user {{#if isActiveChat}}user_active{{/if}}">
                 <div class="user__img"> 
                   {{#if avatar}}
-                    {{{ChatImage src="avatar"}}}
+                    {{{ChatImage src=avatar}}}
                   {{/if}}
                 </div>
                 <div class="user__user-info">

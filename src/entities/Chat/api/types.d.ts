@@ -1,7 +1,7 @@
 interface ChatsListData {
   id: number;
   title: string;
-  avatar: string;
+  avatar: Nullable<string>;
   unread_count: number;
   last_message: {
     user: ChatsListUserData;

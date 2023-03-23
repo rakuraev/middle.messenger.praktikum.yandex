@@ -7,6 +7,7 @@ enum HttpMethods {
   Patch = 'PATCH',
   Delete = 'DELETE',
 }
+
 type Options = {
   method: HttpMethods;
   data?: unknown;
@@ -27,7 +28,7 @@ export class HTTPTransport {
     return this;
   }
 
-  public get<R>(path = '/', query?: PlainObject) {
+  public get<R = void>(path = '/', query?: PlainObject) {
     const options: Options = {
       method: HttpMethods.Get,
     };
@@ -35,7 +36,7 @@ export class HTTPTransport {
     return this._request<R>(pathWithQuery, options);
   }
 
-  public post<R>(path = '/', data?: unknown, formData?: FormData) {
+  public post<R = void>(path = '/', data?: unknown, formData?: FormData) {
     const options: Options = {
       method: HttpMethods.Post,
       data,
@@ -44,7 +45,7 @@ export class HTTPTransport {
     return this._request<R>(path, options);
   }
 
-  public put<R>(path = '/', data?: unknown, formData?: FormData) {
+  public put<R = void>(path = '/', data?: unknown, formData?: FormData) {
     const options: Options = {
       method: HttpMethods.Put,
       data,
@@ -53,7 +54,7 @@ export class HTTPTransport {
     return this._request<R>(path, options);
   }
 
-  public patch<R>(path = '/', data?: unknown) {
+  public patch<R = void>(path = '/', data?: unknown) {
     const options: Options = {
       method: HttpMethods.Patch,
       data,
@@ -61,7 +62,7 @@ export class HTTPTransport {
     return this._request<R>(path, options);
   }
 
-  public delete<R>(path = '/', data?: unknown) {
+  public delete<R = void>(path = '/', data?: unknown) {
     const options: Options = {
       method: HttpMethods.Delete,
       data,
@@ -73,7 +74,7 @@ export class HTTPTransport {
   // private _get<R>: HTTPMethod<R> = (path, options) =>
   //   this._request(path, { ...options, method: HttpMethods.Get });
 
-  private _request<R = void>(path: string, options: Options): Promise<R> {
+  private _request<R>(path: string, options: Options): Promise<R> {
     const { method, data, formData } = options;
     const url = `${this._endpoint}${path}`;
     return new Promise((resolve, reject) => {
