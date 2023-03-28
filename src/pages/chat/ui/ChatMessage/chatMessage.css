@@ -1,0 +1,53 @@
+@import 'vars';
+
+.message_mine {
+  margin-left: auto;
+}
+
+.message .message__content {
+  padding: 0.688rem;
+  font-size: 0.75rem;
+  max-width: 25rem;
+  display: flex;
+  border-radius: 0 0.75rem 0.75rem;
+  background-color: var(--gray-ml);
+  word-break: break-all;
+  align-items: flex-end;
+  gap: 0.625rem;
+}
+
+.message_mine .message__content {
+  border-radius: 0.75rem 0.75rem 0;
+  background-color: var(--blue-bg-l);
+}
+
+.message__string {
+  flex-grow: 1;
+  padding-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.message__time {
+  flex-shrink: 0;
+  font-size: 0.563rem;
+}
+
+.message_mine .message__time {
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  gap: 0.055rem;
+}
+
+.message_mine .message__time .svg-icon {
+  height: 0.315rem;
+  width: 0.75rem;
+}
+
+.message__file {
+  height: 12.5rem;
+  width: 18.75rem;
+  border: 1px solid var(--gray-s-s);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}

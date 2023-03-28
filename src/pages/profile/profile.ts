@@ -1,35 +1,69 @@
-import Block from '../../core/Block/Block';
+import { AuthController } from 'entities/Auth';
+import { StateKeys } from 'shared/config';
+import { Block } from 'shared/lib/core';
+import { withRouter, withStore } from 'shared/lib/decorators';
+import { ChangePassword, ChangeProfileData } from './ui';
 import './profile.css';
-import './components';
+import './ui';
 
-const state: ProfilePageProps = {
-  img: {
-    src: 'https://memepedia.ru/wp-content/uploads/2021/08/maxresdefault.jpg',
-    alt: 'Аватар пользователя',
-  },
-  name: 'Иван Резня',
-  profileInfo: [
-    { label: 'Имя', value: 'Иван' },
-    { label: 'Фамилия', value: 'Резня' },
-    { label: 'Имя в чате', value: 'Иван Резня' },
-    { label: 'Телефон', value: '79999999999' },
-    { label: 'Почта', value: 'email@example.ru' },
-    { label: 'Логин', value: 'ivanmassacre' },
-  ],
+type ProfilePageRef = {
+  changePasswordMW: ChangePassword;
+  changeProfileDataMW: ChangeProfileData;
 };
-export default class ProfilePage extends Block<ProfilePageProps> {
-  getStateFromProps() {
-    this.state = state;
+
+@withRouter
+@withStore(StateKeys.User)
+export default class ProfilePage extends Block<
+  ProfilePageProps,
+  ProfilePageRef
+> {
+  static _name = 'ProfilePasge';
+
+  getStateFromProps(props: ProfilePageProps) {
+    const state: ProfilePageProps = {
+      img: {
+        src: () => this.props.user?.avatar || null,
+        alt: 'Аватар пользователя',
+      },
+      name: () =>
+        this.props.user
+          ? `${this.props.user?.first_name} ${this.props.user?.second_name}`
+          : ' ',
+      profileInfo: [
+        {
+          label: 'Имя',
+          value: () => this.props.user?.first_name,
+        },
+        { label: 'Фамилия', value: () => this.props.user?.second_name },
+        { label: 'Имя в чате', value: () => this.props.user?.display_name },
+        { label: 'Телефон', value: () => this.props.user?.phone },
+        { label: 'Почта', value: () => this.props.user?.email },
+        { label: 'Логин', value: () => this.props.user?.login },
+      ],
+
+      onLogout() {
+        AuthController.logout();
+      },
+      changePassword: () => {
+        this.refs.changePasswordMW.showModal();
+      },
+      changeProfileData: () => {
+        this.refs.changeProfileDataMW.showModal();
+      },
+    };
+    this.state = { ...props, ...state };
   }
 
   render() {
-    return `<main class="profile-page">
+    return `
+            {{#Layout}}
+            <main class="profile-page">
               <nav class="profile-page__back">
-                <a href="#" class="profile-page__link">
-                  <div class="profile-page__back-icon">
-                    <div class="profile-page__back-arrow"></div>
-                  </div>
-                </a>
+              {{#Link href="/messenger" class="profile-page__link"}}
+                <div class="profile-page__back-icon">
+                 <div class="profile-page__back-arrow"></div>
+                </div>
+              {{/Link}}
               </nav>
               <section class="profile-info__wrapper">
                 <div class="profile-info">
@@ -47,17 +81,21 @@ export default class ProfilePage extends Block<ProfilePageProps> {
                   </ul>
                   <ul class="profile-info__change-info">
                     <li class="profile-info__item">
-                      <a class="profile-info__item-link" href="#">Изменить данные</a>
+                      {{{Link href="/" label="Изменить данные" class="profile-info__item-link" onClick=changeProfileData}}}
                     </li>
                     <li class="profile-info__item">
-                      <a class="profile-info__item-link" href="#">Изменить пароль</a>
+                    {{{Link href="/" label="Изменить пароль" class="profile-info__item-link" onClick=changePassword}}}
                     </li>
                     <li class="profile-info__item profile-info__item_danger">
-                      <a class="profile-info__item-link" href="#">Выйти</a>
+                      {{{Link href="/" label="Выйти" class="profile-info__item-link" onClick=onLogout}}}
                     </li>
                   </ul>
                 </div>
               </section>
-            </main>`;
+                 {{{ChangePassword ref="changePasswordMW"}}}
+                 {{{ChangeProfileData ref="changeProfileDataMW" user=user}}}
+              </main>
+            {{/Layout}}
+            `;
   }
 }

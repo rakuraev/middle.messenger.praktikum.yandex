@@ -1,0 +1,85 @@
+@import 'vars';
+
+.p-input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.p-input .p-input__label {
+  position: absolute;
+  top: 15px;
+  left: 7px;
+  font-size: 1rem;
+  color: var(--gray-t-l);
+  height: 1rem;
+  background: #fff;
+  padding: 0 7px;
+  transition: 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  border-radius: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.p-input.p-input_error .p-input__label {
+  color: var(--red-danger);
+}
+
+.p-input .p-input__input {
+  border: 1px solid var(--gray-l);
+  padding: 14px 16px;
+  border-radius: 13px;
+  margin-bottom: 2px;
+  transition: 0.1s ease-in border;
+  cursor: pointer;
+  background-color: var(--white);
+
+  &:hover,
+  &:focus,
+  &:not(:placeholder-shown) {
+    border-color: var(--gray-m);
+  }
+
+  &:focus ~ .p-input__label,
+  &:not(:placeholder-shown) ~ .p-input__label {
+    top: -8px;
+    left: 11px;
+    font-size: 0.8rem;
+    color: var(--gray-m);
+  }
+}
+
+.p-input .p-input__error-message {
+  visibility: hidden;
+  opacity: 0;
+  height: 13px;
+  transition: 0.1s ease-in opacity;
+  color: var(--red-danger);
+  font-size: 0.8rem;
+  margin-top: 5px;
+  margin-left: 14px;
+  margin-bottom: 0.8rem;
+}
+
+.p-input.p-input_error .p-input__input {
+  border-color: var(--red-danger);
+  color: var(--red-danger);
+
+  &:focus,
+  &:hover,
+  &:not(:placeholder-shown) {
+    border-color: var(--red-danger);
+  }
+
+  &:focus ~ .p-input__label,
+  &:not(:placeholder-shown) ~ .p-input__label {
+    color: var(--red-danger);
+  }
+}
+
+.p-input.p-input_error .p-input__error-message {
+  visibility: visible;
+  opacity: 1;
+}
