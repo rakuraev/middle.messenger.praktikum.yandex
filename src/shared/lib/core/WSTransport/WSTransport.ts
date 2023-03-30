@@ -20,7 +20,7 @@ export abstract class WSTransport extends EventBus {
 
   ws: Nullable<WebSocket> = null;
 
-  checkConnection: Nullable<number> = null;
+  checkConnection: Nullable<NodeJS.Timer> = null;
 
   constructor() {
     super();
@@ -81,7 +81,7 @@ export abstract class WSTransport extends EventBus {
     this.onMessage(messageEvent);
   }
 
-  onMessage(messageEvent: unknown) {}
+  onMessage(_messageEvent: unknown) {}
 
   _checkConnection() {
     this.checkConnection = setInterval(
@@ -99,7 +99,7 @@ export abstract class WSTransport extends EventBus {
   }
 
   disconnect() {
-    clearInterval(this.checkConnection as number);
+    clearInterval(this.checkConnection as NodeJS.Timer);
     this.checkConnection = null;
     this.ws?.close();
   }

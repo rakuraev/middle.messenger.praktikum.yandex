@@ -4,7 +4,7 @@ function debounceForCDU<T, P>(this: T, fn: unknown, interval = 200) {
   if (!isFunction(fn)) {
     throw new Error(`expect function got ${typeof fn}`);
   }
-  let timeout: number;
+  let timeout: NodeJS.Timeout;
   let firstOldProps: Nullable<P> = null;
   return (oldProps: P, newProps: P) => {
     if (!firstOldProps) {

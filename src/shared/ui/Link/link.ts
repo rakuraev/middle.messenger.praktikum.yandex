@@ -6,7 +6,7 @@ const router = new Router();
 export class Link extends Block<LinkProps> {
   static _name = 'Link';
 
-  constructor({ onClick, href, slot, ...restProps }: ILink) {
+  constructor({ onClick, href, ...restProps }: LinkProps) {
     const onLinkClick = (e: Event) => {
       e.preventDefault();
       if (onClick) {

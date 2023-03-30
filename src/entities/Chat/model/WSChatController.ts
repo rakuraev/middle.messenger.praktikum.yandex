@@ -1,6 +1,6 @@
 import { StateKeys } from 'shared/config';
 import { Store, WSTransport, WSEvents } from 'shared/lib/core';
-import { isArray, isObject, isPlainObject } from 'shared/lib/typeguards';
+import { isArray, isObject } from 'shared/lib/typeguards';
 
 export enum WSChatMessageTypes {
   File = 'file',

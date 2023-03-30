@@ -42,7 +42,7 @@ export default class ChangePassword extends Block<
       const type = currentRef.state.validateType;
       const validateField = validateString(
         currentRef.getValue(),
-        type as FormFieldTypes
+        type as ValidateTypes
       );
       if (!validateField.isValid) {
         currentRef.setError(validateField.message);

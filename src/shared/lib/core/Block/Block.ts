@@ -113,25 +113,25 @@ export abstract class Block<
     this.componentBeforeMount(this.props);
   }
 
-  componentBeforeMount(props: P) {}
+  componentBeforeMount(_props: P) {}
 
   private _componentDidMount() {
     this.componentDidMount(this.props);
   }
 
-  componentDidMount(props?: P) {}
+  componentDidMount(_props?: P) {}
 
   private _componentDidUnmount() {
     this.componentDidUnmount(this.props);
   }
 
-  componentDidUnmount(props: P) {}
+  componentDidUnmount(_props: P) {}
 
   private _componentBeforeUnmount() {
     this.componentBeforeUnmount(this.props);
   }
 
-  public componentBeforeUnmount(props: P) {}
+  public componentBeforeUnmount(_props: P) {}
 
   private _componentDidUpdate(oldProps: P, newProps: P) {
     if (!isEqual(oldProps, newProps)) {
@@ -154,7 +154,7 @@ export abstract class Block<
     }
   }
 
-  componentDidUpdate(props: P) {}
+  componentDidUpdate(_props: P) {}
 
   render(): string {
     return '';
