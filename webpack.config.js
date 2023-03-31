@@ -10,7 +10,9 @@ module.exports = {
       directory: path.join(__dirname, 'static'),
     },
     historyApiFallback: {
-      index: 'dist/index.html',
+      rewrites: {
+        from: { from: '*', to: 'index.html' },
+      },
     },
     hot: true,
     client: {
