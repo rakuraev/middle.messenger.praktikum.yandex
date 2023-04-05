@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "files": true
+  },
   "compilerOptions": {
     "target": "es2017",
     "module": "CommonJS",
@@ -27,5 +30,5 @@
       "widgets/*": ["./src/widgets/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["./src/**/*.ts", "./**/*.d.ts"]
 }

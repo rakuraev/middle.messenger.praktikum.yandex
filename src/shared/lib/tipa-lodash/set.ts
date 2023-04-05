@@ -1,4 +1,4 @@
-import { isObject } from '../typeguards/isObject';
+import { isObject } from 'shared/lib/typeguards';
 
 export function set(
   object: Indexed | unknown,

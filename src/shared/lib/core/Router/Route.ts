@@ -45,6 +45,7 @@ export class Route {
 
   render() {
     this.#block = new this._blockClass({});
+
     renderDOM(this.#block, this._props?.rootQuery || 'body');
   }
 }

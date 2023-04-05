@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -59,5 +60,6 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: 'static', to: 'static' }],
     }),
+    new NodePolyfillPlugin(),
   ],
 };
