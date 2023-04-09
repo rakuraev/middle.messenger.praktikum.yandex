@@ -7,7 +7,6 @@ export function isPrimitive(
   | bigint
   | string
   | symbol
-  | Function
   | ((...args: unknown[]) => unknown) {
   return val === null || typeof val !== 'object';
 }

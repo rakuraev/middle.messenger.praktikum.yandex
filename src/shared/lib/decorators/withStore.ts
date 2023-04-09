@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StateKeys } from 'shared/config';
 import type { Block } from 'shared/lib/core';
 import { Store, StoreEvents } from 'shared/lib/core';

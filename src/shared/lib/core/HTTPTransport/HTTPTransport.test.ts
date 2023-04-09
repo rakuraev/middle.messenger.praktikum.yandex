@@ -173,9 +173,9 @@ describe('HTTPTransport', () => {
     try {
       await getRequest;
       throw new Error('should reject, but resolve');
-    } catch (e: any) {
-      expect(e.status).to.eq(400);
-      expect(e?.response?.reason).to.eq(reason);
+    } catch (e) {
+      expect((e as XMLHttpRequest).status).to.eq(400);
+      expect((e as XMLHttpRequest)?.response?.reason).to.eq(reason);
     }
   });
 });

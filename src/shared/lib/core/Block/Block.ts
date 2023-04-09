@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
 import { EventBus } from 'shared/lib/core';
