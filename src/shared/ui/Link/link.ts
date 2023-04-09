@@ -5,7 +5,7 @@ type LinkProps = {
   class?: string;
   label?: string;
   events?: BlockEvents;
-  router: Router;
+  router?: Router;
   onClick?: () => void;
 };
 
@@ -20,7 +20,7 @@ export class Link extends Block<LinkProps> {
         onClick();
       } else {
         if (href) {
-          this.props.router.go(href);
+          this.props?.router?.go(href);
         }
       }
     };

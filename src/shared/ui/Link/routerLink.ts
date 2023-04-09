@@ -6,7 +6,7 @@ interface ILink {
   href?: string;
   class?: string;
   label?: string;
-  router: Router;
+  router?: Router;
   onClick?: () => void;
 }
 
@@ -16,7 +16,7 @@ export class RouterLink extends Link {
 
   constructor(props: ILink) {
     const onClick = () => {
-      props.router.go(this.state.href as string);
+      props.router?.go(this.state.href as string);
     };
 
     super({ ...props, onClick });

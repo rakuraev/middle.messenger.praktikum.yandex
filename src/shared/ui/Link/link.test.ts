@@ -29,9 +29,9 @@ describe('Link Component', () => {
     const link = new Link({
       href,
       label,
-      //@ts-ignore
-      router: { go: callback } as Router,
     });
+
+    link.props.router = { go: callback } as unknown as Router;
 
     link.element?.click();
 
