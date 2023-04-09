@@ -11,7 +11,8 @@
     "test": "mocha -r ts-node/register -r ./mochaSetup.js -r tsconfig-paths/register './src/**/*.test.ts'",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint-fix": "npm run lint --fix",
-    "start": "concurrently \"npm run build\" \"npm run start:express\""
+    "start": "concurrently \"npm run build\" \"npm run start:express\"",
+    "prepare": "husky install"
   },
   "keywords": [
     "ya_praktikum",
