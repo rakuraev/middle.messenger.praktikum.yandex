@@ -22,7 +22,7 @@ export function withStore<K extends StateKeys>(...stateKeys: K[]) {
       constructor(...props: any[]) {
         const state = Store.getState() as State;
         currentState = mapStateToProps(state);
-        super({ ...props, ...currentState });
+        super({ ...props[0], ...currentState });
       }
 
       private _onChangeStoreCallback() {
