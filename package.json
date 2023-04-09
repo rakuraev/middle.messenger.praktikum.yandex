@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Web-application \"chat\"",
   "private": true,
+  "engines": {
+    "node": ">=16.13.1"
+  },
   "scripts": {
     "dev": "webpack serve --mode=development --open",
     "build": "webpack --mode=production --progress",
