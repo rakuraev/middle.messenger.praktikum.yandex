@@ -1,11 +1,16 @@
-FROM alpine:latest
+FROM node:16.3-alpine3.12
 
-RUN apk add --update nodejs npm g++ make py3-pip 
+WORKDIR /var/www/app
 
-RUN mkdir /app
+COPY package.json package-lock.json ./
 
-WORKDIR /app
+RUN npm install
 
-COPY  . /app
+COPY . .
 
-RUN npm i && npm run build:docker
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["node", "./server/index.js"]
+

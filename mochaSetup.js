@@ -14,6 +14,7 @@ global.DocumentFragment = window.DocumentFragment;
 global.HTMLElement = window.HTMLElement;
 global.Comment = window.Comment;
 global.Node = window.Node;
+global.FormData = window.FormData;
 
 require.extensions['.hbs'] = function (module, filename) {
   const contents = fs.readFileSync(filename, 'utf-8');

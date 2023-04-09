@@ -13,7 +13,7 @@ export class Router {
 
   history: History = window.history;
 
-  private _currentRoute: Nullable<Route> = null;
+  _currentRoute: Nullable<Route> = null;
 
   private _rootQuery: string | undefined;
 
@@ -43,12 +43,12 @@ export class Router {
   _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
     if (route) {
-      if (this._currentRoute !== route) {
-        if (this._currentRoute) {
-          this._currentRoute.leave();
-        }
+      if (this._currentRoute === route) {
+        return;
       }
-
+      if (this._currentRoute) {
+        this._currentRoute.leave();
+      }
       this._currentRoute = route;
       route.render();
     } else {

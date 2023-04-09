@@ -4,8 +4,30 @@ import { Block } from 'shared/lib/core';
 import { Router } from './Router';
 
 describe('Router Class', () => {
-  class mockBlock extends Block {}
+  const hideCallback = sinon.stub();
+  const getContentCallback = sinon.stub();
+  class mockBlock extends Block {
+    hide() {
+      hideCallback();
+    }
+
+    getContent() {
+      getContentCallback();
+      return null;
+    }
+  }
+
   class mockBlock2 extends Block {}
+
+  const path1 = '/';
+  const path2 = '/some-path';
+
+  const createRouter = () => {
+    return new Router().use([
+      { path: path1, component: mockBlock },
+      { path: path2, component: mockBlock2 },
+    ]);
+  };
 
   window.history.back = () => {
     if (typeof window.onpopstate === 'function') {
@@ -20,8 +42,11 @@ describe('Router Class', () => {
   };
 
   beforeEach(() => {
+    hideCallback.resetHistory();
+    getContentCallback.resetHistory();
     const router = new Router();
     router.routes = [];
+    router._currentRoute = null;
   });
 
   it('should create instance of Router', () => {
@@ -29,9 +54,9 @@ describe('Router Class', () => {
   });
 
   it('success add Routes', () => {
-    const router = new Router().use([{ path: '/', component: mockBlock }]);
+    const router = createRouter();
 
-    expect(router.routes.length).to.eq(1);
+    expect(router.routes.length).to.eq(2);
   });
 
   it('should return one instance on some instantiation Router', () => {
@@ -42,61 +67,39 @@ describe('Router Class', () => {
   });
 
   it('should find route in by path in passed routes', () => {
-    const path = '/some-path';
-    const router = new Router().use([
-      { path: '/', component: mockBlock },
-      { path: path, component: mockBlock2 },
-    ]);
+    const router = createRouter();
 
-    router.go(path);
-    const route = router.getRoute(path);
+    router.go(path1);
+    const route = router.getRoute(path1);
     expect(router.getCurrentRoute()).to.eql(route);
   });
 
   it('should throw error on finding not exist route in passed routes', () => {
     const notExistedPath = '/404';
-    const router = new Router().use([
-      { path: '/', component: mockBlock },
-      { path: '/some-path', component: mockBlock2 },
-    ]);
+    const router = createRouter();
 
     const func = () => {
       router.go(notExistedPath);
     };
+
     expect(func).to.throw(Error);
   });
 
-  it('should render Block by passed path', async () => {
-    const callback = sinon.stub();
-
-    class mockBlock extends Block {
-      componentDidInited(): void {
-        callback();
-      }
-    }
+  it('should render Block by passed path', () => {
     const router = new Router().use([{ path: '/', component: mockBlock }]);
+
     router.go('/');
 
-    expect(callback.calledOnce).to.eq(true);
+    expect(getContentCallback.calledOnce).to.eq(true);
   });
 
   it('should hide block on leave block path', () => {
-    const callback = sinon.stub();
-    class mockBlock extends Block {
-      componentBeforeUnmount(_props: any): void {
-        callback();
-      }
-    }
-
-    const router = new Router().use([
-      { path: '/', component: mockBlock },
-      { path: '/some-path', component: mockBlock2 },
-    ]);
+    const router = createRouter();
 
     router.go('/');
     router.go('/some-path');
 
-    expect(callback.calledOnce).to.eq(true);
+    expect(hideCallback.calledOnce).to.eq(true);
   });
 
   it('should add event onpopstate', () => {
