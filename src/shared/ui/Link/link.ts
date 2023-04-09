@@ -1,4 +1,5 @@
 import { Block, Router } from 'shared/lib/core';
+import { withRouter } from 'shared/lib/decorators';
 type LinkProps = {
   href?: string;
   class?: string;
@@ -8,6 +9,7 @@ type LinkProps = {
   onClick?: () => void;
 };
 
+@withRouter
 export class Link extends Block<LinkProps> {
   static _name = 'Link';
 

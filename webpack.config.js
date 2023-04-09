@@ -2,10 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
-module.exports = {
+const config = {
   entry: './src/index.ts',
-  mode: 'development',
   devServer: {
     static: {
       directory: path.join(__dirname, 'static'),
@@ -52,14 +53,34 @@ module.exports = {
   },
   output: {
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: 'bundle.[hash].js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
+  optimization: {},
   plugins: [
     new HtmlWebpackPlugin({ template: './index.html' }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: 'static', to: 'static' }],
-    }),
     new NodePolyfillPlugin(),
   ],
+};
+
+module.exports = (env, argv) => {
+  console.log(`Webpack mode ${argv.mode}`);
+  config.mode = argv.mode;
+  if (argv.mode === 'development') {
+    config.devtool = 'source-map';
+    config.plugins.push(
+      new CopyWebpackPlugin({
+        patterns: [{ from: 'static', to: 'static' }],
+      })
+    );
+  } else if (argv.mode === 'production') {
+    config.optimization.minimize = true;
+    config.optimization.minimizer = [
+      new TerserPlugin(),
+      new CssMinimizerPlugin(),
+    ];
+  }
+
+  return config;
 };

@@ -4,8 +4,8 @@
   "description": "Web-application \"chat\"",
   "private": true,
   "scripts": {
-    "dev": "webpack serve --open",
-    "build": "rimraf dist && webpack",
+    "dev": "webpack serve --mode=development --open",
+    "build": "webpack --mode=production --progress",
     "start:express": "cd server && node index.js",
     "types": "tsc --noEmit",
     "test": "mocha -r ts-node/register -r ./mochaSetup.js -r tsconfig-paths/register './src/**/*.test.ts'",
@@ -24,7 +24,7 @@
     "dotenv": "16.0.1",
     "express": "4.18.1",
     "handlebars": "4.7.7",
-    "nanoid": "3.0.0",
+    "nanoid": "3.3.6",
     "node-polyfill-webpack-plugin": "2.0.1"
   },
   "devDependencies": {
@@ -42,6 +42,7 @@
     "concurrently": "7.3.0",
     "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.3",
+    "css-minimizer-webpack-plugin": "5.0.0",
     "eslint": "8.20.0",
     "eslint-config-airbnb-typescript": "17.0.0",
     "eslint-config-prettier": "8.5.0",
@@ -69,6 +70,7 @@
     "stylelint": "14.10.0",
     "stylelint-config-standard": "27.0.0",
     "stylelint-prettier": "2.0.0",
+    "terser-webpack-plugin": "5.3.7",
     "ts-loader": "9.4.2",
     "ts-node": "10.9.1",
     "tsconfig-paths": "4.2.0",
