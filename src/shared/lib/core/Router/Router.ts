@@ -13,15 +13,15 @@ export class Router {
 
   history: History = window.history;
 
-  private _currentRoute: Nullable<Route> = null;
+  _currentRoute: Nullable<Route> = null;
 
   private _rootQuery: string | undefined;
 
   constructor(rootQuery = '#app') {
+    this._registerHistoryListener();
     if (Router.__instance) {
       return Router.__instance;
     }
-    this._registerHistoryListener();
     this.routes = [];
     this._currentRoute = null;
     this._rootQuery = rootQuery;
@@ -42,14 +42,17 @@ export class Router {
 
   _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
-    if (this._currentRoute !== route) {
+    if (route) {
+      if (this._currentRoute === route) {
+        return;
+      }
       if (this._currentRoute) {
         this._currentRoute.leave();
       }
-    }
-    if (route) {
       this._currentRoute = route;
       route.render();
+    } else {
+      throw new Error(`No matched route by path:${pathname}`);
     }
   }
 

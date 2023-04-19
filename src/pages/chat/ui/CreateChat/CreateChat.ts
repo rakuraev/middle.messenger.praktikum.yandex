@@ -48,7 +48,7 @@ export class CreateChat extends Block<CreateChatProps, CreateChatRefs> {
         onFocus,
         onBlur,
       },
-      onCreateChat: async (e: Event) => {
+      onCreateChat: async () => {
         try {
           const chatNameInputRef = this.refs.Input;
           const validateField = validateString(

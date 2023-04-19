@@ -15,6 +15,8 @@ interface IChatInputProps {
 class ChatInput extends Block<IChatInputProps, IChatInputRef> {
   static _name = 'ChatInput';
 
+  _bindedOnKeydown: Nullable<(e: KeyboardEvent) => void> = null;
+
   constructor(props: IChatInputProps) {
     const onSend = () => {
       const text = this.refs.chatInput.getValue();
@@ -22,6 +24,23 @@ class ChatInput extends Block<IChatInputProps, IChatInputRef> {
       this.refs.chatInput.clearValue();
     };
     super({ ...props, onSend });
+  }
+
+  componentDidInited(_props?: IChatInputProps | undefined): void {
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        console.log(e.key);
+        this.state.onSend();
+      }
+    };
+    this._bindedOnKeydown = onKeydown.bind(this);
+    document.addEventListener('keydown', this._bindedOnKeydown);
+  }
+
+  componentDidUnmount(_props: IChatInputProps): void {
+    if (this._bindedOnKeydown) {
+      document.removeEventListener('keydown', this._bindedOnKeydown);
+    }
   }
 
   render(): string {

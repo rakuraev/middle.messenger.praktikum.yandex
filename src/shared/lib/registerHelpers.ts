@@ -38,7 +38,7 @@ export default () => {
 
   Handlebars.registerHelper(
     'scroll-y-hidden',
-    function (this: unknown, { data, fn }: HelperOptions) {
+    function (this: unknown, { fn }: HelperOptions) {
       let template = fn(this);
       const fragment = document.createElement('template');
       fragment.innerHTML = template;

@@ -5,6 +5,7 @@ import { Toast, useToast } from 'shared/lib/toast';
 import './photo.css';
 
 type PhotoProps = {
+  img: PhotoProps;
   toast: Toast;
   src: Nullable<string>;
   alt: string;

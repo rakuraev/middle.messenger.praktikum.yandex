@@ -26,13 +26,6 @@ export class Route {
     this._props = props;
   }
 
-  navigate(path: string) {
-    if (this.match(path)) {
-      this._path = path;
-      this.render();
-    }
-  }
-
   leave() {
     if (this.#block) {
       this.#block.hide();
@@ -45,6 +38,7 @@ export class Route {
 
   render() {
     this.#block = new this._blockClass({});
+
     renderDOM(this.#block, this._props?.rootQuery || 'body');
   }
 }

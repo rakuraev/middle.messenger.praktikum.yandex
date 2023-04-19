@@ -34,10 +34,7 @@ const VALIDATORS_MESSAGES: Record<string, string> = {
   repeatPassword: 'Пароли не совпадают',
 };
 
-const validateString = (
-  value: string,
-  type: FormFieldTypes
-): ValidateOutput => {
+const validateString = (value: string, type: ValidateTypes): ValidateOutput => {
   const result: ValidateOutput = {
     isValid: true,
     value,
@@ -60,13 +57,16 @@ const validateString = (
 export const validateIsSame = (
   validatedValue: string,
   comparableValue: string,
-  type: FormFieldTypes
+  type?: FormFieldTypes
 ): ValidateOutput => {
   const result: ValidateOutput = {
     isValid: true,
     value: validatedValue,
     message: '',
   };
+  if (!type) {
+    return result;
+  }
   const TYPE_KEY = FormFieldTypes[type];
   if (validatedValue !== comparableValue || validatedValue.length === 0) {
     result.isValid = false;

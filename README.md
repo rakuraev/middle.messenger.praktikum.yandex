@@ -29,7 +29,7 @@ $ npm run start
 5. `Node.js v16.14.2`
 6. TypeScript
 7. [Ссылка на макет прототипа ](https://www.figma.com/file/neCdz9gSrpb302shOpMF5W/PacanskiyMessanger?node-id=4686%3A2)
-8. [Ссылка на Netlify](https://lambent-lamington-d70a80.netlify.app/)
+8. [Docker контейнер в Яндекс.Облаке](https://bbafhnomc82dmdlgaio4.containers.yandexcloud.net/)
 9. Попытался имлементировать архитектуру [Feature-Sliced Design](https://feature-sliced.design/ru/)
 
 ### Страницы доступны по роутам

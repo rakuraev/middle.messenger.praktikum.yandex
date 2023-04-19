@@ -52,7 +52,7 @@ class ChatMessages extends Block<IChatMessagesProps> {
     }
   }
 
-  componentDidMount(props: IChatMessagesProps): void {
+  componentDidMount(): void {
     this.getOldMessages();
   }
 

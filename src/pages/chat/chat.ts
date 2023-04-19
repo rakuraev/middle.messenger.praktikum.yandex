@@ -120,7 +120,7 @@ class ChatPage extends Block<ChatProps, ChatRefs> {
     }
   }
 
-  public componentBeforeUnmount(props: ChatProps): void {
+  public componentBeforeUnmount(): void {
     this.removeOnCreateChat();
   }
 

@@ -1,6 +1,6 @@
 import queryStringify from 'shared/lib/queryStringify';
 
-enum HttpMethods {
+export enum HttpMethods {
   Get = 'GET',
   Post = 'POST',
   Put = 'PUT',
@@ -32,7 +32,7 @@ export class HTTPTransport {
     const options: Options = {
       method: HttpMethods.Get,
     };
-    const pathWithQuery = query ? path + queryStringify(query) : path;
+    const pathWithQuery = query ? path + '?' + queryStringify(query) : path;
     return this._request<R>(pathWithQuery, options);
   }
 
@@ -69,10 +69,6 @@ export class HTTPTransport {
     };
     return this._request<R>(path, options);
   }
-
-  // Не совсем понятно как генерик прокинуть аргумент
-  // private _get<R>: HTTPMethod<R> = (path, options) =>
-  //   this._request(path, { ...options, method: HttpMethods.Get });
 
   private _request<R>(path: string, options: Options): Promise<R> {
     const { method, data, formData } = options;

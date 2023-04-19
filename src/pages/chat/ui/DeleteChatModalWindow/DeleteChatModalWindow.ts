@@ -23,7 +23,7 @@ export class DeleteChatModalWindow extends Block<
   getStateFromProps(props: IDeleteChatModalWindowProps) {
     const state: Partial<IDeleteChatModalWindowProps> = {
       toast: useToast,
-      onDeleteChat: async (e: Event) => {
+      onDeleteChat: async () => {
         try {
           ChatController.deleteChat(this.state.chatId);
           this.state.toast.success('Chat Deleted');

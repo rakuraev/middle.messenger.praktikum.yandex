@@ -56,7 +56,7 @@ export class AddUserModalWindow extends Block<
         onFocus,
         onBlur,
       },
-      onAddUser: async (e: Event) => {
+      onAddUser: async () => {
         try {
           const loginInputRef = this.refs.loginInput;
           const validateField = validateString(
